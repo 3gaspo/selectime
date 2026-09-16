@@ -1,0 +1,79 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\setlength{\emergencystretch}{3em}
+\title{Selectime experiment guideline}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\section{Question and scope}
+Test whether validation can select useful Chronos-2 input choices without
+parameter training. Preserve Adaptime's 90 dataset/frequency/term tasks and
+its four dataset exclusions. Compare univariate, multivariate, past-only
+square-root-magnitude/sign augmentation, top-$K$ for $K=1,5,10,15$, and both
+task-level and item/variate-level validation-selected forecasts. Accuracy
+benefits are hypotheses, not obtained evidence.
+
+\section{Protocol}
+The official TIME test length and horizon $H$ define the unchanged test windows.
+The default validation length is
+$H+(\lfloor T_{\rm test}/H\rfloor-1)s_{\rm val}$, with cadence $s_{\rm val}$
+inherited from Adaptime and no reserved training interval. Truncate validation
+at the series beginning if necessary. Model contexts use observed history up
+to 8192 steps; retrieval uses its configured fixed lookback. Apply the inherited
+task-specific alignment period and datastore stride, and require complete
+maximum-$K$ support. Datastore caps are optional and disabled by default.
+
+Validation retrieval ends strictly at validation start; test retrieval expands
+to the pre-test interval after selection. Neighbor futures are finite, wholly
+before the applicable boundary, and available before the query. Use
+instance-normalized Euclidean lookback distance and rescale retrieved pasts
+and futures to query units with past-only statistics. All-series scope is
+default; exact same-series scope remains an explicit ablation.
+
+\section{Selection and randomness}
+Select all candidate methods by per-date MSSE and the paired bootstrap
+one-standard-error rule. Use 1000 replications by default. The automatic block
+length is the larger of rounded $N^{1/3}$ and $\lceil H/s_{\rm val}\rceil$,
+capped at $N-1$. Prefer univariate, multivariate, self-augmentation, then smaller
+$K$ within the uncertainty threshold. With no usable dates select univariate;
+with one date use the observed minimum. One run seed (default zero) controls
+backbone stochasticity and bootstrap resampling. No component seed exists.
+
+\section{Execution and artifacts}
+Hydra configuration is \path{src/timebench/conf/experiment.yaml}.
+Dataset settings are \path{src/timebench/config/datasets.yaml}. The main entry point
+is \texttt{src/scripts/run\_selectime.py}. The standalone selectors are
+\texttt{select\_per\_task.py} and \texttt{select\_per\_variate.py} in the same
+directory. They require completed validation forecasts. Scheduler fronts source
+the common \texttt{src/slurm/} workflow, which runs preparation, validation
+retrieval and forecasting, both selectors, expanded test retrieval and
+forecasting, selected-prediction assembly, evaluation, and report in order.
+
+Use an already prepared saved-Arrow dataset and local Chronos-2 checkpoint.
+The selected Seasonal Naive grid is a prerequisite for test forecasting.
+All project products live under \path{outputs/selectime/}; logs under
+\texttt{logs/}. Every stage allocates a schema-1 configuration-addressed
+manifest before work. Reuse exact completed runs and restart interrupted
+tasks from their beginning. Reports retain consumed manifests, metric
+coverage, population dispersion, fallbacks and validation selection counts.
+Selected-method independent inference latency remains unmeasured.
+Forecast stages finalize canonical vanilla after its successful scheduler step
+before forecasting the other candidates. Report configuration policies are
+\path{error/distinct/latest/average}; repeat policies are
+\path{selected/latest/distinct/average}. The default uses the current exact
+configuration and selected repeat. Explicit filters and distinct labels retain
+nested producer settings. Average repeat task statistics within each exact
+configuration before averaging configurations; retain every consumed manifest.
+
+\section{Verification and evidence}
+Lightweight scientific regression source exists under \texttt{src/tests/}.
+Synthetic and static regression checks cover chronological datastore boundaries,
+aligned retrieval, normalization, query-scale covariates, bootstrap selection,
+the exact 90-task configuration, scheduler fronts and report policies. They do
+not exercise the foundation backbone or a cluster environment. Obtain a narrow remote
+smoke result before the full study, then analyze
+complete matched artifacts. No results are currently available.
+\end{document}

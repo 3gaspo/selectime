@@ -62,6 +62,11 @@ if [ "$SYNC_SIZE" = lightweight ]; then
         '--include=model_manifest.json'
         '--include=result_manifest.json'
         '--include=selection.json'
+        '--include=prepared.json'
+        '--include=retrieval.json'
+        '--include=prediction.json'
+        '--include=selections.csv'
+        '--include=selection_summary.csv'
         '--include=comparison_summary.json'
         '--include=time_summary_manifest.json'
         '--include=time_summary.json'
@@ -92,6 +97,13 @@ elif [ "$SYNC_SIZE" = detailed ]; then
         '--include=model_manifest.json'
         '--include=result_manifest.json'
         '--include=selection.json'
+        '--include=prepared.json'
+        '--include=retrieval.json'
+        '--include=prediction.json'
+        '--include=selections.csv'
+        '--include=selection_summary.csv'
+        '--include=fallback.npy'
+        '--include=selected_candidate.npy'
         '--include=comparison_summary.json'
         '--include=time_summary_manifest.json'
         '--include=time_summary.json'
@@ -161,4 +173,3 @@ else
 fi
 
 echo "SUCCESS: $SYNC_SIZE TIME outputs, requested logs, and metadata aggregates were pulled from Selena to DGX."
-

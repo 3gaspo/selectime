@@ -122,6 +122,11 @@ elif [ -d outputs ]; then
                 -name model_manifest.json -o \
                 -name result_manifest.json -o \
                 -name selection.json -o \
+                -name prepared.json -o \
+                -name retrieval.json -o \
+                -name prediction.json -o \
+                -name selections.csv -o \
+                -name selection_summary.csv -o \
                 -name comparison_summary.json -o \
                 -name time_summary_manifest.json -o \
                 -name time_summary.json -o \
@@ -153,6 +158,11 @@ elif [ -d outputs ]; then
                 -name model_manifest.json -o \
                 -name result_manifest.json -o \
                 -name selection.json -o \
+                -name prepared.json -o \
+                -name retrieval.json -o \
+                -name prediction.json -o \
+                -name selections.csv -o \
+                -name selection_summary.csv -o \
                 -name comparison_summary.json -o \
                 -name time_summary_manifest.json -o \
                 -name time_summary.json -o \
@@ -245,4 +255,3 @@ else
     echo "No new artifact changes; pushing existing local commits."
 fi
 git push origin main
-

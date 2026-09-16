@@ -1,0 +1,56 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage[hidelinks]{hyperref}
+\title{Selectime: Validation-selected inputs for Chronos-2}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\section{Candidate family}
+Given an observed target prefix and a horizon $H$, compare independent
+univariate forecasting, joint multivariate forecasting, past-only target
+augmentation with $\sqrt{|x|}$ and $\operatorname{sign}(x)$, and retrieved
+covariates for $K\in\{1,5,10,15\}$. The backbone is frozen Chronos-2 and every
+candidate produces a median point forecast. There is no parameter fitting.
+
+\section{Aligned retrieval}
+For a fixed retrieval lookback $r$, represent each query and neighbor as
+$z(x)=(x-\mu(x))/\max(\sigma(x),10^{-8})$, using only that lookback's finite
+past values. Rank eligible neighbors by Euclidean distance on finite overlap
+(at least 80\%, with squared distances adjusted for overlap). Require a complete
+maximum-$K$ list; smaller $K$ values reuse prefixes. The datastore is within
+one dataset/frequency task, across items and variates by default. A same-series
+ablation is retained. Task-specific calendar phases and frequency-dependent
+strides define the eligible dates.
+
+Before supplying a neighbor trajectory $s_i$ to the backbone, apply
+\[
+\widetilde s_i=(s_i-\mu_i)\frac{\max(\sigma_q,10^{-8})}
+                                  {\max(\sigma_i,10^{-8})}+\mu_q,
+\]
+where both sets of statistics use past retrieval lookbacks only. Supply the
+rescaled neighbor past and observed future as covariates. Self-augmentation
+has no future covariates.
+
+\section{Chronology and selection}
+The validation datastore ends before validation starts. The validation period
+immediately precedes the official TIME test interval. After freezing method
+and $K$, expand retrieval to all eligible pre-test history. Complete neighbor
+futures must end before the applicable boundary and be observed before the
+query; no test observation enters the datastore.
+
+Score candidates by mean squared error divided by the mean seasonal squared
+difference over the observed target prefix (MSSE). Average variates within
+each validation date before comparing dates for task-level selection;
+per-variate selection scores each item/variate's dates independently.
+Use Adaptime's paired moving-date-block bootstrap: a candidate is admissible
+when its mean loss difference from the observed best is at most one bootstrap
+standard error. Prefer univariate, multivariate, self-augmentation, then smaller
+$K$ within that threshold. Choices remain fixed throughout testing.
+
+\section{Evidence}
+Official test windows and the Seasonal Naive metric-cell grid remain unchanged.
+Unavailable retrieval and non-finite candidate cells use canonical univariate
+forecasts with recorded masks. No Selectime results have been analyzed.
+\end{document}

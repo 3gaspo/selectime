@@ -1,417 +1,332 @@
-# =============================================================================
-# Dataset Configuration
-# =============================================================================
-# Format:
-# dataset_name/freq:
-#   test_length: <int>      # Test set length (shared across all terms)
-#   val_length: <int>       # Validation set length (shared across all terms, optional)
-#   short:
-#     prediction_length: <int>
-#   medium:
-#     prediction_length: <int>
-#   long:
-#     prediction_length: <int>
-#
-# windows and val_windows are automatically calculated, no manual setting required
-# windows = floor(test_length / prediction_length)
-# val_windows = floor(val_length / prediction_length), or 0 when val_length is 0
-# This ensures different terms are evaluated on the same test/val intervals, ensuring fair comparison
-# =============================================================================
-
 datasets:
-########################### Nature ###########################
   Water_Quality_Darwin/15T:
-    test_length: 1440  # 15 days
+    test_length: 1440
     val_length: 1440
     short:
-      prediction_length: 16    # 4 hours; 1440/16 = 90 windows
+      prediction_length: 16
     medium:
-      prediction_length: 96    # 1 day; 1440/96 = 15 windows
+      prediction_length: 96
     long:
-      prediction_length: 288   # 3 days; 1440/288 = 5 windows
-
+      prediction_length: 288
   current_velocity/5T:
-    test_length: 4320  # 15 days
+    test_length: 4320
     val_length: 4320
     short:
-      prediction_length: 36    # 3 hours; 4320/36 = 120 windows
+      prediction_length: 36
     medium:
-      prediction_length: 288   # 24 hours; 4320/288 = 15 windows
+      prediction_length: 288
     long:
-      prediction_length: 864   # 3 days; 4320/864 = 5 windows
-
+      prediction_length: 864
   current_velocity/10T:
-    test_length: 2160  # 15 days
+    test_length: 2160
     val_length: 2160
     short:
-      prediction_length: 18    # 3 hours; 2160/18 = 120 windows
+      prediction_length: 18
     medium:
-      prediction_length: 144   # 24 hours; 2160/144 = 15 windows
+      prediction_length: 144
     long:
-      prediction_length: 432   # 3 days; 2160/432 = 5 windows
-
+      prediction_length: 432
   current_velocity/15T:
-    test_length: 1440  # 15 days
+    test_length: 1440
     val_length: 1440
     short:
-      prediction_length: 12    # 3 hours; 1440/12 = 120 windows
+      prediction_length: 12
     medium:
-      prediction_length: 96    # 24 hours; 1440/96 = 15 windows
+      prediction_length: 96
     long:
-      prediction_length: 288   # 3 days; 1440/288 = 5 windows
-
-
+      prediction_length: 288
   current_velocity/20T:
-    test_length: 1080  # 15 days
+    test_length: 1080
     val_length: 1080
     short:
-      prediction_length: 9     # 3 hours; 1080/9 = 120 windows
+      prediction_length: 9
     medium:
-      prediction_length: 72    # 24 hours; 1080/72 = 15 windows
+      prediction_length: 72
     long:
-      prediction_length: 216   # 3 days; 1080/216 = 5 windows
-
-
+      prediction_length: 216
   current_velocity/H:
     test_length: 672
     val_length: 672
     short:
-      prediction_length: 24     # 1 day; 672/24 = 28 windows
+      prediction_length: 24
     medium:
-      prediction_length: 168    # 7 days; 672/168 = 4 windows
+      prediction_length: 168
     long:
-      prediction_length: 336    # 14 days; 672/336 = 2 windows
-
+      prediction_length: 336
   CPHL/15T:
-      test_length: 1440  # 15 days
-      val_length: 1440
-      short:
-        prediction_length: 12    # 3 hours; 1440/12 = 120 windows
-      medium:
-        prediction_length: 96    # 24 hours; 1440/96 = 15 windows
-      long:
-        prediction_length: 288   # 3 days; 1440/288 = 5 windows
-
+    test_length: 1440
+    val_length: 1440
+    short:
+      prediction_length: 12
+    medium:
+      prediction_length: 96
+    long:
+      prediction_length: 288
   CPHL/30T:
-      test_length: 1440  # 30 days
-      val_length: 1440
-      short:
-        prediction_length: 12    # 3 hours; 1440/12 = 120 windows
-      medium:
-        prediction_length: 48    # 24 hours; 1440/48 = 30 windows
-      long:
-        prediction_length: 144   # 3 days; 1440/144 = 10 windows
-
+    test_length: 1440
+    val_length: 1440
+    short:
+      prediction_length: 12
+    medium:
+      prediction_length: 48
+    long:
+      prediction_length: 144
   CPHL/H:
-      test_length: 672
-      val_length: 672
-      short:
-        prediction_length: 24
-      medium:
-        prediction_length: 168
-      long:
-        prediction_length: 336
-
+    test_length: 672
+    val_length: 672
+    short:
+      prediction_length: 24
+    medium:
+      prediction_length: 168
+    long:
+      prediction_length: 336
   Coastal_T_S/5T:
-      test_length: 4320  # 15 days
-      val_length: 4320
-      short:
-        prediction_length: 36    # 3 hours; 4320/36 = 120 windows
-      medium:
-        prediction_length: 288   # 24 hours; 4320/288 = 15 windows
-      long:
-        prediction_length: 864   # 3 days; 4320/864 = 5 windows
-
+    test_length: 4320
+    val_length: 4320
+    short:
+      prediction_length: 36
+    medium:
+      prediction_length: 288
+    long:
+      prediction_length: 864
   Coastal_T_S/15T:
-      test_length: 1440  # 15 days
-      val_length: 1440
-      short:
-        prediction_length: 12    # 3 hours; 1440/12 = 120 windows
-      medium:
-        prediction_length: 96    # 24 hours; 1440/96 = 15 windows
-      long:
-        prediction_length: 288   # 3 days; 1440/288 = 5 windows
-
+    test_length: 1440
+    val_length: 1440
+    short:
+      prediction_length: 12
+    medium:
+      prediction_length: 96
+    long:
+      prediction_length: 288
   Coastal_T_S/20T:
-      test_length: 1080  # 15 days
-      val_length: 1080
-      short:
-        prediction_length: 9     # 3 hours; 1080/9 = 120 windows
-      medium:
-        prediction_length: 72    # 24 hours; 1080/72 = 15 windows
-      long:
-        prediction_length: 216   # 3 days; 1080/216 = 5 windows
-
+    test_length: 1080
+    val_length: 1080
+    short:
+      prediction_length: 9
+    medium:
+      prediction_length: 72
+    long:
+      prediction_length: 216
   Coastal_T_S/H:
-      test_length: 672
-      val_length: 672
-      short:
-        prediction_length: 24
-      medium:
-        prediction_length: 168
-      long:
-        prediction_length: 336
-
+    test_length: 672
+    val_length: 672
+    short:
+      prediction_length: 24
+    medium:
+      prediction_length: 168
+    long:
+      prediction_length: 336
   SG_Weather/D:
     test_length: 366
     val_length: 366
     short:
-      prediction_length: 3  # 3 days; floor(366/3) = 122 windows
+      prediction_length: 3
     medium:
-      prediction_length: 7  # 7 days; floor(366/7) = 52 windows
+      prediction_length: 7
     long:
-      prediction_length: 14  # 14-day limit; floor(366/14) = 26 windows
-
+      prediction_length: 14
   SG_PM25/H:
-    test_length: 2208  # 3 months, 92 days; 2025.03.01 - 2025.05.31
-    val_length: 2160  # 3 months, 90 days; 2025.01.01 - 2025.03.31
+    test_length: 2208
+    val_length: 2160
     short:
-      prediction_length: 24    # 1 day; 2208/24 = 92 windows
+      prediction_length: 24
     medium:
-      prediction_length: 72    # 3 days; floor(2208/72) = 30 windows
+      prediction_length: 72
     long:
-      prediction_length: 168    # 7 days; floor(2208/168) = 13 windows
-
+      prediction_length: 168
   NE_China_Wind/H:
-    test_length: 720  # 30 days
+    test_length: 720
     val_length: 720
     short:
-      prediction_length: 24    # 1 day; 720/24 = 30 windows
+      prediction_length: 24
     medium:
-      prediction_length: 72    # 3 days; 720/72 = 10 windows
+      prediction_length: 72
     long:
-      prediction_length: 168    # 7 days; floor(720/168) = 4 windows
-
-  ########################### Energy ###########################
+      prediction_length: 168
   Australia_Solar/H:
-    test_length: 2520  # 15 W
+    test_length: 2520
     val_length: 2520
     short:
-      prediction_length: 24    # 1 day; 105 windows
+      prediction_length: 24
     medium:
-      prediction_length: 72    # 3 days; 35 windows
+      prediction_length: 72
     long:
-      prediction_length: 168    # 7 days; 15 windows
-
+      prediction_length: 168
   epf_electricity_price/H:
-    test_length: 2520  # 15 W
+    test_length: 2520
     val_length: 2520
     short:
-      prediction_length: 24    # 1 day; 105 windows
+      prediction_length: 24
     medium:
-      prediction_length: 72    # 3 days; 35 windows
+      prediction_length: 72
     long:
-      prediction_length: 168    # 7 days; 15 windows
-
+      prediction_length: 168
   OpenElectricity_NEM/5T:
-    test_length: 4032  # 1 week
+    test_length: 4032
     val_length: 4032
     short:
-      prediction_length: 24    # 2h; 4032/24 = 168 windows
+      prediction_length: 24
     medium:
-      prediction_length: 96    # 8h;
+      prediction_length: 96
     long:
-      prediction_length: 288   # 24h; 4032/288 = 14 windows
-
+      prediction_length: 288
   EWELD_Load/15T:
-    test_length: 1344  # 2 weeks
+    test_length: 1344
     val_length: 1344
     short:
-      prediction_length: 24     # 16 * 15min = 4 hours; 1344/24 = 56 windows
+      prediction_length: 24
     medium:
-      prediction_length: 96    # 96 * 15min = 1 day; 1344/96 = 14 windows
+      prediction_length: 96
     long:
-      prediction_length: 672   # 672 * 15min = 7 days; 1344/672 = 2 windows
-
-
-########################### Transportation ###########################
+      prediction_length: 672
   SG_Carpark/15T:
-    test_length: 672  # 1 week
+    test_length: 672
     val_length: 672
     short:
-      prediction_length: 16    # 4 hours; 672/16 = 42 windows
+      prediction_length: 16
     medium:
-      prediction_length: 96    # 1 day; 672/96 = 7 windows
+      prediction_length: 96
     long:
-      prediction_length: 672   # 1 week; 672/672 = 1 window
-
+      prediction_length: 672
   Finland_Traffic/15T:
-      test_length: 2976  # 31 days
-      val_length: 2880
-      short:
-        prediction_length: 16    # 4 hours; 2976/16 = 186 windows
-      medium:
-        prediction_length: 96    # 1 day; 2976/96 = 31 windows
-      long:
-        prediction_length: 672   # 1 week; floor(2976/672) = 4 windows
-
+    test_length: 2976
+    val_length: 2880
+    short:
+      prediction_length: 16
+    medium:
+      prediction_length: 96
+    long:
+      prediction_length: 672
   Port_Activity/D:
     test_length: 365
     val_length: 90
     short:
       prediction_length: 30
-
   Port_Activity/W:
     test_length: 52
     val_length: 13
     short:
       prediction_length: 13
-
-
-########################### Healthcare ###########################
   ECDC_COVID/D:
     test_length: 150
     val_length: 30
     short:
       prediction_length: 30
-
-
   ECDC_COVID/W:
     test_length: 52
     val_length: 13
     short:
       prediction_length: 13
-
   Global_Influenza/W:
     test_length: 52
     val_length: 13
     short:
       prediction_length: 13
-
-
-  ########################### Finance ###########################
   Crypto/D:
     test_length: 273
     val_length: 92
     short:
       prediction_length: 30
-
   US_Term_Structure/B:
-    test_length: 717 # 2023 - 2025
-    val_length: 100  # 2022
+    test_length: 717
+    val_length: 100
     short:
       prediction_length: 20
-
   Oil_Price/B:
-    test_length: 717  # 2023 - 2025 Sep
-    val_length: 100 # 2022
+    test_length: 717
+    val_length: 100
     short:
       prediction_length: 20
-
- ########################### Economics ###########################
   Job_Claims/W:
     test_length: 52
     val_length: 13
     short:
       prediction_length: 13
-
   Uncertainty_1M/M:
     test_length: 42
     val_length: 18
     short:
-      prediction_length: 6    # 1 month; 42/6 = 7 windows
-
+      prediction_length: 6
   Housing_Inventory/M:
     test_length: 36
     val_length: 12
     short:
       prediction_length: 12
-
   JOLTS/M:
-      test_length: 60
-      val_length: 12
-      short:
-        prediction_length: 12
-
+    test_length: 60
+    val_length: 12
+    short:
+      prediction_length: 12
   US_Labor/M:
     test_length: 60
     val_length: 12
     short:
       prediction_length: 12
-
   Vehicle_Supply/M:
     test_length: 60
     val_length: 12
     short:
       prediction_length: 12
-
   Auto_Production_SF/M:
     test_length: 60
     val_length: 12
     short:
       prediction_length: 12
-
   Commodity_Production/M:
     test_length: 60
     val_length: 12
     short:
       prediction_length: 12
-
   Commodity_Import/M:
     test_length: 60
     val_length: 12
     short:
       prediction_length: 12
-
-
   WUI_Global/Q:
     test_length: 20
     val_length: 20
     short:
-      prediction_length: 4  # 1 year; 20/4 = 5 windows
-
+      prediction_length: 4
   Global_Price/Q:
     test_length: 20
     val_length: 8
     short:
       prediction_length: 4
-
-
-  ########################### Sales ###########################
   Vehicle_Sales/M:
     test_length: 60
     val_length: 12
     short:
       prediction_length: 12
-
   Online_Retail_2_UCI/D:
     test_length: 180
     val_length: 90
     short:
       prediction_length: 30
-
   Supply_Chain_Customer/D:
     test_length: 365
     val_length: 90
     short:
       prediction_length: 30
-
   Supply_Chain_Location/D:
     test_length: 365
     val_length: 90
     short:
       prediction_length: 30
-
-
-  ########################### CloudOPS ###########################
   azure2019_D/5T:
     test_length: 864
     val_length: 864
     short:
       prediction_length: 288
-
   azure2019_I/5T:
     test_length: 864
     val_length: 864
     short:
       prediction_length: 288
-
   azure2019_U/5T:
     test_length: 288
     val_length: 96
     short:
       prediction_length: 48
-
   Smart_Manufacturing/H:
     test_length: 336
     val_length: 336
@@ -421,7 +336,6 @@ datasets:
       prediction_length: 168
     long:
       prediction_length: 336
-
   MetroPT-3/5T:
     test_length: 1728
     val_length: 1728
@@ -431,3 +345,265 @@ datasets:
       prediction_length: 288
     long:
       prediction_length: 576
+selectime_tasks:
+  Water_Quality_Darwin/15T:
+    alignment_period: 96
+    datastore_stride: 96
+    retrieval_context_length: 672
+    validation_stride: 127
+  current_velocity/5T:
+    alignment_period: 288
+    datastore_stride: 288
+    retrieval_context_length: 2016
+    validation_stride: 127
+  current_velocity/10T:
+    alignment_period: 144
+    datastore_stride: 144
+    retrieval_context_length: 1008
+    validation_stride: 127
+  current_velocity/15T:
+    alignment_period: 96
+    datastore_stride: 96
+    retrieval_context_length: 672
+    validation_stride: 127
+  current_velocity/H:
+    alignment_period: 24
+    datastore_stride: 24
+    ranges:
+      short:
+        retrieval_context_length: 168
+      medium:
+        retrieval_context_length: 168
+      long:
+        retrieval_context_length: 336
+    validation_stride: 127
+  CPHL/15T:
+    alignment_period: 96
+    datastore_stride: 96
+    retrieval_context_length: 672
+    validation_stride: 127
+  CPHL/30T:
+    alignment_period: 48
+    datastore_stride: 48
+    retrieval_context_length: 336
+    validation_stride: 127
+  CPHL/H:
+    alignment_period: 24
+    datastore_stride: 24
+    ranges:
+      short:
+        retrieval_context_length: 168
+      medium:
+        retrieval_context_length: 168
+      long:
+        retrieval_context_length: 336
+    validation_stride: 127
+  Coastal_T_S/15T:
+    alignment_period: 96
+    datastore_stride: 96
+    retrieval_context_length: 672
+    validation_stride: 127
+  Coastal_T_S/20T:
+    alignment_period: 72
+    datastore_stride: 72
+    retrieval_context_length: 504
+    validation_stride: 127
+  Coastal_T_S/H:
+    alignment_period: 24
+    datastore_stride: 24
+    ranges:
+      short:
+        retrieval_context_length: 168
+      medium:
+        retrieval_context_length: 168
+      long:
+        retrieval_context_length: 336
+    validation_stride: 127
+  SG_Weather/D:
+    alignment_period: 1
+    datastore_stride: 1
+    ranges:
+      short:
+        retrieval_context_length: 7
+      medium:
+        retrieval_context_length: 7
+      long:
+        retrieval_context_length: 14
+    validation_stride: 27
+  SG_PM25/H:
+    alignment_period: 24
+    datastore_stride: 24
+    retrieval_context_length: 168
+    validation_stride: 127
+  NE_China_Wind/H:
+    alignment_period: 24
+    datastore_stride: 24
+    retrieval_context_length: 168
+    validation_stride: 127
+  Australia_Solar/H:
+    alignment_period: 24
+    datastore_stride: 24
+    retrieval_context_length: 168
+    validation_stride: 127
+  epf_electricity_price/H:
+    alignment_period: 168
+    datastore_stride: 168
+    retrieval_context_length: 168
+    validation_stride: 127
+  OpenElectricity_NEM/5T:
+    alignment_period: 2016
+    datastore_stride: 2016
+    retrieval_context_length: 2016
+    validation_stride: 127
+  EWELD_Load/15T:
+    alignment_period: 672
+    datastore_stride: 672
+    retrieval_context_length: 672
+    validation_stride: 127
+  SG_Carpark/15T:
+    alignment_period: 672
+    datastore_stride: 672
+    retrieval_context_length: 672
+    validation_stride: 127
+  Finland_Traffic/15T:
+    alignment_period: 672
+    datastore_stride: 672
+    retrieval_context_length: 672
+    validation_stride: 127
+  Port_Activity/D:
+    alignment_period: 7
+    datastore_stride: 7
+    retrieval_context_length: 35
+    validation_stride: 27
+  Port_Activity/W:
+    alignment_period: 1
+    datastore_stride: 1
+    retrieval_context_length: 13
+    validation_stride: 11
+  ECDC_COVID/D:
+    alignment_period: 7
+    datastore_stride: 7
+    retrieval_context_length: 35
+    validation_stride: 27
+  ECDC_COVID/W:
+    alignment_period: 1
+    datastore_stride: 1
+    retrieval_context_length: 13
+    validation_stride: 11
+  Global_Influenza/W:
+    alignment_period: 1
+    datastore_stride: 1
+    retrieval_context_length: 13
+    validation_stride: 11
+  Crypto/D:
+    alignment_period: 1
+    datastore_stride: 1
+    retrieval_context_length: 30
+    validation_stride: 27
+  US_Term_Structure/B:
+    alignment_period: 1
+    datastore_stride: 1
+    retrieval_context_length: 20
+    validation_stride: 27
+  Oil_Price/B:
+    alignment_period: 1
+    datastore_stride: 1
+    retrieval_context_length: 20
+    validation_stride: 27
+  Job_Claims/W:
+    alignment_period: 1
+    datastore_stride: 1
+    retrieval_context_length: 13
+    validation_stride: 11
+  # These actual TIME datasets use Adaptime's frequency-derived defaults.
+  Uncertainty_1M/M:
+    alignment_period: 12
+    datastore_stride: 12
+    retrieval_context_length: 12
+    validation_stride: 5
+  Housing_Inventory/M:
+    alignment_period: 12
+    datastore_stride: 12
+    retrieval_context_length: 12
+    validation_stride: 5
+  JOLTS/M:
+    alignment_period: 12
+    datastore_stride: 12
+    retrieval_context_length: 12
+    validation_stride: 5
+  US_Labor/M:
+    alignment_period: 12
+    datastore_stride: 12
+    retrieval_context_length: 12
+    validation_stride: 5
+  Vehicle_Supply/M:
+    alignment_period: 12
+    datastore_stride: 12
+    retrieval_context_length: 12
+    validation_stride: 5
+  Auto_Production_SF/M:
+    alignment_period: 12
+    datastore_stride: 12
+    retrieval_context_length: 12
+    validation_stride: 5
+  Commodity_Production/M:
+    alignment_period: 12
+    datastore_stride: 12
+    retrieval_context_length: 12
+    validation_stride: 5
+  Commodity_Import/M:
+    alignment_period: 12
+    datastore_stride: 12
+    retrieval_context_length: 12
+    validation_stride: 5
+  WUI_Global/Q:
+    alignment_period: 4
+    datastore_stride: 4
+    retrieval_context_length: 4
+    validation_stride: 3
+  Global_Price/Q:
+    alignment_period: 4
+    datastore_stride: 4
+    retrieval_context_length: 4
+    validation_stride: 3
+  Vehicle_Sales/M:
+    alignment_period: 12
+    datastore_stride: 12
+    retrieval_context_length: 12
+    validation_stride: 5
+  Online_Retail_2_UCI/D:
+    alignment_period: 7
+    datastore_stride: 7
+    retrieval_context_length: 35
+    validation_stride: 27
+  Supply_Chain_Customer/D:
+    alignment_period: 7
+    datastore_stride: 7
+    retrieval_context_length: 35
+    validation_stride: 27
+  Supply_Chain_Location/D:
+    alignment_period: 7
+    datastore_stride: 7
+    retrieval_context_length: 35
+    validation_stride: 27
+  azure2019_U/5T:
+    alignment_period: 2016
+    datastore_stride: 2016
+    retrieval_context_length: 2016
+    validation_stride: 127
+  Smart_Manufacturing/H:
+    alignment_period: 168
+    datastore_stride: 168
+    ranges:
+      short:
+        retrieval_context_length: 168
+      medium:
+        retrieval_context_length: 168
+      long:
+        retrieval_context_length: 336
+    validation_stride: 127
+  MetroPT-3/5T:
+    alignment_period: 288
+    datastore_stride: 288
+    retrieval_context_length: 2016
+    validation_stride: 127
