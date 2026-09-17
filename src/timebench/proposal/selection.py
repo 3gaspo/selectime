@@ -33,6 +33,31 @@ def date_losses(losses, ticks, positions):
                    for method, values in losses.items()}
 
 
+def win_frequency_mixture(predictions, labels, scales, eligible=None):
+    """Adaptime's Beta(1,1) paired window-MSSE wins, fitted on validation only."""
+    losses = row_msse(predictions, labels, scales)
+    alternative = next(method for method in predictions if method != UNIVARIATE)
+    vanilla, candidate = losses[UNIVARIATE], losses[alternative]
+    valid = np.isfinite(vanilla) & np.isfinite(candidate)
+    if eligible is not None:
+        valid &= np.asarray(eligible, dtype=bool)
+    trials = int(valid.sum())
+    wins = float((candidate[valid] < vanilla[valid]).sum())
+    wins += 0.5 * float((candidate[valid] == vanilla[valid]).sum())
+    return {'schema_version': 1, 'alternative': alternative,
+            'rule': 'beta_1_1_validation_window_msse_win_frequency_half_ties',
+            'trials': trials, 'wins_including_half_ties': wins,
+            'alternative_weight': (1 + wins) / (2 + trials) if trials else 0.0,
+            'fallback_reason': None if trials else 'no_usable_validation_rows'}
+
+
+def blend(vanilla, alternative, weight):
+    """A frozen scalar task weight; zero weight never propagates candidate NaNs."""
+    if weight == 0:
+        return np.asarray(vanilla, dtype=np.float32).copy()
+    return np.asarray((1 - weight) * vanilla + weight * alternative, dtype=np.float32)
+
+
 def select_with_block_bootstrap(losses, *, seed, prediction_length, validation_stride,
                                 replications=1000, block_length=None):
     """Adaptime's paired one-standard-error rule without fitting or alpha ranks."""

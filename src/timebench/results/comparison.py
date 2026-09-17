@@ -7,11 +7,11 @@ import numpy as np
 from timebench.proposal.candidates import candidate_names
 
 
-def write_csv(path, rows):
-    if not rows:
+def write_csv(path, rows, fieldnames=None):
+    if not rows and fieldnames is None:
         raise ValueError('Cannot report an empty task plan')
     with Path(path).open('w', newline='', encoding='utf-8') as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(stream, fieldnames=fieldnames or list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
 
@@ -50,12 +50,13 @@ def build_report(inputs, destination, config):
         seasonal = json.loads((seasonal_root / 'metrics_summary.json').read_text())
         if summary['evaluation_grid']['definition'] != seasonal['evaluation_grid']['definition'] or summary['evaluation_grid']['valid_values'] != seasonal['evaluation_grid']['valid_values']:
             raise ValueError('Comparison requires the same Seasonal metric grid')
-        label = method + selection['model_label'][len('chronos2'):]
+        label = method + selection['model_label'][len(config['model']):]
         row = {'dataset': task.dataset, 'term': task.term, 'method': method, 'report_label': label,
                'inference_seconds': summary.get('inference_seconds'),
                'query_retrieval_seconds': metadata.get('query_retrieval_seconds'),
                'datastore_preprocessing_seconds': metadata.get('datastore_preprocessing_seconds'),
                'timing_policy': metadata['timing_policy'], 'fallback_count': metadata['fallback_count'],
+               'alternative': metadata.get('alternative'), 'alternative_weight': metadata.get('alternative_weight'),
                'grid_rows': metadata['grid_rows'],
                'fallback_rate': metadata['fallback_count'] / metadata['grid_rows'] if metadata['grid_rows'] else None}
         for metric, values in summary['metrics'].items():
@@ -76,7 +77,7 @@ def build_report(inputs, destination, config):
                         'evaluation_manifest': str(evaluation / 'manifest.json'),
                         'prediction_manifest': str(prediction / 'manifest.json'),
                         'seasonal_manifest': str(seasonal_root / 'manifest.json'), 'selection': selection})
-        if method.startswith('selected_'):
+        if method.startswith('selected_') or method == 'scope_selector':
             selection = json.loads((prediction / 'selection.json').read_text())
             for entry in selection['selections']:
                 selection_rows.append({'dataset': task.dataset, 'term': task.term, 'selector': method,
@@ -89,12 +90,14 @@ def build_report(inputs, destination, config):
     for row in rows:
         grouped[row['report_label']].append(row)
     write_csv(destination / 'comparison.csv', rows)
-    write_csv(destination / 'selections.csv', selection_rows)
+    write_csv(destination / 'selections.csv', selection_rows, fieldnames=[
+        'dataset', 'term', 'selector', 'report_label', 'evaluation_run', 'item', 'channel',
+        'selected_method', 'validation_dates', 'observed_best', 'block_length', 'fallback_reason'])
     selection_summary = []
-    for selector in ('selected_task', 'selected_per_variate'):
+    for selector in ('selected_task', 'selected_per_variate', 'scope_selector'):
         selected = [row['selected_method'] for row in selection_rows if row['selector'] == selector]
         counts = Counter(selected)
-        for method in candidate_names(config['k_values']):
+        for method in candidate_names(config['k_values'], config['model']):
             selection_summary.append({'selector': selector, 'candidate': method, 'count': counts[method],
                                       'total_selections': len(selected),
                                       'rate': counts[method] / len(selected) if selected else None})

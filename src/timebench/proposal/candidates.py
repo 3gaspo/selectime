@@ -5,10 +5,24 @@ import numpy as np
 UNIVARIATE = 'vanilla_univariate'
 MULTIVARIATE = 'vanilla_multivariate'
 SELF_AUGMENTATION = 'self_augmentation'
+HORIZON = 'top1_horizon'
+HORIZON_MIX = 'top1-horizon-mix'
 
 
-def candidate_names(k_values):
-    return [UNIVARIATE, MULTIVARIATE, SELF_AUGMENTATION, *[f'top_k_{k}' for k in k_values]]
+def candidate_names(k_values, model='chronos2'):
+    if model == 'chronos_bolt':
+        return [UNIVARIATE]
+    if model not in ('chronos2', 'ts_icl'):
+        raise ValueError(f'Unsupported backbone: {model}')
+    scope = [MULTIVARIATE] if model == 'chronos2' else []
+    return [UNIVARIATE, *scope, SELF_AUGMENTATION, *[f'top_k_{k}' for k in k_values]]
+
+
+def control_candidates(model):
+    """Task-level binary selector and frozen soft mixtures, outside the K selectors."""
+    scope = {'scope_selector': MULTIVARIATE, 'scope_mix': MULTIVARIATE} if model == 'chronos2' else {}
+    covariate = {'top5_mix': 'top_k_5'} if model != 'chronos_bolt' else {}
+    return {**scope, **covariate, HORIZON_MIX: HORIZON}
 
 
 def candidate_k(method):

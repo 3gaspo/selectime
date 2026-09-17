@@ -8,9 +8,9 @@ excluded_datasets: [Coastal_T_S/5T, current_velocity/20T, azure2019_D/5T, azure2
 dataset_config: null
 seed: 0
 device: cuda
-context_length: 8192
+context_length: null  # backbone default: Chronos-2 8192; Bolt/TS-ICL 2048
 batch_size: 32
-k_values: [1, 5, 10, 15]
+k_values: [1, 5, 10, 15, 20]
 datastore_scope: all
 max_datastore_windows: null
 # null inherits the task's aligned protocol. Only validation_length=0 disables selection.

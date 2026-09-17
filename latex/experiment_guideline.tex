@@ -12,9 +12,9 @@
 Test whether validation can select useful Chronos-2 input choices without
 parameter training. Preserve Adaptime's 90 dataset/frequency/term tasks and
 its four dataset exclusions. Compare univariate, multivariate, past-only
-square-root-magnitude/sign augmentation, top-$K$ for $K=1,5,10,15$, and both
-task-level and item/variate-level validation-selected forecasts. Accuracy
-benefits are hypotheses, not obtained evidence.
+square-root-magnitude/sign augmentation, top-$K$ for $K=1,5,10,15,20$, and both
+task-level and item/variate-level validation-selected forecasts. The expanded candidates and controls are unevaluated; initial K$\leq15$
+Chronos-2 evidence is summarized separately in the results recap.
 
 \section{Protocol}
 The official TIME test length and horizon $H$ define the unchanged test windows.
@@ -22,9 +22,10 @@ The default validation length is
 $H+(\lfloor T_{\rm test}/H\rfloor-1)s_{\rm val}$, with cadence $s_{\rm val}$
 inherited from Adaptime and no reserved training interval. Truncate validation
 at the series beginning if necessary. Model contexts use observed history up
-to 8192 steps; retrieval uses its configured fixed lookback. Apply the inherited
+to 8192 steps for Chronos-2 or 2048 by default for Bolt and TS-ICL; retrieval uses its configured fixed lookback. Apply the inherited
 task-specific alignment period and datastore stride, and require complete
-maximum-$K$ support. Datastore caps are optional and disabled by default.
+maximum-$K$ support for covariate forecasts. Direct-horizon transfer requires
+only one independently searched neighbor. Datastore caps are optional and disabled by default.
 
 Validation retrieval ends strictly at validation start; test retrieval expands
 to the pre-test interval after selection. Neighbor futures are finite, wholly
@@ -42,24 +43,49 @@ $K$ within the uncertainty threshold. With no usable dates select univariate;
 with one date use the observed minimum. One run seed (default zero) controls
 backbone stochasticity and bootstrap resampling. No component seed exists.
 
+\section{Controls and backbone grids}
+Chronos-2 reports eight input candidates, both original selectors, a binary
+scope selector, and three soft mixtures: scope, top-5 covariate, and nearest
+neighbor direct horizon (14 methods). TS-ICL excludes multivariate and both
+scope controls (11 methods). Bolt reports only univariate vanilla and the
+nearest-horizon mixture (two methods). The intermediate rescaled neighbor
+horizon is not a reported method or original-selector candidate.
+
+The binary scope selector uses the task-level bootstrap rule over only the
+two vanilla scopes. Each mixture freezes one scalar task weight from eligible
+paired validation item/variate/window MSSE wins. Ties contribute one half;
+alternative fallback rows and non-finite losses are excluded. With $w$ wins
+in $n$ rows use $p=(1+w)/(2+n)$ and output
+$(1-p)\widehat y_{\rm uni}+p\widehat y_{\rm alt}$. No usable validation
+rows gives $p=0$. The horizon alternative is the neighbor's observed historical
+continuation scaled with lookback-only statistics, without backbone inference.
+All calibrations precede test and persist their weights/support in artifacts.
+
 \section{Execution and artifacts}
 Hydra configuration is \path{src/timebench/conf/experiment.yaml}.
 Dataset settings are \path{src/timebench/config/datasets.yaml}. The main entry point
-is \texttt{src/scripts/run\_selectime.py}. The standalone selectors are
+is \texttt{src/scripts/run\_selectime.py}. Use \path{scripts/submit_experiment.sh} for Chronos-2,
+\path{scripts/submit_ts_icl.sh} for TS-ICL, and
+\path{scripts/submit_chronos_bolt.sh} for Bolt, passing the execution surface.
+TS-ICL requires \texttt{tsicl==0.2.1} in the user-prepared host environment.
+The standalone selectors are
 \texttt{select\_per\_task.py} and \texttt{select\_per\_variate.py} in the same
 directory. They require completed validation forecasts. Scheduler fronts source
 the common \texttt{src/slurm/} workflow, which runs preparation, validation
 retrieval and forecasting, both selectors, expanded test retrieval and
 forecasting, selected-prediction assembly, evaluation, and report in order.
 
-Use an already prepared saved-Arrow dataset and local Chronos-2 checkpoint.
+Use an already prepared saved-Arrow dataset and a local checkpoint:
+\path{chronos2/}, \path{chronos-bolt-base/}, or
+\path{tsicl/tsicl-v1.ckpt} below the configured weights root.
 The selected Seasonal Naive grid is a prerequisite for test forecasting.
-All project products live under \path{outputs/selectime/}; logs under
+All project products live under \path{outputs/selectime/<backbone>/}; logs under
 \texttt{logs/}. Every stage allocates a schema-1 configuration-addressed
 manifest before work. Reuse exact completed runs and restart interrupted
 tasks from their beginning. Reports retain consumed manifests, metric
 coverage, population dispersion, fallbacks and validation selection counts.
-Selected-method independent inference latency remains unmeasured.
+Selector and mixture independent inference latency remains unmeasured.
+Calibration weights and alternatives are included in comparison reports.
 Forecast stages finalize canonical vanilla after its successful scheduler step
 before forecasting the other candidates. Report configuration policies are
 \path{error/distinct/latest/average}; repeat policies are
@@ -75,5 +101,6 @@ aligned retrieval, normalization, query-scale covariates, bootstrap selection,
 the exact 90-task configuration, scheduler fronts and report policies. They do
 not exercise the foundation backbone or a cluster environment. Obtain a narrow remote
 smoke result before the full study, then analyze
-complete matched artifacts. No results are currently available.
+complete matched artifacts. Initial K$\leq15$ evidence does not establish
+performance under the new K=20 eligibility or the added controls/backbones.
 \end{document}

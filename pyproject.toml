@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "selectime"
 version = "0.1.0"
-description = "Validation-selected Chronos-2 inputs on the TIME benchmark"
+description = "Validation-selected foundation-model inputs on the TIME benchmark"
 readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "Apache-2.0"}
@@ -19,6 +19,7 @@ dependencies = [
     "python-dotenv>=1,<2",
     "PyYAML>=6,<7",
     "torch>=2.5.1,<2.10",
+    "tsicl==0.2.1",
     "hydra-core>=1.3,<1.4",
 ]
 

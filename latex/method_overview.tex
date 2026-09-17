@@ -2,7 +2,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage[hidelinks]{hyperref}
-\title{Selectime: Validation-selected inputs for Chronos-2}
+\title{Selectime: Validation-selected inputs and frozen forecast mixtures}
 \author{}
 \date{}
 \begin{document}
@@ -11,15 +11,18 @@
 Given an observed target prefix and a horizon $H$, compare independent
 univariate forecasting, joint multivariate forecasting, past-only target
 augmentation with $\sqrt{|x|}$ and $\operatorname{sign}(x)$, and retrieved
-covariates for $K\in\{1,5,10,15\}$. The backbone is frozen Chronos-2 and every
-candidate produces a median point forecast. There is no parameter fitting.
+covariates for $K\in\{1,5,10,15,20\}$. The default backbone is frozen Chronos-2; TS-ICL omits native multivariate
+inputs and the two scope controls. Chronos-Bolt compares univariate vanilla
+with direct-horizon mixing only. Native backbone forecasts are medians.
+There is no backbone parameter fitting.
 
 \section{Aligned retrieval}
 For a fixed retrieval lookback $r$, represent each query and neighbor as
 $z(x)=(x-\mu(x))/\max(\sigma(x),10^{-8})$, using only that lookback's finite
 past values. Rank eligible neighbors by Euclidean distance on finite overlap
 (at least 80\%, with squared distances adjusted for overlap). Require a complete
-maximum-$K$ list; smaller $K$ values reuse prefixes. The datastore is within
+maximum-$K$ list for covariate candidates; smaller $K$ values reuse prefixes.
+Direct-horizon transfer searches independently for one eligible neighbor. The datastore is within
 one dataset/frequency task, across items and variates by default. A same-series
 ablation is retained. Task-specific calendar phases and frequency-dependent
 strides define the eligible dates.
@@ -49,8 +52,31 @@ when its mean loss difference from the observed best is at most one bootstrap
 standard error. Prefer univariate, multivariate, self-augmentation, then smaller
 $K$ within that threshold. Choices remain fixed throughout testing.
 
+\section{Binary scope control and soft mixtures}
+The scope selector applies the same task bootstrap rule to only univariate
+and multivariate vanilla. It is a hard gate. The scope mixture blends those
+forecasts; the top-5 mixture blends univariate with the top-5 covariate forecast.
+For direct-horizon mixing, the alternative is the nearest historical neighbor's
+rescaled continuation $\widetilde{s}_{1,\rm future}$, without invoking the
+backbone on that neighbor or passing it as a covariate.
+
+For each soft mixture, compare the two predictions by MSSE on eligible
+validation item/variate/window rows. Exclude alternative fallback rows and
+non-finite losses. Let $n$ be the number of paired rows and $w$ the number
+of alternative wins, with ties contributing one half. Adaptime's Beta$(1,1)$
+win-frequency rule gives
+\[
+ p=\frac{1+w}{2+n},\qquad
+ \widehat{y}=(1-p)\widehat{y}_{\rm uni}+p\widehat{y}_{\rm alternative}.
+\]
+With no usable rows set $p=0$. Freeze one scalar $p$ per task before test.
+These controls do not enter the original task/per-variate selectors.
+Scope controls exist only for Chronos-2; top-5 mixing also exists for TS-ICL;
+direct-horizon mixing exists for all three backbones.
+
 \section{Evidence}
 Official test windows and the Seasonal Naive metric-cell grid remain unchanged.
 Unavailable retrieval and non-finite candidate cells use canonical univariate
-forecasts with recorded masks. No Selectime results have been analyzed.
+forecasts with recorded masks. The initial K$\leq15$ Chronos-2 study is analyzed in the results recap.
+The expanded K=20 grid, new controls and other backbones remain unevaluated.
 \end{document}

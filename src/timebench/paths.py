@@ -1,12 +1,12 @@
 """Project-owned artifacts and portable, shared input locations."""
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def configured_path(variable, fallback):
+    from dotenv import load_dotenv
     load_dotenv(PROJECT_ROOT / '.env')
     return Path(os.getenv(variable, str(fallback))).expanduser().resolve()
 
@@ -20,6 +20,7 @@ def weights_root():
 
 
 def artifact_project_root():
+    from dotenv import load_dotenv
     load_dotenv(PROJECT_ROOT / '.env')
     if os.getenv('SELENA_NNI'):
         return Path(os.environ['TIME_STORAGE_ROOT']).expanduser().resolve() / 'codes' / 'selectime'

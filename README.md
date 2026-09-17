@@ -1,16 +1,21 @@
 # Selectime
 
-Selectime compares simple Chronos-2 input choices on the TIME benchmark and
+Selectime compares frozen foundation-model input choices on the TIME benchmark and
 selects them using a held-out validation period. It performs no parameter
 training. The official test windows and Seasonal Naive metric grid remain fixed.
 
 The candidate family is vanilla univariate, native vanilla multivariate,
-self-augmentation, and top-K retrieved covariates for `K in {1,5,10,15}`.
+self-augmentation, and top-K retrieved covariates for `K in {1,5,10,15,20}` with Chronos-2.
+TS-ICL retains univariate, augmentation and top-K candidates but excludes native
+multivariate and scope controls. Chronos-Bolt compares only vanilla and
+`top1-horizon-mix`. Canonical backbone aliases are `chronos2`, `ts_icl`,
+and `chronos_bolt`.
 Self-augmentation supplies `sqrt(abs(x))` and `sign(x)` as past-only covariates.
 Top-K supplies retrieved histories and their already observed futures as past
-and future covariates. All outputs are deterministic median point forecasts.
+and future covariates. Backbone candidates use deterministic median point forecasts; mixtures
+combine these point forecasts with frozen validation weights.
 
-Two selectors are implemented: one selects a single candidate per
+The two original selectors are implemented: one selects a single candidate per
 dataset/frequency/term task; the other selects independently per dataset item
 and target variate. Both use the same validation forecasts and Adaptime's paired
 moving-date-block-bootstrap one-standard-error rule. They prefer univariate
@@ -20,7 +25,8 @@ within one standard error of the observed best validation score.
 ## Data and protocol
 
 Provide prepared saved-Arrow TIME data through `TIME_DATASET` and the local
-`weights/chronos2/` checkpoint through `TIME_WEIGHTS`. Optional `.env` settings
+`weights/chronos2/`, `weights/chronos-bolt-base/`, or
+`weights/tsicl/tsicl-v1.ckpt` checkpoint through `TIME_WEIGHTS`. Optional `.env` settings
 configure these input roots. Prepared Arrow targets are consumed directly;
 CSV loading, exclusions and missing-value policies are not reapplied.
 
@@ -44,7 +50,8 @@ The validation interval immediately precedes test. Its default length is
 `H + (floor(test_length/H)-1)*validation_stride`, retaining Adaptime's planned
 validation-date count without reserving adaptation-training dates. Histories
 shorter than that requested span truncate the interval at the beginning of the
-series. Forecasts use all available past context up to 8192 steps. Retrieval
+series. Forecasts use all available past context up to the configured backbone context: 8192 for Chronos-2, 2048 by default
+for TS-ICL and Chronos-Bolt. Explicit TS-ICL contexts may extend to 4096. Retrieval
 requires the complete configured retrieval lookback.
 
 Lookback distance is Euclidean after separate instance normalization of each
@@ -71,6 +78,27 @@ bootstrap cannot estimate its uncertainty. Retrieval-ineligible and non-finite
 candidate cells use the canonical univariate forecast; masks and counts persist.
 Canonical univariate forecasts must be finite on required support.
 
+## Binary scope selection and soft mixtures
+
+`scope_selector` applies the same task-level bootstrap rule to only univariate
+and multivariate vanilla. `scope_mix` blends those two forecasts. `top5_mix`
+blends univariate with future-included top-5 covariate forecasts.
+`top1-horizon-mix` blends univariate with the nearest neighbor's directly
+retrieved horizon, rescaled to query units using lookback statistics. That
+horizon is an observed historical continuation, not a backbone forecast or
+covariate input. It requires only one neighbor, independently of maximum-K
+covariate eligibility. Its raw `top1_horizon` predictions are intermediate
+artifacts, not an extra reported method or selector candidate.
+
+Each soft mixture freezes one scalar weight per task from paired eligible
+validation item/variate/window MSSE wins. With `w` wins (ties count one half)
+and `n` trials, the alternative weight is `(1+w)/(2+n)`. No usable trials gives
+pure univariate vanilla. Test predictions are `(1-p)*vanilla+p*alternative`.
+Retrieval/non-finite candidate fallback rows do not estimate mixture weights.
+The four controls are reported separately and never enter the two original
+selectors. Scope controls exist only for Chronos-2; top-5 mix also exists for
+TS-ICL; horizon mix exists for all three backbones.
+
 ## Running
 
 The maintainer prepares the declared environment on the execution host. Run
@@ -82,11 +110,17 @@ before test forecasting and evaluation. Its optional producer is:
 bash scripts/submit_seasonal_naive.sh dgx shared
 ```
 
-The full experiment runs all stages in one sequential allocation:
+The full Chronos-2 experiment runs all stages in one sequential allocation:
 
 ```bash
 bash scripts/submit_experiment.sh dgx
+bash scripts/submit_ts_icl.sh dgx
+bash scripts/submit_chronos_bolt.sh dgx
 ```
+
+Use `selena` instead of `dgx` for the matching scheduler front. TS-ICL uses
+`tsicl==0.2.1` in the execution-host environment; the maintainer prepares it
+there before submission. The new launchers compose the same sequential stages.
 
 A narrow remote smoke run uses `SG_Weather/D`, short:
 
@@ -143,8 +177,8 @@ PYTHONPATH=src uv run --no-sync python src/scripts/interrupt_result_launch.py ou
 
 ```text
 src/timebench/data/           Arrow window readers, intervals and aligned indices
-src/timebench/model_loading/  Chronos-2 loading and native tensor adapter
-src/timebench/proposal/       retrieval, covariate transformations, bootstrap selection
+src/timebench/model_loading/  native Chronos-2, Chronos-Bolt and TS-ICL adapters
+src/timebench/proposal/       retrieval, covariate transformations, bootstrap selection and validation mixtures
 src/timebench/pipeline/       stage orchestration, manifests and run recovery
 src/timebench/evaluation/     narrowed TIME adapter, metrics, shared grid and saver
 src/timebench/results/        comparison and selection summaries
@@ -157,7 +191,7 @@ scripts/                     concise experiment and Seasonal submission launcher
 *.slurm                      root-level scheduler fronts
 ```
 
-Artifacts live exclusively in the owning project's `outputs/selectime/` on
+Artifacts live exclusively in the owning project's `outputs/selectime/<backbone>/` on
 each execution surface:
 `data/shared/`, `retrieval/{validation,test}/`,
 `predictions/{validation,test}/<candidate>/`, `selections/{task,per_variate}/`,
@@ -191,6 +225,6 @@ arrays and masks; full transfer includes numeric prediction/retrieval payloads.
 
 Selectime inherits maintained TIME utilities from Improved TIME and adapts
 retrieval and validation-selection ideas from Adaptime. It includes no Ridge,
-Bayesian mixture fitting, rolling fitting, TS-RAG ARM, or standalone foundation
-benchmarking workflow. No Selectime experimental benefit is claimed before
-complete artifacts are analyzed. The inherited code is Apache-2.0 licensed.
+adaptation-training mixture fitting, rolling fitting, TS-RAG ARM, or standalone foundation
+benchmarking workflow. The first analyzed comparison used K up to 15. Its results do not establish
+performance for the expanded K=20 candidates, controls or new backbones. The inherited code is Apache-2.0 licensed.

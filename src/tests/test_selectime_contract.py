@@ -7,12 +7,15 @@ import numpy as np
 import yaml
 from timebench.data.windows import Task, Windows, aligned_origins
 from timebench.proposal.candidates import (UNIVARIATE, MULTIVARIATE, SELF_AUGMENTATION,
-    candidate_names, self_covariates, query_scaled_sequences, align_covariates)
+    candidate_names, self_covariates, query_scaled_sequences, align_covariates,
+    control_candidates, HORIZON, HORIZON_MIX)
 from timebench.proposal.retrieval import blockwise_topk, context_representation, eligible
-from timebench.proposal.selection import date_losses, row_msse, select_candidates, select_with_block_bootstrap
+from timebench.proposal.selection import (date_losses, row_msse, select_candidates,
+    select_with_block_bootstrap, win_frequency_mixture, blend)
 from timebench.results.comparison import aggregate_rows
 from timebench.pipeline.runs import allocate_run, select_completed_runs, set_selected_run, ManifestError
 import tempfile
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -103,6 +106,28 @@ class RetrievalTests(unittest.TestCase):
 
 
 class SelectionTests(unittest.TestCase):
+    def test_beta_mixture_wins_ties_exclusions_and_empty_support(self):
+        labels = np.zeros((4, 2))
+        predictions = {UNIVARIATE: np.ones((4, 2)), 'top_k_5': np.array([[0, 0], [1, 1], [2, 2], [0, 0]])}
+        fitted = win_frequency_mixture(predictions, labels, np.ones(4), eligible=[True, True, True, False])
+        self.assertEqual(fitted['trials'], 3)
+        self.assertEqual(fitted['wins_including_half_ties'], 1.5)
+        self.assertEqual(fitted['alternative_weight'], 0.5)
+        np.testing.assert_allclose(blend(predictions[UNIVARIATE], predictions['top_k_5'], 0.5),
+                                   [[0.5, 0.5], [1, 1], [1.5, 1.5], [0.5, 0.5]])
+        empty = win_frequency_mixture(predictions, labels, np.ones(4), eligible=np.zeros(4, dtype=bool))
+        self.assertEqual(empty['alternative_weight'], 0)
+        np.testing.assert_array_equal(blend(np.ones((1, 2)), np.full((1, 2), np.nan), 0), [[1, 1]])
+
+    def test_backbone_candidate_scopes(self):
+        self.assertIn('top_k_20', candidate_names([1, 5, 10, 15, 20]))
+        self.assertNotIn(MULTIVARIATE, candidate_names([1, 5, 20], 'ts_icl'))
+        self.assertNotIn('scope_mix', control_candidates('ts_icl'))
+        self.assertEqual(candidate_names([1], 'chronos_bolt'), [UNIVARIATE])
+        self.assertEqual(control_candidates('chronos_bolt'), {HORIZON_MIX: HORIZON})
+        with self.assertRaises(ValueError):
+            candidate_names([1], 'tsicl')
+
     def test_task_and_variate_selectors_differ(self):
         refs = np.array([[0, channel, date] for channel in range(2) for date in range(4)])
         ticks = refs[:, 2]
@@ -154,7 +179,7 @@ class SourceContracts(unittest.TestCase):
                 self.assertTrue(directives[key].startswith('/scratch/users/%u/codes/selectime/logs/'))
             self.assertIn('PROJECT_ROOT="${SLURM_SUBMIT_DIR:-$(pwd)}"', text)
             self.assertIn('selena_', text)
-        for name in ('submit_experiment.sh', 'submit_seasonal_naive.sh'):
+        for name in ('submit_experiment.sh', 'submit_seasonal_naive.sh', 'submit_chronos_bolt.sh', 'submit_ts_icl.sh'):
             self.assertTrue((ROOT / 'scripts' / name).is_file())
             self.assertFalse((ROOT / name).exists())
         for name in ('selectime.slurm', 'seasonal_naive.slurm'):
@@ -182,6 +207,7 @@ class SourceContracts(unittest.TestCase):
             self.assertNotIn('fitting_stride', settings)
             self.assertNotIn('rolling_fitting_stride', settings)
         self.assertEqual(config['model'], 'chronos2')
+        self.assertEqual(config['k_values'], [1, 5, 10, 15, 20])
         self.assertEqual(config['datastore_scope'], 'all')
         self.assertIsNone(config['max_datastore_windows'])
         for name in ('ridge.py', 'adaptime_training.py', 'adaptime_rolling.py', 'tsrag.py'):
@@ -194,6 +220,117 @@ class SourceContracts(unittest.TestCase):
             tree = ast.parse(path.read_text())
             imports = [node.module or '' for node in ast.walk(tree) if isinstance(node, ast.ImportFrom)]
             self.assertFalse(any(name.startswith(('timebench.pipeline', 'timebench.results', 'hydra')) for name in imports))
+
+    def test_native_adapter_contracts_and_launcher_dispatch(self):
+        bolt = (ROOT / 'src/timebench/model_loading/chronos_bolt.py').read_text()
+        icl = (ROOT / 'src/timebench/model_loading/ts_icl.py').read_text()
+        self.assertIn('supports_covariates = False', bolt)
+        self.assertIn('supports_multivariate = False', icl)
+        self.assertIn('supports_covariates = True', icl)
+        self.assertIn('allow_auto_download=False', icl)
+        self.assertIn('allow_covar_forecast=False', icl)
+        for alias in ('chronos_bolt', 'ts_icl'):
+            launcher = (ROOT / 'scripts' / f'submit_{alias}.sh').read_text()
+            self.assertIn(f'model={alias}', launcher)
+            self.assertIn('src/slurm/submit_experiment.sh', launcher)
+
+
+class WorkflowControls(unittest.TestCase):
+    def test_calibration_is_frozen_and_horizon_transfer_uses_one_neighbor(self):
+        """Exercise preparation through assembly with real lifecycle and synthetic forecasts."""
+        from timebench.pipeline.workflow import Workflow
+        import json
+        class Timer:
+            def start(self): pass
+            def stop(self): return 0.0
+        class Model:
+            def forecast(self, histories, horizon, **kwargs):
+                return [np.repeat(np.asarray(history)[..., -1:], horizon, axis=-1).reshape(-1, horizon)
+                        for history in histories]
+        for alias in ('chronos2', 'ts_icl', 'chronos_bolt'):
+            with self.subTest(backbone=alias), tempfile.TemporaryDirectory() as directory:
+                workflow = Workflow.__new__(Workflow)
+                workflow.config = yaml.safe_load((ROOT / 'src/timebench/conf/experiment.yaml').read_text())
+                workflow.config.update(model=alias, bootstrap_replications=20)
+                workflow.model = alias
+                workflow.k_values = (1,) if alias == 'chronos_bolt' else (1, 5, 10, 15, 20)
+                workflow.candidates = candidate_names(workflow.k_values, alias)
+                workflow.controls = control_candidates(alias)
+                workflow.raw_methods = [*workflow.candidates, HORIZON]
+                workflow.root = Path(directory)
+                workflow.storage = workflow.weights = Path('unused')
+                workflow.seed, workflow.device, workflow.batch_size, workflow.context_length = 0, 'cpu', 16, 16
+                workflow.config_path = ROOT / 'src/timebench/config/datasets.yaml'
+                selected = task(max_datastore_windows=12)
+                workflow.tasks = [selected]
+                data = windows(selected)
+                support = lambda task, split, reader, refs: (np.isfinite(reader.labels(refs)),
+                                                             np.isfinite(reader.labels(refs)).any(axis=-1))
+                with patch('timebench.pipeline.workflow.Windows', return_value=data), \
+                     patch('timebench.pipeline.workflow.seed_run'), \
+                     patch('timebench.model_loading.load_forecaster', return_value=Model()), \
+                     patch('timebench.evaluation.timing.EvaluationTimer', Timer), \
+                     patch.object(workflow, 'support', new=support):
+                    workflow.prepare()
+                    workflow.extract('validation')
+                    workflow.predict('validation')
+                    workflow.select('task')
+                    workflow.select('per_variate')
+                    calibration = workflow.resolve(selected, 'selections', HORIZON_MIX,
+                        workflow.control_dependencies(selected, HORIZON_MIX, 'validation'))
+                    frozen = json.loads((calibration / 'selection.json').read_text())
+                    workflow.extract('test')
+                    workflow.predict('test')
+                    workflow.assemble()
+                    mixed = workflow.prediction(selected, HORIZON_MIX)
+                    self.assertEqual(json.loads((mixed / 'selection.json').read_text()), frozen)
+                    weight = frozen['alternative_weight']
+                    np.testing.assert_allclose(workflow.array(mixed, 'prediction'),
+                        blend(workflow.array(workflow.raw(selected, 'test', UNIVARIATE), 'prediction'),
+                              workflow.array(workflow.raw(selected, 'test', HORIZON), 'prediction'), weight))
+                    extraction = workflow.extraction(selected, 'validation')
+                    if alias != 'chronos_bolt':
+                        self.assertTrue((workflow.array(extraction, 'neighbor_ids') == -1).any())
+                        self.assertTrue((workflow.array(extraction, 'horizon_neighbor_ids') >= 0).any())
+                    horizon = workflow.raw(selected, 'test', HORIZON)
+                    refs = workflow.array(workflow.prepared(selected), 'test_references')
+                    datastore = workflow.array(workflow.prepared(selected), 'test_datastore')
+                    ids = workflow.array(workflow.extraction(selected, 'test'), 'horizon_neighbor_ids')
+                    row = int(np.flatnonzero(ids[:, 0] >= 0)[0])
+                    neighbor = data.sequences(datastore[ids[row]])
+                    query = data.histories(refs[row:row+1], selected.retrieval_context_length)[0]
+                    expected = query_scaled_sequences(query, neighbor, selected.prediction_length)[0, -selected.prediction_length:]
+                    np.testing.assert_allclose(workflow.array(horizon, 'prediction')[row], expected)
+                    self.assertEqual(workflow.path(selected, 'data', 'shared').relative_to(workflow.root).parts[0], alias)
+                    if alias == 'chronos_bolt':
+                        self.assertEqual(workflow.methods(), [UNIVARIATE, HORIZON_MIX])
+                    # Exercise reports with frozen mixture weights and Bolt's empty selector table.
+                    from timebench.results.comparison import build_report
+                    from timebench.evaluation.grid import EVALUATION_GRID_DEFINITION
+                    metrics = {'evaluation_grid': {'definition': EVALUATION_GRID_DEFINITION, 'valid_values': len(refs)},
+                               'metrics': {'MASE': {'mean': 1.0, 'variance': 0.25, 'std': 0.5,
+                                   'dispersion_ddof': 0, 'finite_values': len(refs),
+                                   'evaluation_values': len(refs), 'total_values': len(refs)}},
+                               'inference_seconds': None}
+                    seasonal = Path(directory) / 'seasonal'
+                    seasonal.mkdir()
+                    (seasonal / 'metrics_summary.json').write_text(json.dumps(metrics))
+                    inputs = []
+                    for method in workflow.methods():
+                        evaluation = Path(directory) / 'evaluations' / method
+                        evaluation.mkdir(parents=True)
+                        (evaluation / 'metrics_summary.json').write_text(json.dumps(metrics))
+                        inputs.append((selected, method, evaluation, workflow.prediction(selected, method),
+                                       {'model_label': alias, 'scientific_config': {}}))
+                    report = Path(directory) / 'report'
+                    report.mkdir()
+                    with patch('timebench.pipeline.evaluation_grid.resolve_shared_evaluation_grid',
+                               return_value=seasonal / 'evaluation_grid.npz'):
+                        build_report(inputs, report, workflow.config)
+                    summary = json.loads((report / 'comparison_summary.json').read_text())
+                    self.assertEqual(set(summary), set(workflow.methods()))
+                    self.assertIsNone(summary[HORIZON_MIX]['summed_inference_seconds'])
+                    del refs, datastore, ids  # Release Windows mmap handles before temporary cleanup.
 
 
 class ReportingContracts(unittest.TestCase):
