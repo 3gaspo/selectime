@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "test",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "datastore_policy": "validation_before_validation_start_test_before_test_start",
+          "dependencies": {
+            "data": {
+              "experiment_config": {
+                "seed": 0
+              },
+              "identity": {
+                "dataset": "CPHL",
+                "frequency": "H",
+                "method": "shared",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "model_config": {
+                "backbone": "chronos2",
+                "checkpoint": "chronos2",
+                "context_length": 8192,
+                "cross_learning": false,
+                "method": "shared",
+                "point_forecast": "median"
+              },
+              "pipeline_config": {
+                "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                "dependencies": {},
+                "distance": "euclidean",
+                "k_values": [
+                  1,
+                  5,
+                  10,
+                  15
+                ],
+                "maximum_k_support": true,
+                "minimum_overlap_fraction": 0.8,
+                "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                "representation": "instance",
+                "self_covariates": [
+                  "sqrt_abs_past_only",
+                  "sign_past_only"
+                ],
+                "task": {
+                  "alignment_period": 24,
+                  "dataset": "CPHL/H",
+                  "datastore_scope": "all",
+                  "datastore_stride": 24,
+                  "max_datastore_windows": null,
+                  "prediction_length": 24,
+                  "retrieval_context_length": 168,
+                  "seasonality": 24,
+                  "term": "short",
+                  "test_length": 672,
+                  "validation_length": 3453,
+                  "validation_stride": 127
+                }
+              },
+              "schema_version": 1
+            }
+          },
+          "distance": "euclidean",
+          "k_values": [
+            1,
+            5,
+            10,
+            15
+          ],
+          "maximum_k_support": true,
+          "minimum_overlap_fraction": 0.8,
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "representation": "instance",
+          "self_covariates": [
+            "sqrt_abs_past_only",
+            "sign_past_only"
+          ],
+          "task": {
+            "alignment_period": 24,
+            "dataset": "CPHL/H",
+            "datastore_scope": "all",
+            "datastore_stride": 24,
+            "max_datastore_windows": null,
+            "prediction_length": 24,
+            "retrieval_context_length": 168,
+            "seasonality": 24,
+            "term": "short",
+            "test_length": 672,
+            "validation_length": 3453,
+            "validation_stride": 127
+          }
+        }
+      }
+    }
+  ]
+}

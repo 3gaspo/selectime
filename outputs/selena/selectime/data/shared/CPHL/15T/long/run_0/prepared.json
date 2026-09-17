@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "CPHL/15T",
+    "term": "long",
+    "prediction_length": 288,
+    "test_length": 1440,
+    "validation_length": 796,
+    "seasonality": 96,
+    "retrieval_context_length": 672,
+    "alignment_period": 96,
+    "datastore_stride": 96,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 10,
+      "datastore": 1499
+    },
+    "test": {
+      "queries": 10,
+      "datastore": 333
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/CPHL/15T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

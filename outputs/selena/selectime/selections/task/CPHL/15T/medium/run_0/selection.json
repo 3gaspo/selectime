@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "granularity": "task",
+  "selections": [
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 30,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 1.2565436015401672,
+          "validation_difference_from_best": 0.010669792521778024,
+          "bootstrap_standard_error": 0.03414841774341907,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 1.2565436015401672,
+          "validation_difference_from_best": 0.010669792521778024,
+          "bootstrap_standard_error": 0.03414841774341907,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 1.2458738090183892,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 1.3962182781054884,
+          "validation_difference_from_best": 0.15034446908709903,
+          "bootstrap_standard_error": 0.09301385684565679,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 1.4605044584391724,
+          "validation_difference_from_best": 0.21463064942078333,
+          "bootstrap_standard_error": 0.11205781344716317,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 1.4638962383915013,
+          "validation_difference_from_best": 0.21802242937311178,
+          "bootstrap_standard_error": 0.12813059149861747,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 1.5021144618292275,
+          "validation_difference_from_best": 0.25624065281083847,
+          "bootstrap_standard_error": 0.17874142425842005,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        1807334,
+        1807461,
+        1807588,
+        1807715,
+        1807842,
+        1807969,
+        1808096,
+        1808223,
+        1808350,
+        1808477,
+        1808604,
+        1808731,
+        1808858,
+        1808985,
+        1809112,
+        1821139,
+        1821266,
+        1821393,
+        1821520,
+        1821647,
+        1821774,
+        1821901,
+        1822028,
+        1822155,
+        1822282,
+        1822409,
+        1822536,
+        1822663,
+        1822790,
+        1822917
+      ]
+    }
+  ]
+}

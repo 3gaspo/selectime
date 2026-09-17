@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "granularity": "task",
+  "selections": [
+    {
+      "selected_method": "top_k_5",
+      "observed_best": "top_k_10",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 60,
+      "replications": 1000,
+      "block_length": 4,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.9304694916104954,
+          "validation_difference_from_best": 0.14724518085216592,
+          "bootstrap_standard_error": 0.11448846412074244,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.9304694916104954,
+          "validation_difference_from_best": 0.14724518085216592,
+          "bootstrap_standard_error": 0.11448846412074244,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 1.0079525783893413,
+          "validation_difference_from_best": 0.2247282676310118,
+          "bootstrap_standard_error": 0.20940539341369865,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.8940369714381693,
+          "validation_difference_from_best": 0.11081266067983983,
+          "bootstrap_standard_error": 0.09152446788177426,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.7847213875160957,
+          "validation_difference_from_best": 0.0014970767577663728,
+          "bootstrap_standard_error": 0.008961468934689035,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.7832243107583295,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.7924064603963821,
+          "validation_difference_from_best": 0.009182149638052575,
+          "bootstrap_standard_error": 0.011036525777189263,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        924059,
+        924061,
+        924186,
+        924188,
+        924313,
+        924315,
+        924440,
+        924442,
+        924567,
+        924569,
+        924694,
+        924696,
+        924821,
+        924823,
+        924948,
+        924950,
+        925075,
+        925077,
+        925202,
+        925204,
+        925329,
+        925331,
+        925456,
+        925458,
+        925583,
+        925585,
+        925710,
+        925712,
+        925837,
+        925839,
+        925964,
+        925966,
+        926091,
+        926093,
+        926218,
+        926220,
+        926345,
+        926347,
+        926472,
+        926474,
+        926599,
+        926601,
+        926726,
+        926728,
+        926853,
+        926855,
+        926980,
+        926982,
+        927107,
+        927109,
+        927234,
+        927236,
+        927361,
+        927363,
+        927488,
+        927490,
+        927615,
+        927617,
+        927742,
+        927744
+      ]
+    }
+  ]
+}

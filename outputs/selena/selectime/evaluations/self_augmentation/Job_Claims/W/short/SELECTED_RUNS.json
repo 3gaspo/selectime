@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "self_augmentation",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "datastore_policy": "validation_before_validation_start_test_before_test_start",
+          "dependencies": {
+            "prediction": {
+              "experiment_config": {
+                "seed": 0
+              },
+              "identity": {
+                "dataset": "Job_Claims",
+                "frequency": "W",
+                "method": "self_augmentation",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "model_config": {
+                "backbone": "chronos2",
+                "checkpoint": "chronos2",
+                "context_length": 8192,
+                "cross_learning": false,
+                "method": "self_augmentation",
+                "point_forecast": "median"
+              },
+              "pipeline_config": {
+                "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                "dependencies": {
+                  "data": {
+                    "experiment_config": {
+                      "seed": 0
+                    },
+                    "identity": {
+                      "dataset": "Job_Claims",
+                      "frequency": "W",
+                      "method": "shared",
+                      "model": "chronos2",
+                      "target_mode": "univariate",
+                      "term": "short"
+                    },
+                    "model_config": {
+                      "backbone": "chronos2",
+                      "checkpoint": "chronos2",
+                      "context_length": 8192,
+                      "cross_learning": false,
+                      "method": "shared",
+                      "point_forecast": "median"
+                    },
+                    "pipeline_config": {
+                      "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                      "dependencies": {},
+                      "distance": "euclidean",
+                      "k_values": [
+                        1,
+                        5,
+                        10,
+                        15
+                      ],
+                      "maximum_k_support": true,
+                      "minimum_overlap_fraction": 0.8,
+                      "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                      "representation": "instance",
+                      "self_covariates": [
+                        "sqrt_abs_past_only",
+                        "sign_past_only"
+                      ],
+                      "task": {
+                        "alignment_period": 1,
+                        "dataset": "Job_Claims/W",
+                        "datastore_scope": "all",
+                        "datastore_stride": 1,
+                        "max_datastore_windows": null,
+                        "prediction_length": 13,
+                        "retrieval_context_length": 13,
+                        "seasonality": 1,
+                        "term": "short",
+                        "test_length": 52,
+                        "validation_length": 46,
+                        "validation_stride": 11
+                      }
+                    },
+                    "schema_version": 1
+                  },
+                  "vanilla": {
+                    "experiment_config": {
+                      "seed": 0
+                    },
+                    "identity": {
+                      "dataset": "Job_Claims",
+                      "frequency": "W",
+                      "method": "vanilla_univariate",
+                      "model": "chronos2",
+                      "target_mode": "univariate",
+                      "term": "short"
+                    },
+                    "model_config": {
+                      "backbone": "chronos2",
+                      "checkpoint": "chronos2",
+                      "context_length": 8192,
+                      "cross_learning": false,
+                      "method": "vanilla_univariate",
+                      "point_forecast": "median"
+                    },
+                    "pipeline_config": {
+                      "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                      "dependencies": {
+                        "data": {
+                          "experiment_config": {
+                            "seed": 0
+                          },
+                          "identity": {
+                            "dataset": "Job_Claims",
+                            "frequency": "W",
+                            "method": "shared",
+                            "model": "chronos2",
+                            "target_mode": "univariate",
+                            "term": "short"
+                          },
+                          "model_config": {
+                            "backbone": "chronos2",
+                            "checkpoint": "chronos2",
+                            "context_length": 8192,
+                            "cross_learning": false,
+                            "method": "shared",
+                            "point_forecast": "median"
+                          },
+                          "pipeline_config": {
+                            "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                            "dependencies": {},
+                            "distance": "euclidean",
+                            "k_values": [
+                              1,
+                              5,
+                              10,
+                              15
+                            ],
+                            "maximum_k_support": true,
+                            "minimum_overlap_fraction": 0.8,
+                            "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                            "representation": "instance",
+                            "self_covariates": [
+                              "sqrt_abs_past_only",
+                              "sign_past_only"
+                            ],
+                            "task": {
+                              "alignment_period": 1,
+                              "dataset": "Job_Claims/W",
+                              "datastore_scope": "all",
+                              "datastore_stride": 1,
+                              "max_datastore_windows": null,
+                              "prediction_length": 13,
+                              "retrieval_context_length": 13,
+                              "seasonality": 1,
+                              "term": "short",
+                              "test_length": 52,
+                              "validation_length": 46,
+                              "validation_stride": 11
+                            }
+                          },
+                          "schema_version": 1
+                        }
+                      },
+                      "distance": "euclidean",
+                      "k_values": [
+                        1,
+                        5,
+                        10,
+                        15
+                      ],
+                      "maximum_k_support": true,
+                      "minimum_overlap_fraction": 0.8,
+                      "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                      "representation": "instance",
+                      "self_covariates": [
+                        "sqrt_abs_past_only",
+                        "sign_past_only"
+                      ],
+                      "task": {
+                        "alignment_period": 1,
+                        "dataset": "Job_Claims/W",
+                        "datastore_scope": "all",
+                        "datastore_stride": 1,
+                        "max_datastore_windows": null,
+                        "prediction_length": 13,
+                        "retrieval_context_length": 13,
+                        "seasonality": 1,
+                        "term": "short",
+                        "test_length": 52,
+                        "validation_length": 46,
+                        "validation_stride": 11
+                      }
+                    },
+                    "schema_version": 1
+                  }
+                },
+                "distance": "euclidean",
+                "k_values": [
+                  1,
+                  5,
+                  10,
+                  15
+                ],
+                "maximum_k_support": true,
+                "minimum_overlap_fraction": 0.8,
+                "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                "representation": "instance",
+                "self_covariates": [
+                  "sqrt_abs_past_only",
+                  "sign_past_only"
+                ],
+                "task": {
+                  "alignment_period": 1,
+                  "dataset": "Job_Claims/W",
+                  "datastore_scope": "all",
+                  "datastore_stride": 1,
+                  "max_datastore_windows": null,
+                  "prediction_length": 13,
+                  "retrieval_context_length": 13,
+                  "seasonality": 1,
+                  "term": "short",
+                  "test_length": 52,
+                  "validation_length": 46,
+                  "validation_stride": 11
+                }
+              },
+              "schema_version": 1
+            }
+          },
+          "distance": "euclidean",
+          "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+          "k_values": [
+            1,
+            5,
+            10,
+            15
+          ],
+          "maximum_k_support": true,
+          "minimum_overlap_fraction": 0.8,
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "representation": "instance",
+          "self_covariates": [
+            "sqrt_abs_past_only",
+            "sign_past_only"
+          ],
+          "task": {
+            "alignment_period": 1,
+            "dataset": "Job_Claims/W",
+            "datastore_scope": "all",
+            "datastore_stride": 1,
+            "max_datastore_windows": null,
+            "prediction_length": 13,
+            "retrieval_context_length": 13,
+            "seasonality": 1,
+            "term": "short",
+            "test_length": 52,
+            "validation_length": 46,
+            "validation_stride": 11
+          }
+        }
+      }
+    }
+  ]
+}
