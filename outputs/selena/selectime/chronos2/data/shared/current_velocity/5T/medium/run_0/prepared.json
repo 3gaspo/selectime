@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "current_velocity/5T",
+    "term": "medium",
+    "prediction_length": 288,
+    "test_length": 4320,
+    "validation_length": 2066,
+    "seasonality": 288,
+    "retrieval_context_length": 2016,
+    "alignment_period": 288,
+    "datastore_stride": 288,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 90,
+      "datastore": 5562
+    },
+    "test": {
+      "queries": 90,
+      "datastore": 414
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/current_velocity/5T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "current_velocity/H",
+    "term": "medium",
+    "prediction_length": 168,
+    "test_length": 672,
+    "validation_length": 549,
+    "seasonality": 24,
+    "retrieval_context_length": 168,
+    "alignment_period": 24,
+    "datastore_stride": 24,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 504,
+      "datastore": 245232
+    },
+    "test": {
+      "queries": 504,
+      "datastore": 144132
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/current_velocity/H",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

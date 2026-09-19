@@ -1,0 +1,43 @@
+{
+  "dataset_config": "current_velocity/15T/long",
+  "num_series": 5,
+  "num_windows": 5,
+  "num_variates": 6,
+  "num_model_inputs": 150,
+  "prediction_length": 288,
+  "num_quantiles": 1,
+  "quantile_levels": [
+    0.5
+  ],
+  "freq": "15T",
+  "seasonality": 96,
+  "context_length": 8192,
+  "metric_names": [
+    "MSE",
+    "MAE",
+    "RMSE",
+    "MAPE",
+    "sMAPE",
+    "MASE",
+    "ND",
+    "CRPS"
+  ],
+  "prediction_scale_factor": 1.0,
+  "metrics_summary_file": "metrics_summary.json",
+  "evaluation_grid": {
+    "definition": "finite_ground_truth_and_seasonal_naive_mase",
+    "source": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/15T/long/run_0/evaluation_grid.npz",
+    "valid_values": 150,
+    "total_values": 150
+  },
+  "launch_id": "selena_3458550",
+  "inference_seconds": 1.2665056455880404,
+  "model": "chronos2",
+  "method": "top_k_1",
+  "experiment": "selectime",
+  "target_mode": "univariate",
+  "forecast_input_mode": "univariate",
+  "prediction_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos2/predictions/test/top_k_1/current_velocity/15T/long/run_0/manifest.json",
+  "fallback_count": 0,
+  "timing_policy": "measured_candidate_query_loop_precomputed_vanilla_fallback_separate_retrieval"
+}

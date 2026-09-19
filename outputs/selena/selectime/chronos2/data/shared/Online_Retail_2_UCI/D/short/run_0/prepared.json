@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "Online_Retail_2_UCI/D",
+    "term": "short",
+    "prediction_length": 30,
+    "test_length": 180,
+    "validation_length": 165,
+    "seasonality": 1,
+    "retrieval_context_length": 35,
+    "alignment_period": 7,
+    "datastore_stride": 7,
+    "validation_stride": 27,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 6,
+      "datastore": 283
+    },
+    "test": {
+      "queries": 6,
+      "datastore": 424
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Online_Retail_2_UCI/D",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

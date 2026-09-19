@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "SG_PM25/H",
+    "term": "medium",
+    "prediction_length": 72,
+    "test_length": 2208,
+    "validation_length": 3755,
+    "seasonality": 24,
+    "retrieval_context_length": 168,
+    "alignment_period": 24,
+    "datastore_stride": 24,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 150,
+      "datastore": 162430
+    },
+    "test": {
+      "queries": 150,
+      "datastore": 7555
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/SG_PM25/H",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "Coastal_T_S/20T",
+    "term": "medium",
+    "prediction_length": 72,
+    "test_length": 1080,
+    "validation_length": 1850,
+    "seasonality": 72,
+    "retrieval_context_length": 504,
+    "alignment_period": 72,
+    "datastore_stride": 72,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 45,
+      "datastore": 2934
+    },
+    "test": {
+      "queries": 45,
+      "datastore": 273
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Coastal_T_S/20T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

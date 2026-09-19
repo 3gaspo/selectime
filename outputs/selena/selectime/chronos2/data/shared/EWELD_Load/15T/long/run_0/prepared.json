@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "EWELD_Load/15T",
+    "term": "long",
+    "prediction_length": 672,
+    "test_length": 1344,
+    "validation_length": 799,
+    "seasonality": 96,
+    "retrieval_context_length": 672,
+    "alignment_period": 672,
+    "datastore_stride": 672,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 20,
+      "datastore": 510
+    },
+    "test": {
+      "queries": 20,
+      "datastore": 270
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/EWELD_Load/15T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

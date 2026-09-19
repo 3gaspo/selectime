@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "Supply_Chain_Location/D",
+    "term": "short",
+    "prediction_length": 30,
+    "test_length": 365,
+    "validation_length": 327,
+    "seasonality": 1,
+    "retrieval_context_length": 35,
+    "alignment_period": 7,
+    "datastore_stride": 7,
+    "validation_stride": 27,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 612,
+      "datastore": 63801
+    },
+    "test": {
+      "queries": 612,
+      "datastore": 80478
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Supply_Chain_Location/D",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

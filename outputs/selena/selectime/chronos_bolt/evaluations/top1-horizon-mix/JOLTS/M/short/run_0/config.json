@@ -1,0 +1,42 @@
+{
+  "dataset_config": "JOLTS/M/short",
+  "num_series": 1,
+  "num_windows": 5,
+  "num_variates": 6,
+  "num_model_inputs": 30,
+  "prediction_length": 12,
+  "num_quantiles": 1,
+  "quantile_levels": [
+    0.5
+  ],
+  "freq": "M",
+  "seasonality": 12,
+  "context_length": 2048,
+  "metric_names": [
+    "MSE",
+    "MAE",
+    "RMSE",
+    "MAPE",
+    "sMAPE",
+    "MASE",
+    "ND",
+    "CRPS"
+  ],
+  "prediction_scale_factor": 1.0,
+  "metrics_summary_file": "metrics_summary.json",
+  "evaluation_grid": {
+    "definition": "finite_ground_truth_and_seasonal_naive_mase",
+    "source": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/JOLTS/M/short/run_0/evaluation_grid.npz",
+    "valid_values": 30,
+    "total_values": 30
+  },
+  "launch_id": "selena_3458556",
+  "model": "chronos_bolt",
+  "method": "top1-horizon-mix",
+  "experiment": "selectime",
+  "target_mode": "univariate",
+  "forecast_input_mode": "univariate",
+  "prediction_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/top1-horizon-mix/JOLTS/M/short/run_0/manifest.json",
+  "fallback_count": 0,
+  "timing_policy": "assembled_from_candidate_artifacts_no_independent_selected_method_latency"
+}

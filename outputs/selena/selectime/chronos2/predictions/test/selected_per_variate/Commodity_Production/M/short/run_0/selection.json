@@ -1,0 +1,2502 @@
+{
+  "schema_version": 1,
+  "granularity": "per_variate",
+  "selections": [
+    {
+      "selected_method": "top_k_1",
+      "observed_best": "top_k_1",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.08017708275226086,
+          "validation_difference_from_best": 0.012506376352641731,
+          "bootstrap_standard_error": 0.008532259723716401,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.08017708275226086,
+          "validation_difference_from_best": 0.012506376352641731,
+          "bootstrap_standard_error": 0.008532259723716401,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.09606877324784449,
+          "validation_difference_from_best": 0.028398066848225358,
+          "bootstrap_standard_error": 0.02283982603906933,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.06767070639961913,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.07649602770866573,
+          "validation_difference_from_best": 0.008825321309046601,
+          "bootstrap_standard_error": 0.007890988897768715,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.07307040413046402,
+          "validation_difference_from_best": 0.0053996977308448865,
+          "bootstrap_standard_error": 0.006703361497924401,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.07295065680676756,
+          "validation_difference_from_best": 0.005279950407148425,
+          "bootstrap_standard_error": 0.006734245598247485,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.07504157982896412,
+          "validation_difference_from_best": 0.0073708734293449945,
+          "bootstrap_standard_error": 0.006743320633112774,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -224,
+        -219,
+        -214,
+        -209,
+        -204
+      ],
+      "item": 0,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "top_k_1",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 1.4763094583691558,
+          "validation_difference_from_best": 0.0016797745987997769,
+          "bootstrap_standard_error": 0.07347099399798998,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 1.4763094583691558,
+          "validation_difference_from_best": 0.0016797745987997769,
+          "bootstrap_standard_error": 0.07347099399798998,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 1.4798454527067921,
+          "validation_difference_from_best": 0.005215768936436249,
+          "bootstrap_standard_error": 0.036792119838011214,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 1.474629683770356,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 1.5143318446829235,
+          "validation_difference_from_best": 0.039702160912567466,
+          "bootstrap_standard_error": 0.015384532312457335,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 1.5538557682193124,
+          "validation_difference_from_best": 0.07922608444895621,
+          "bootstrap_standard_error": 0.019648738018997018,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 1.5794795630382552,
+          "validation_difference_from_best": 0.10484987926789913,
+          "bootstrap_standard_error": 0.033800111435278495,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 1.559164967301239,
+          "validation_difference_from_best": 0.08453528353088291,
+          "bootstrap_standard_error": 0.03402907226368643,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -425,
+        -420,
+        -415,
+        -410,
+        -405
+      ],
+      "item": 1,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "vanilla_univariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.06262853925763398,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.06262853925763398,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.0652917671189259,
+          "validation_difference_from_best": 0.0026632278612919113,
+          "bootstrap_standard_error": 0.004825714212219665,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.07515935188231038,
+          "validation_difference_from_best": 0.012530812624676379,
+          "bootstrap_standard_error": 0.0022919675931239248,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.06839267132459319,
+          "validation_difference_from_best": 0.005764132066959193,
+          "bootstrap_standard_error": 0.000946111167699741,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.06409751014615919,
+          "validation_difference_from_best": 0.0014689708885251853,
+          "bootstrap_standard_error": 0.0022427413019319754,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.07047832313890146,
+          "validation_difference_from_best": 0.007849783881267457,
+          "bootstrap_standard_error": 0.0024961658488516455,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.07914202227401317,
+          "validation_difference_from_best": 0.016513483016379175,
+          "bootstrap_standard_error": 0.002850043653402225,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -153,
+        -148,
+        -143,
+        -138,
+        -133
+      ],
+      "item": 2,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.5454852581037086,
+          "validation_difference_from_best": 0.08873334122358298,
+          "bootstrap_standard_error": 0.04714689248393707,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.5454852581037086,
+          "validation_difference_from_best": 0.08873334122358298,
+          "bootstrap_standard_error": 0.04714689248393707,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.4567519168801256,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.5918116367876278,
+          "validation_difference_from_best": 0.13505971990750226,
+          "bootstrap_standard_error": 0.06445049892452517,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.52547868934387,
+          "validation_difference_from_best": 0.06872677246374437,
+          "bootstrap_standard_error": 0.05250156239207254,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.5751544475736734,
+          "validation_difference_from_best": 0.11840253069354789,
+          "bootstrap_standard_error": 0.047488649395253525,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.5830213964310152,
+          "validation_difference_from_best": 0.12626947955088955,
+          "bootstrap_standard_error": 0.054920641432783204,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.5830840749460282,
+          "validation_difference_from_best": 0.12633215806590262,
+          "bootstrap_standard_error": 0.061480817561761096,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -263,
+        -258,
+        -253,
+        -248,
+        -243
+      ],
+      "item": 3,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "top_k_20",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.41099733378073244,
+          "validation_difference_from_best": 0.019770675387838756,
+          "bootstrap_standard_error": 0.019738786067537463,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.41099733378073244,
+          "validation_difference_from_best": 0.019770675387838756,
+          "bootstrap_standard_error": 0.019738786067537463,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.4085682375696303,
+          "validation_difference_from_best": 0.017341579176736586,
+          "bootstrap_standard_error": 0.025789497144348396,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.4058824182015749,
+          "validation_difference_from_best": 0.01465575980868114,
+          "bootstrap_standard_error": 0.019690231130761165,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.43099246530469576,
+          "validation_difference_from_best": 0.039765806911802024,
+          "bootstrap_standard_error": 0.01737253876489077,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.4043897852515366,
+          "validation_difference_from_best": 0.013163126858642871,
+          "bootstrap_standard_error": 0.010307569626348736,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.4025775953975386,
+          "validation_difference_from_best": 0.011350937004644901,
+          "bootstrap_standard_error": 0.002361977169278839,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.3912266583928937,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        -224,
+        -219,
+        -214,
+        -209,
+        -204
+      ],
+      "item": 4,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.17619166194009,
+          "validation_difference_from_best": 0.029141108524185333,
+          "bootstrap_standard_error": 0.01350133825615884,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.17619166194009,
+          "validation_difference_from_best": 0.029141108524185333,
+          "bootstrap_standard_error": 0.01350133825615884,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.14705055341590464,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.16920653890397322,
+          "validation_difference_from_best": 0.02215598548806857,
+          "bootstrap_standard_error": 0.012593865536514048,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.1999012546780713,
+          "validation_difference_from_best": 0.05285070126216666,
+          "bootstrap_standard_error": 0.025681385336068438,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.20087669245106038,
+          "validation_difference_from_best": 0.05382613903515569,
+          "bootstrap_standard_error": 0.021776717608447058,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.20644893105573742,
+          "validation_difference_from_best": 0.059398377639832765,
+          "bootstrap_standard_error": 0.020492845002702376,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.19828761922247728,
+          "validation_difference_from_best": 0.051237065806572654,
+          "bootstrap_standard_error": 0.01869766396841425,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -524,
+        -519,
+        -514,
+        -509,
+        -504
+      ],
+      "item": 5,
+      "channel": 0
+    },
+    {
+      "selected_method": "top_k_20",
+      "observed_best": "top_k_20",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.5371716855674084,
+          "validation_difference_from_best": 0.08951079115629107,
+          "bootstrap_standard_error": 0.03847652086889013,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.5371716855674084,
+          "validation_difference_from_best": 0.08951079115629107,
+          "bootstrap_standard_error": 0.03847652086889013,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.550769233469547,
+          "validation_difference_from_best": 0.10310833905842971,
+          "bootstrap_standard_error": 0.027802152232455597,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.49382566721961824,
+          "validation_difference_from_best": 0.04616477280850089,
+          "bootstrap_standard_error": 0.02359797101287624,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.4892947876789206,
+          "validation_difference_from_best": 0.0416338932678033,
+          "bootstrap_standard_error": 0.01928080511951419,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.49977824604693505,
+          "validation_difference_from_best": 0.052117351635817676,
+          "bootstrap_standard_error": 0.017113757918287367,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.47908651212736536,
+          "validation_difference_from_best": 0.03142561771624801,
+          "bootstrap_standard_error": 0.013863742967691734,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.4476608944111174,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        -249,
+        -244,
+        -239,
+        -234,
+        -229
+      ],
+      "item": 6,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.02199901586709069,
+          "validation_difference_from_best": 0.008413270218651334,
+          "bootstrap_standard_error": 0.001628709735150587,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.02199901586709069,
+          "validation_difference_from_best": 0.008413270218651334,
+          "bootstrap_standard_error": 0.001628709735150587,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.013585745648439358,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.02172123179935518,
+          "validation_difference_from_best": 0.008135486150915822,
+          "bootstrap_standard_error": 0.004107545546547503,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.030127037530594408,
+          "validation_difference_from_best": 0.01654129188215505,
+          "bootstrap_standard_error": 0.006880635980256781,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.03355106232333404,
+          "validation_difference_from_best": 0.019965316674894686,
+          "bootstrap_standard_error": 0.0075547804481079705,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.03342275151835554,
+          "validation_difference_from_best": 0.01983700586991618,
+          "bootstrap_standard_error": 0.007531938740604942,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.034899624352272986,
+          "validation_difference_from_best": 0.02131387870383363,
+          "bootstrap_standard_error": 0.007684113017605659,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -437,
+        -432,
+        -427,
+        -422,
+        -417
+      ],
+      "item": 7,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "top_k_1",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.0033467775308562717,
+          "validation_difference_from_best": 9.157354677636135e-06,
+          "bootstrap_standard_error": 4.498388817462672e-05,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.0033467775308562717,
+          "validation_difference_from_best": 9.157354677636135e-06,
+          "bootstrap_standard_error": 4.498388817462672e-05,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.0034452694971729065,
+          "validation_difference_from_best": 0.00010764932099427151,
+          "bootstrap_standard_error": 0.00013724739349557443,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.003337620176178635,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.004008149786385513,
+          "validation_difference_from_best": 0.0006705296102068785,
+          "bootstrap_standard_error": 0.00011108098856689185,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.004713864991109618,
+          "validation_difference_from_best": 0.001376244814930983,
+          "bootstrap_standard_error": 0.000274012350553491,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.005155571762451073,
+          "validation_difference_from_best": 0.0018179515862724379,
+          "bootstrap_standard_error": 0.00035806833160934357,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.005578865491500143,
+          "validation_difference_from_best": 0.002241245315321508,
+          "bootstrap_standard_error": 0.00031545335336659607,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -410,
+        -405,
+        -400,
+        -395,
+        -390
+      ],
+      "item": 8,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "vanilla_univariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.6936194448134817,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.6936194448134817,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.7089808222628852,
+          "validation_difference_from_best": 0.015361377449403458,
+          "bootstrap_standard_error": 0.03302116859693335,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.7397239075357461,
+          "validation_difference_from_best": 0.04610446272226447,
+          "bootstrap_standard_error": 0.024845855978839565,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.7650828961940072,
+          "validation_difference_from_best": 0.07146345138052548,
+          "bootstrap_standard_error": 0.052483700583603105,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.78409605145762,
+          "validation_difference_from_best": 0.09047660664413833,
+          "bootstrap_standard_error": 0.05946870335239537,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.7694817594988762,
+          "validation_difference_from_best": 0.07586231468539444,
+          "bootstrap_standard_error": 0.06143650134457367,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.7765273229704425,
+          "validation_difference_from_best": 0.08290787815696084,
+          "bootstrap_standard_error": 0.06219997719296975,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -261,
+        -256,
+        -251,
+        -246,
+        -241
+      ],
+      "item": 9,
+      "channel": 0
+    },
+    {
+      "selected_method": "top_k_10",
+      "observed_best": "top_k_20",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.825759213615685,
+          "validation_difference_from_best": 0.19731773665877742,
+          "bootstrap_standard_error": 0.03075412427502305,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.825759213615685,
+          "validation_difference_from_best": 0.19731773665877742,
+          "bootstrap_standard_error": 0.03075412427502305,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.9747450999361302,
+          "validation_difference_from_best": 0.3463036229792224,
+          "bootstrap_standard_error": 0.04634153207580954,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.7383387052114069,
+          "validation_difference_from_best": 0.10989722825449924,
+          "bootstrap_standard_error": 0.017361312869601058,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.6920753830161339,
+          "validation_difference_from_best": 0.06363390605922627,
+          "bootstrap_standard_error": 0.045585967406653785,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.6594759965036154,
+          "validation_difference_from_best": 0.03103451954670784,
+          "bootstrap_standard_error": 0.0503634170760873,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.6644183784988055,
+          "validation_difference_from_best": 0.03597690154189784,
+          "bootstrap_standard_error": 0.037927360376293906,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.6284414769569076,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        -247,
+        -242,
+        -237,
+        -232,
+        -227
+      ],
+      "item": 10,
+      "channel": 0
+    },
+    {
+      "selected_method": "top_k_10",
+      "observed_best": "top_k_10",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 1.200445640779595,
+          "validation_difference_from_best": 0.09973184587107543,
+          "bootstrap_standard_error": 0.058533865217281426,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 1.200445640779595,
+          "validation_difference_from_best": 0.09973184587107543,
+          "bootstrap_standard_error": 0.058533865217281426,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 1.2264267162994833,
+          "validation_difference_from_best": 0.12571292139096388,
+          "bootstrap_standard_error": 0.060109312519789654,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 1.2737262398012228,
+          "validation_difference_from_best": 0.1730124448927032,
+          "bootstrap_standard_error": 0.07429456249187046,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 1.1249892041724843,
+          "validation_difference_from_best": 0.02427540926396512,
+          "bootstrap_standard_error": 0.014537848835210834,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 1.1007137949085193,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 1.1712382567100046,
+          "validation_difference_from_best": 0.07052446180148528,
+          "bootstrap_standard_error": 0.027235854999064127,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 1.1178063547511938,
+          "validation_difference_from_best": 0.017092559842674195,
+          "bootstrap_standard_error": 0.01702695522124647,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -291,
+        -286,
+        -281,
+        -276,
+        -271
+      ],
+      "item": 11,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.8890139084563738,
+          "validation_difference_from_best": 0.06334806876858581,
+          "bootstrap_standard_error": 0.03847861818502463,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.8890139084563738,
+          "validation_difference_from_best": 0.06334806876858581,
+          "bootstrap_standard_error": 0.03847861818502463,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.8256658396877882,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.9261483028979864,
+          "validation_difference_from_best": 0.10048246321019845,
+          "bootstrap_standard_error": 0.04155940175570012,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.959919269362187,
+          "validation_difference_from_best": 0.13425342967439893,
+          "bootstrap_standard_error": 0.041570347071124114,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.9821314493109645,
+          "validation_difference_from_best": 0.15646560962317652,
+          "bootstrap_standard_error": 0.047674234144836486,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.9686825006881341,
+          "validation_difference_from_best": 0.14301666100034602,
+          "bootstrap_standard_error": 0.041267398499188326,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.9770925667051653,
+          "validation_difference_from_best": 0.15142672701737728,
+          "bootstrap_standard_error": 0.042353202607951834,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -260,
+        -255,
+        -250,
+        -245,
+        -240
+      ],
+      "item": 12,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.403998369652759,
+          "validation_difference_from_best": 0.21235877157743493,
+          "bootstrap_standard_error": 0.10215738628007734,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.403998369652759,
+          "validation_difference_from_best": 0.21235877157743493,
+          "bootstrap_standard_error": 0.10215738628007734,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.19163959807532413,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.2971728085810308,
+          "validation_difference_from_best": 0.1055332105057066,
+          "bootstrap_standard_error": 0.10168079072803429,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.3539795884581173,
+          "validation_difference_from_best": 0.16233999038279315,
+          "bootstrap_standard_error": 0.11992227654333984,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.3198141985502053,
+          "validation_difference_from_best": 0.12817460047488122,
+          "bootstrap_standard_error": 0.1062778341552002,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.32997267176551204,
+          "validation_difference_from_best": 0.1383330736901879,
+          "bootstrap_standard_error": 0.10697331261420556,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.31295426539587434,
+          "validation_difference_from_best": 0.12131466732055023,
+          "bootstrap_standard_error": 0.10759034833652864,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -524,
+        -519,
+        -514,
+        -509,
+        -504
+      ],
+      "item": 13,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.665066497922952,
+          "validation_difference_from_best": 0.03417326206706699,
+          "bootstrap_standard_error": 0.03330578705013167,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.665066497922952,
+          "validation_difference_from_best": 0.03417326206706699,
+          "bootstrap_standard_error": 0.03330578705013167,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.6308932358558851,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.6515563196680604,
+          "validation_difference_from_best": 0.020663083812175315,
+          "bootstrap_standard_error": 0.032604521303561555,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.6845586127828467,
+          "validation_difference_from_best": 0.05366537692696157,
+          "bootstrap_standard_error": 0.028771443075749414,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.6808103350204584,
+          "validation_difference_from_best": 0.04991709916457343,
+          "bootstrap_standard_error": 0.01719580727288076,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.6847825627079345,
+          "validation_difference_from_best": 0.053889326852049356,
+          "bootstrap_standard_error": 0.020982991277914278,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.6943021952049506,
+          "validation_difference_from_best": 0.06340895934906561,
+          "bootstrap_standard_error": 0.019018079750317853,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -248,
+        -243,
+        -238,
+        -233,
+        -228
+      ],
+      "item": 14,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.653619772214712,
+          "validation_difference_from_best": 0.15050563454601998,
+          "bootstrap_standard_error": 0.019329760950686944,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.653619772214712,
+          "validation_difference_from_best": 0.15050563454601998,
+          "bootstrap_standard_error": 0.019329760950686944,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.5031141376686921,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.6965613880326809,
+          "validation_difference_from_best": 0.19344725036398885,
+          "bootstrap_standard_error": 0.03244367860900716,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.6662542759353818,
+          "validation_difference_from_best": 0.16314013826668977,
+          "bootstrap_standard_error": 0.06875095813290172,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.6651457158035254,
+          "validation_difference_from_best": 0.16203157813483351,
+          "bootstrap_standard_error": 0.08854080771053348,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.6616549483377797,
+          "validation_difference_from_best": 0.15854081066908768,
+          "bootstrap_standard_error": 0.08686951950566439,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.7016102851139774,
+          "validation_difference_from_best": 0.19849614744528526,
+          "bootstrap_standard_error": 0.07584332132457954,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -309,
+        -304,
+        -299,
+        -294,
+        -289
+      ],
+      "item": 15,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.15475463671351716,
+          "validation_difference_from_best": 0.02837461569902941,
+          "bootstrap_standard_error": 0.01159919725728752,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.15475463671351716,
+          "validation_difference_from_best": 0.02837461569902941,
+          "bootstrap_standard_error": 0.01159919725728752,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.12638002101448778,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.14922446791617786,
+          "validation_difference_from_best": 0.022844446901690067,
+          "bootstrap_standard_error": 0.02136905942903967,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.1266659655441703,
+          "validation_difference_from_best": 0.0002859445296825358,
+          "bootstrap_standard_error": 0.02564741214776851,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.18817137223636662,
+          "validation_difference_from_best": 0.06179135122187884,
+          "bootstrap_standard_error": 0.04032200145859604,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.163932538899557,
+          "validation_difference_from_best": 0.037552517885069234,
+          "bootstrap_standard_error": 0.04197092832681708,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.16869949303105752,
+          "validation_difference_from_best": 0.042319472016569756,
+          "bootstrap_standard_error": 0.03460986597300292,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -308,
+        -303,
+        -298,
+        -293,
+        -288
+      ],
+      "item": 16,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 2.3258447254510677,
+          "validation_difference_from_best": 0.40584258659594263,
+          "bootstrap_standard_error": 0.1917029100770875,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 2.3258447254510677,
+          "validation_difference_from_best": 0.40584258659594263,
+          "bootstrap_standard_error": 0.1917029100770875,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 1.920002138855125,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 2.208385795009966,
+          "validation_difference_from_best": 0.2883836561548412,
+          "bootstrap_standard_error": 0.15759198919548556,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 2.22628488351035,
+          "validation_difference_from_best": 0.30628274465522504,
+          "bootstrap_standard_error": 0.08733413319195546,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 2.201633058612408,
+          "validation_difference_from_best": 0.28163091975728316,
+          "bootstrap_standard_error": 0.1256611331948468,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 2.1722951012686678,
+          "validation_difference_from_best": 0.25229296241354265,
+          "bootstrap_standard_error": 0.13805667920859202,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 2.182835695684934,
+          "validation_difference_from_best": 0.26283355682980936,
+          "bootstrap_standard_error": 0.12069660515257129,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -247,
+        -242,
+        -237,
+        -232,
+        -227
+      ],
+      "item": 17,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "top_k_20",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.26801811012624277,
+          "validation_difference_from_best": 0.02473598388104102,
+          "bootstrap_standard_error": 0.030113655196762675,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.26801811012624277,
+          "validation_difference_from_best": 0.02473598388104102,
+          "bootstrap_standard_error": 0.030113655196762675,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.2923732820359227,
+          "validation_difference_from_best": 0.0490911557907209,
+          "bootstrap_standard_error": 0.03199956040801341,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.27488852321722546,
+          "validation_difference_from_best": 0.03160639697202373,
+          "bootstrap_standard_error": 0.008636376518296029,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.2747440864855158,
+          "validation_difference_from_best": 0.03146196024031411,
+          "bootstrap_standard_error": 0.008360843639510396,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.26451230918650354,
+          "validation_difference_from_best": 0.021230182941301766,
+          "bootstrap_standard_error": 0.008331486448342484,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.24946836381241852,
+          "validation_difference_from_best": 0.006186237567216776,
+          "bootstrap_standard_error": 0.002855087212615612,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.2432821262452017,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        -291,
+        -286,
+        -281,
+        -276,
+        -271
+      ],
+      "item": 18,
+      "channel": 0
+    },
+    {
+      "selected_method": "top_k_10",
+      "observed_best": "top_k_10",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 2.4635055196054667,
+          "validation_difference_from_best": 0.49036766917068364,
+          "bootstrap_standard_error": 0.21943838346784525,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 2.4635055196054667,
+          "validation_difference_from_best": 0.49036766917068364,
+          "bootstrap_standard_error": 0.21943838346784525,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 2.7119139777184555,
+          "validation_difference_from_best": 0.7387761272836724,
+          "bootstrap_standard_error": 0.22019539861996223,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 2.4376906010503356,
+          "validation_difference_from_best": 0.4645527506155524,
+          "bootstrap_standard_error": 0.23314211727962603,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 2.1242228592129075,
+          "validation_difference_from_best": 0.15108500877812447,
+          "bootstrap_standard_error": 0.029412322667696895,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 1.973137850434783,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 1.975590983547066,
+          "validation_difference_from_best": 0.0024531331122829903,
+          "bootstrap_standard_error": 0.020963228612219324,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 1.9750335036532114,
+          "validation_difference_from_best": 0.0018956532184284502,
+          "bootstrap_standard_error": 0.009966715075165371,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        -249,
+        -244,
+        -239,
+        -234,
+        -229
+      ],
+      "item": 19,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "top_k_1",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.1763298729993908,
+          "validation_difference_from_best": 0.0092584497002911,
+          "bootstrap_standard_error": 0.02580302657717505,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.1763298729993908,
+          "validation_difference_from_best": 0.0092584497002911,
+          "bootstrap_standard_error": 0.02580302657717505,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.19661414372900832,
+          "validation_difference_from_best": 0.029542720429908652,
+          "bootstrap_standard_error": 0.02665058551863412,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.1670714232990997,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.17080976772670275,
+          "validation_difference_from_best": 0.0037383444276030712,
+          "bootstrap_standard_error": 0.027730238329093992,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.17190927963114025,
+          "validation_difference_from_best": 0.004837856332040538,
+          "bootstrap_standard_error": 0.03032759066335332,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.17240625993284447,
+          "validation_difference_from_best": 0.005334836633744766,
+          "bootstrap_standard_error": 0.03078060869038902,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.17931007793474402,
+          "validation_difference_from_best": 0.01223865463564434,
+          "bootstrap_standard_error": 0.030267637058967567,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        -434,
+        -429,
+        -424,
+        -419,
+        -414
+      ],
+      "item": 20,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "vanilla_univariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 2.4953854118791274,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 2.4953854118791274,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 2.6251908247672477,
+          "validation_difference_from_best": 0.12980541288812023,
+          "bootstrap_standard_error": 0.036401464574665574,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 2.5501631456849108,
+          "validation_difference_from_best": 0.05477773380578339,
+          "bootstrap_standard_error": 0.017535116070538675,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 2.538061443727961,
+          "validation_difference_from_best": 0.042676031848833555,
+          "bootstrap_standard_error": 0.014507996495734799,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 2.5288168916092078,
+          "validation_difference_from_best": 0.03343147973008016,
+          "bootstrap_standard_error": 0.018213175439651428,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 2.5309940382907845,
+          "validation_difference_from_best": 0.03560862641165722,
+          "bootstrap_standard_error": 0.017198103425874245,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 2.526710357513352,
+          "validation_difference_from_best": 0.031324945634224485,
+          "bootstrap_standard_error": 0.01588510254685212,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -152,
+        -147,
+        -142,
+        -137,
+        -132
+      ],
+      "item": 21,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.6135332493590413,
+          "validation_difference_from_best": 0.021701541356296095,
+          "bootstrap_standard_error": 0.023078959108863747,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.6135332493590413,
+          "validation_difference_from_best": 0.021701541356296095,
+          "bootstrap_standard_error": 0.023078959108863747,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.5918317080027452,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.6729168246356437,
+          "validation_difference_from_best": 0.08108511663289854,
+          "bootstrap_standard_error": 0.01886732454992273,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.6690342922729439,
+          "validation_difference_from_best": 0.07720258427019866,
+          "bootstrap_standard_error": 0.03720931439714149,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.6722799376363615,
+          "validation_difference_from_best": 0.08044822963361628,
+          "bootstrap_standard_error": 0.0371744728359193,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.6925516093792788,
+          "validation_difference_from_best": 0.10071990137653357,
+          "bootstrap_standard_error": 0.04202311346177964,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.6898283566856508,
+          "validation_difference_from_best": 0.09799664868290556,
+          "bootstrap_standard_error": 0.038252562341096745,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -261,
+        -256,
+        -251,
+        -246,
+        -241
+      ],
+      "item": 22,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.9472583691173785,
+          "validation_difference_from_best": 0.13086448977218262,
+          "bootstrap_standard_error": 0.02523557019489071,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.9472583691173785,
+          "validation_difference_from_best": 0.13086448977218262,
+          "bootstrap_standard_error": 0.02523557019489071,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.8163938793451958,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.9547676275098791,
+          "validation_difference_from_best": 0.1383737481646834,
+          "bootstrap_standard_error": 0.040657485628096755,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.9419406685662158,
+          "validation_difference_from_best": 0.12554678922102017,
+          "bootstrap_standard_error": 0.03529517985065054,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.9414016453693298,
+          "validation_difference_from_best": 0.12500776602413402,
+          "bootstrap_standard_error": 0.04430837193161216,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.9522051699564982,
+          "validation_difference_from_best": 0.1358112906113024,
+          "bootstrap_standard_error": 0.05363282769274713,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.9486766718938198,
+          "validation_difference_from_best": 0.13228279254862393,
+          "bootstrap_standard_error": 0.05547555896849767,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -260,
+        -255,
+        -250,
+        -245,
+        -240
+      ],
+      "item": 23,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.6185970607177274,
+          "validation_difference_from_best": 0.016890286813623895,
+          "bootstrap_standard_error": 0.017891582775784738,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.6185970607177274,
+          "validation_difference_from_best": 0.016890286813623895,
+          "bootstrap_standard_error": 0.017891582775784738,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.6017067739041034,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.7050938965168136,
+          "validation_difference_from_best": 0.10338712261271028,
+          "bootstrap_standard_error": 0.029405781898722092,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.7170296794921621,
+          "validation_difference_from_best": 0.11532290558805873,
+          "bootstrap_standard_error": 0.033242891731660396,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.6889815592404385,
+          "validation_difference_from_best": 0.08727478533633495,
+          "bootstrap_standard_error": 0.020391852058757962,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.6958498323306304,
+          "validation_difference_from_best": 0.09414305842652686,
+          "bootstrap_standard_error": 0.03468037127909197,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.6842917143463847,
+          "validation_difference_from_best": 0.0825849404422812,
+          "bootstrap_standard_error": 0.02364835761002741,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -397,
+        -392,
+        -387,
+        -382,
+        -377
+      ],
+      "item": 24,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.2965977050864169,
+          "validation_difference_from_best": 0.042088917349982435,
+          "bootstrap_standard_error": 0.0170664904212228,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.2965977050864169,
+          "validation_difference_from_best": 0.042088917349982435,
+          "bootstrap_standard_error": 0.0170664904212228,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.25450878773643454,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.3455484882677148,
+          "validation_difference_from_best": 0.09103970053128023,
+          "bootstrap_standard_error": 0.018259535661902523,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.28985207006301456,
+          "validation_difference_from_best": 0.03534328232658,
+          "bootstrap_standard_error": 0.026787448868534267,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.31280270154863804,
+          "validation_difference_from_best": 0.0582939138122035,
+          "bootstrap_standard_error": 0.03460977138289607,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.331925311309308,
+          "validation_difference_from_best": 0.07741652357287354,
+          "bootstrap_standard_error": 0.03982421292240957,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.3273845619036739,
+          "validation_difference_from_best": 0.07287577416723937,
+          "bootstrap_standard_error": 0.030401991949496145,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -264,
+        -259,
+        -254,
+        -249,
+        -244
+      ],
+      "item": 25,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 4.535500304194571,
+          "validation_difference_from_best": 0.6993767977151026,
+          "bootstrap_standard_error": 0.3874635888680063,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 4.535500304194571,
+          "validation_difference_from_best": 0.6993767977151026,
+          "bootstrap_standard_error": 0.3874635888680063,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 3.8361235064794683,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 4.784662932505667,
+          "validation_difference_from_best": 0.9485394260261988,
+          "bootstrap_standard_error": 0.43128820101231036,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 4.541683804593743,
+          "validation_difference_from_best": 0.7055602981142735,
+          "bootstrap_standard_error": 0.3696773072591143,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 4.4509648350639255,
+          "validation_difference_from_best": 0.614841328584457,
+          "bootstrap_standard_error": 0.30593560103896406,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 4.66875331321349,
+          "validation_difference_from_best": 0.8326298067340216,
+          "bootstrap_standard_error": 0.42884143889713355,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 4.464923444493112,
+          "validation_difference_from_best": 0.6287999380136433,
+          "bootstrap_standard_error": 0.3445490674701207,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -143,
+        -138,
+        -133,
+        -128,
+        -123
+      ],
+      "item": 26,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 1.6571799470456319,
+          "validation_difference_from_best": 0.4073317523333035,
+          "bootstrap_standard_error": 0.17696845746085269,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 1.6571799470456319,
+          "validation_difference_from_best": 0.4073317523333035,
+          "bootstrap_standard_error": 0.17696845746085269,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 1.2498481947123283,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 1.45160136600728,
+          "validation_difference_from_best": 0.2017531712949515,
+          "bootstrap_standard_error": 0.0591067371127711,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 1.4784592346935193,
+          "validation_difference_from_best": 0.22861103998119092,
+          "bootstrap_standard_error": 0.09051949550651182,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 1.5293371339107595,
+          "validation_difference_from_best": 0.27948893919843126,
+          "bootstrap_standard_error": 0.03462386133055181,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 1.5817581261876608,
+          "validation_difference_from_best": 0.3319099314753325,
+          "bootstrap_standard_error": 0.0340715220570392,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 1.5806079699895732,
+          "validation_difference_from_best": 0.330759775277245,
+          "bootstrap_standard_error": 0.030161736673933195,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -488,
+        -483,
+        -478,
+        -473,
+        -468
+      ],
+      "item": 27,
+      "channel": 0
+    },
+    {
+      "selected_method": "top_k_15",
+      "observed_best": "top_k_15",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.6701264622628333,
+          "validation_difference_from_best": 0.08122524455700211,
+          "bootstrap_standard_error": 0.032759724180973795,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.6701264622628333,
+          "validation_difference_from_best": 0.08122524455700211,
+          "bootstrap_standard_error": 0.032759724180973795,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.7298902647054033,
+          "validation_difference_from_best": 0.14098904699957213,
+          "bootstrap_standard_error": 0.043148877434945825,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.7662047527920766,
+          "validation_difference_from_best": 0.1773035350862454,
+          "bootstrap_standard_error": 0.0985377562949536,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.8028046412110866,
+          "validation_difference_from_best": 0.21390342350525543,
+          "bootstrap_standard_error": 0.12412376135619098,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.6591027741952323,
+          "validation_difference_from_best": 0.0702015564894011,
+          "bootstrap_standard_error": 0.03904915919376811,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.5889012177058313,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.5983242045664644,
+          "validation_difference_from_best": 0.00942298686063317,
+          "bootstrap_standard_error": 0.012347910958456715,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        -506,
+        -501,
+        -496,
+        -491,
+        -486
+      ],
+      "item": 28,
+      "channel": 0
+    },
+    {
+      "selected_method": "top_k_5",
+      "observed_best": "top_k_5",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 2.291777659293786,
+          "validation_difference_from_best": 0.37045897992287,
+          "bootstrap_standard_error": 0.21132870946859575,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 2.291777659293786,
+          "validation_difference_from_best": 0.37045897992287,
+          "bootstrap_standard_error": 0.21132870946859575,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 2.2507546559444966,
+          "validation_difference_from_best": 0.32943597657358065,
+          "bootstrap_standard_error": 0.16106410274057073,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 1.9943258653737026,
+          "validation_difference_from_best": 0.0730071860027863,
+          "bootstrap_standard_error": 0.06273768897001016,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 1.9213186793709163,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 1.9247859101453333,
+          "validation_difference_from_best": 0.0034672307744174624,
+          "bootstrap_standard_error": 0.03899255921609407,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 1.949511911820371,
+          "validation_difference_from_best": 0.028193232449454996,
+          "bootstrap_standard_error": 0.03966114483123439,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 1.9722714879621932,
+          "validation_difference_from_best": 0.050952808591277376,
+          "bootstrap_standard_error": 0.025178444442552607,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -416,
+        -411,
+        -406,
+        -401,
+        -396
+      ],
+      "item": 29,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "top_k_20",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.31574686819279163,
+          "validation_difference_from_best": 0.04787179591004628,
+          "bootstrap_standard_error": 0.04322369646206748,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.31574686819279163,
+          "validation_difference_from_best": 0.04787179591004628,
+          "bootstrap_standard_error": 0.04322369646206748,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.29583804667367564,
+          "validation_difference_from_best": 0.027962974390930213,
+          "bootstrap_standard_error": 0.03944582190717621,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.3207765438938096,
+          "validation_difference_from_best": 0.052901471611064246,
+          "bootstrap_standard_error": 0.03792513351915067,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.32305798756928394,
+          "validation_difference_from_best": 0.055182915286538604,
+          "bootstrap_standard_error": 0.04155136992033454,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.3002243672945067,
+          "validation_difference_from_best": 0.03234929501176135,
+          "bootstrap_standard_error": 0.030055901387402068,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.2773396277560799,
+          "validation_difference_from_best": 0.009464555473334557,
+          "bootstrap_standard_error": 0.008315595192467164,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.2678750722827453,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        -428,
+        -423,
+        -418,
+        -413,
+        -408
+      ],
+      "item": 30,
+      "channel": 0
+    },
+    {
+      "selected_method": "self_augmentation",
+      "observed_best": "self_augmentation",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 5,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.5877921007382986,
+          "validation_difference_from_best": 0.040595241885450196,
+          "bootstrap_standard_error": 0.017126509488368004,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.5877921007382986,
+          "validation_difference_from_best": 0.040595241885450196,
+          "bootstrap_standard_error": 0.017126509488368004,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.5471968588528483,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.586869901353266,
+          "validation_difference_from_best": 0.039673042500417706,
+          "bootstrap_standard_error": 0.009105940837266383,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.5989911644610724,
+          "validation_difference_from_best": 0.05179430560822407,
+          "bootstrap_standard_error": 0.010840845268445115,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.6019779644144757,
+          "validation_difference_from_best": 0.05478110556162742,
+          "bootstrap_standard_error": 0.010201410611439738,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.5853318891062136,
+          "validation_difference_from_best": 0.038135030253365364,
+          "bootstrap_standard_error": 0.006187939454156285,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.5837276045766656,
+          "validation_difference_from_best": 0.03653074572381744,
+          "bootstrap_standard_error": 0.006645834535315628,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        -374,
+        -369,
+        -364,
+        -359,
+        -354
+      ],
+      "item": 31,
+      "channel": 0
+    }
+  ]
+}
