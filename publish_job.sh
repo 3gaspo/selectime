@@ -252,7 +252,7 @@ else
 fi
 printf '  %s\n' "${paths[@]}"
 git add -v -f --pathspec-from-file="$publish_pathspec" --pathspec-file-nul
-if ! git diff --cached --quiet --pathspec-from-file="$publish_pathspec" --pathspec-file-nul; then
+if ! git diff --cached --quiet; then
     git commit --only -m "$message" --pathspec-from-file="$publish_pathspec" --pathspec-file-nul
 else
     echo "No new artifact changes; pushing existing local commits."
