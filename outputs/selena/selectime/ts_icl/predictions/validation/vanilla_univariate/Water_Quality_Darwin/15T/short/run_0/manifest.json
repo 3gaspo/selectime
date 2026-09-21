@@ -1,7 +1,7 @@
 {
   "error": {
-    "message": "No module named 'tsicl'",
-    "type": "ModuleNotFoundError"
+    "message": "launch selena_3506722 ended before task completion",
+    "type": "InterruptedLaunch"
   },
   "experiment": "selectime",
   "experiment_config": {
@@ -16,7 +16,7 @@
     "term": "short"
   },
   "launch": {
-    "action": "new",
+    "action": "resume",
     "attempts": [
       {
         "action": "new",
@@ -24,11 +24,23 @@
         "launched_at": "2026-09-17T10:22:41.159332+00:00",
         "slurm_array_task_id": null,
         "slurm_job_id": "3458552"
+      },
+      {
+        "action": "resume",
+        "launch_id": "selena_3506722",
+        "launched_at": "2026-09-20T19:38:27.969897+00:00",
+        "resumed_from": {
+          "launch_id": "selena_3458552",
+          "launched_at": "2026-09-17T10:22:41.159332+00:00",
+          "slurm_job_id": "3458552"
+        },
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3506722"
       }
     ],
-    "launch_id": "selena_3458552",
-    "launched_at": "2026-09-17T10:22:41.159332+00:00",
-    "slurm_job_id": "3458552"
+    "launch_id": "selena_3506722",
+    "launched_at": "2026-09-20T19:38:27.969897+00:00",
+    "slurm_job_id": "3506722"
   },
   "model_config": {
     "backbone": "ts_icl",
@@ -179,7 +191,7 @@
     "query_block_size": 256
   },
   "schema_version": 1,
-  "started_at": "2026-09-17T10:22:41.159332+00:00",
+  "started_at": "2026-09-20T19:38:27.969897+00:00",
   "status": "interrupted",
-  "updated_at": "2026-09-17T10:23:09.667134+00:00"
+  "updated_at": "2026-09-20T19:44:04.540365+00:00"
 }
