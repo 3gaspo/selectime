@@ -3,13 +3,14 @@
 set -euo pipefail
 
 usage() {
-    echo "usage: bash publish_job.sh [JOB_ID] [--size lightweight|detailed|full] [--message TEXT] [--project-root PATH]" >&2
+    echo "usage: bash publish_job.sh [JOB_ID] [--size lightweight|detailed|full] [--clean] [--message TEXT] [--project-root PATH]" >&2
 }
 
 project_root="$(pwd)"
 job_id=""
 message=""
 publish_size="lightweight"
+clean_mode=false
 if [ "$#" -gt 0 ] && [[ "$1" != --* ]]; then
     job_id="$1"
     shift
@@ -18,6 +19,7 @@ while [ "$#" -gt 0 ]; do
     case "$1" in
         --job-id) job_id="$2"; shift 2 ;;
         --size) publish_size="$2"; shift 2 ;;
+        --clean) clean_mode=true; shift ;;
         --message) message="$2"; shift 2 ;;
         --project-root) project_root="$2"; shift 2 ;;
         -h|--help) usage; exit 0 ;;
@@ -32,6 +34,11 @@ esac
 if [ -n "$job_id" ] && ! [[ "$job_id" =~ ^[0-9]+$ ]]; then
     usage
     echo "JOB_ID must be numeric" >&2
+    exit 2
+fi
+if [ "$clean_mode" = true ] && { [ -n "$job_id" ] || [ "$publish_size" != lightweight ]; }; then
+    usage
+    echo "--clean cannot be combined with JOB_ID or --size" >&2
     exit 2
 fi
 
@@ -53,6 +60,48 @@ proxy_script="${PROXY_SCRIPT_PATH:-$HOME/codes/proxy.sh}"
 }
 . "$proxy_script"
 git pull --ff-only origin main
+
+if [ "$clean_mode" = true ]; then
+    deleted_paths=()
+    while IFS= read -r -d '' deleted_path; do
+        deleted_paths+=("$deleted_path")
+    done < <(git diff --name-only --diff-filter=D -z HEAD --)
+    stage_paths=()
+    clean_paths=()
+    for deleted_path in "${deleted_paths[@]}"; do
+        clean_paths+=(":(literal)$deleted_path")
+        if git ls-files --error-unmatch -- ":(literal)$deleted_path" >/dev/null 2>&1; then
+            stage_paths+=(":(literal)$deleted_path")
+        fi
+    done
+    for environment_file in pyproject.toml uv.lock; do
+        if [ -f "$environment_file" ]; then
+            clean_paths+=(":(literal)$environment_file")
+            stage_paths+=(":(literal)$environment_file")
+        fi
+    done
+
+    if [ "${#clean_paths[@]}" -gt 0 ]; then
+        clean_pathspec="$(mktemp)"
+        stage_pathspec="$(mktemp)"
+        trap 'rm -f -- "$clean_pathspec" "$stage_pathspec"' EXIT
+        printf '%s\0' "${clean_paths[@]}" > "$clean_pathspec"
+        if [ "${#stage_paths[@]}" -gt 0 ]; then
+            printf '%s\0' "${stage_paths[@]}" > "$stage_pathspec"
+            git add -v -f -A --pathspec-from-file="$stage_pathspec" --pathspec-file-nul
+        fi
+        if [ "${#deleted_paths[@]}" -gt 0 ] || ! git diff --cached --quiet -- pyproject.toml uv.lock; then
+            [ -n "$message" ] || message="maintenance: publish deletions and environment files"
+            git commit --only -m "$message" --pathspec-from-file="$clean_pathspec" --pathspec-file-nul
+        else
+            echo "No clean-mode changes; pushing existing local commits."
+        fi
+    else
+        echo "No clean-mode changes; pushing existing local commits."
+    fi
+    git push origin main
+    exit 0
+fi
 
 paths=()
 if [ -n "$job_id" ]; then
@@ -105,79 +154,13 @@ fi
 if [ "$publish_size" = full ]; then
     [ ! -d outputs ] || paths+=(outputs)
 elif [ -d outputs ]; then
+    selection_file="$(mktemp)"
+    python3 "$project_root/src/timebench/pipeline/artifact_selection.py" paths "$project_root/outputs" \
+        --size "$publish_size" --max-bytes "${PUBLISH_MAX_FILE_BYTES:-100000000}" > "$selection_file"
     while IFS= read -r -d '' artifact; do
         paths+=("${artifact#"$project_root"/}")
-    done < <(
-        if [ "$publish_size" = detailed ]; then
-            find "$project_root/outputs" -type f \( \
-                -name foundation_model_summary.csv -o \
-                -name foundation_model_summary.md -o \
-                -name foundation_model_report_manifest.json -o \
-                -name mase_vs_features.svg -o \
-                -name mase_vs_features_data.csv -o \
-                -name mase_vs_features_correlations.csv -o \
-                -name SELECTED_RUNS.json -o \
-                -path '*/manifest_history/*.json' -o \
-                -name manifest.json -o \
-                -name model_manifest.json -o \
-                -name result_manifest.json -o \
-                -name selection.json -o \
-                -name prepared.json -o \
-                -name retrieval.json -o \
-                -name prediction.json -o \
-                -name selections.csv -o \
-                -name selection_summary.csv -o \
-                -name comparison_summary.json -o \
-                -name time_summary_manifest.json -o \
-                -name time_summary.json -o \
-                -name time_tasks.csv -o \
-                -name audit_manifest.json -o \
-                -name config.json -o \
-                -name metrics_summary.json -o \
-                -name report_manifest.json -o \
-                -name comparison.csv -o \
-                -name metrics.npz -o \
-                -name task_summary.csv -o \
-                -name dataset_summary.csv -o \
-                -name window_events.csv -o \
-                -name nonfinite_positions.csv -o \
-                -name full.csv -o \
-                -name full_dataset.csv -o \
-                -name dataset_features_full.csv \) -print0
-        else
-            find "$project_root/outputs" -type f \( \
-                -name foundation_model_summary.csv -o \
-                -name foundation_model_summary.md -o \
-                -name foundation_model_report_manifest.json -o \
-                -name mase_vs_features.svg -o \
-                -name mase_vs_features_data.csv -o \
-                -name mase_vs_features_correlations.csv -o \
-                -name SELECTED_RUNS.json -o \
-                -path '*/manifest_history/*.json' -o \
-                -name manifest.json -o \
-                -name model_manifest.json -o \
-                -name result_manifest.json -o \
-                -name selection.json -o \
-                -name prepared.json -o \
-                -name retrieval.json -o \
-                -name prediction.json -o \
-                -name selections.csv -o \
-                -name selection_summary.csv -o \
-                -name comparison_summary.json -o \
-                -name time_summary_manifest.json -o \
-                -name time_summary.json -o \
-                -name time_tasks.csv -o \
-                -name audit_manifest.json -o \
-                -name config.json -o \
-                -name metrics_summary.json -o \
-                -name report_manifest.json -o \
-                -name comparison.csv -o \
-                -name task_summary.csv -o \
-                -name dataset_summary.csv -o \
-                -name full_dataset.csv -o \
-                -name dataset_features_full.csv \) -print0
-        fi
-    )
+    done < "$selection_file"
+    rm -f -- "$selection_file"
 fi
 
 exclusions=(
