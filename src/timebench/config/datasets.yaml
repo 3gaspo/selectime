@@ -350,22 +350,18 @@ selectime_tasks:
     alignment_period: 96
     datastore_stride: 96
     retrieval_context_length: 672
-    validation_stride: 127
   current_velocity/5T:
     alignment_period: 288
     datastore_stride: 288
     retrieval_context_length: 2016
-    validation_stride: 127
   current_velocity/10T:
     alignment_period: 144
     datastore_stride: 144
     retrieval_context_length: 1008
-    validation_stride: 127
   current_velocity/15T:
     alignment_period: 96
     datastore_stride: 96
     retrieval_context_length: 672
-    validation_stride: 127
   current_velocity/H:
     alignment_period: 24
     datastore_stride: 24
@@ -376,17 +372,14 @@ selectime_tasks:
         retrieval_context_length: 168
       long:
         retrieval_context_length: 336
-    validation_stride: 127
   CPHL/15T:
     alignment_period: 96
     datastore_stride: 96
     retrieval_context_length: 672
-    validation_stride: 127
   CPHL/30T:
     alignment_period: 48
     datastore_stride: 48
     retrieval_context_length: 336
-    validation_stride: 127
   CPHL/H:
     alignment_period: 24
     datastore_stride: 24
@@ -397,17 +390,14 @@ selectime_tasks:
         retrieval_context_length: 168
       long:
         retrieval_context_length: 336
-    validation_stride: 127
   Coastal_T_S/15T:
     alignment_period: 96
     datastore_stride: 96
     retrieval_context_length: 672
-    validation_stride: 127
   Coastal_T_S/20T:
     alignment_period: 72
     datastore_stride: 72
     retrieval_context_length: 504
-    validation_stride: 127
   Coastal_T_S/H:
     alignment_period: 24
     datastore_stride: 24
@@ -418,7 +408,6 @@ selectime_tasks:
         retrieval_context_length: 168
       long:
         retrieval_context_length: 336
-    validation_stride: 127
   SG_Weather/D:
     alignment_period: 1
     datastore_stride: 1
@@ -429,168 +418,135 @@ selectime_tasks:
         retrieval_context_length: 7
       long:
         retrieval_context_length: 14
-    validation_stride: 27
   SG_PM25/H:
     alignment_period: 24
     datastore_stride: 24
     retrieval_context_length: 168
-    validation_stride: 127
   NE_China_Wind/H:
     alignment_period: 24
     datastore_stride: 24
     retrieval_context_length: 168
-    validation_stride: 127
   Australia_Solar/H:
     alignment_period: 24
     datastore_stride: 24
     retrieval_context_length: 168
-    validation_stride: 127
   epf_electricity_price/H:
     alignment_period: 168
     datastore_stride: 168
     retrieval_context_length: 168
-    validation_stride: 127
   OpenElectricity_NEM/5T:
     alignment_period: 2016
     datastore_stride: 2016
     retrieval_context_length: 2016
-    validation_stride: 127
   EWELD_Load/15T:
     alignment_period: 672
     datastore_stride: 672
     retrieval_context_length: 672
-    validation_stride: 127
   SG_Carpark/15T:
     alignment_period: 672
     datastore_stride: 672
     retrieval_context_length: 672
-    validation_stride: 127
   Finland_Traffic/15T:
     alignment_period: 672
     datastore_stride: 672
     retrieval_context_length: 672
-    validation_stride: 127
   Port_Activity/D:
     alignment_period: 7
     datastore_stride: 7
     retrieval_context_length: 35
-    validation_stride: 27
   Port_Activity/W:
     alignment_period: 1
     datastore_stride: 1
     retrieval_context_length: 13
-    validation_stride: 11
   ECDC_COVID/D:
     alignment_period: 7
     datastore_stride: 7
     retrieval_context_length: 35
-    validation_stride: 27
   ECDC_COVID/W:
     alignment_period: 1
     datastore_stride: 1
     retrieval_context_length: 13
-    validation_stride: 11
   Global_Influenza/W:
     alignment_period: 1
     datastore_stride: 1
     retrieval_context_length: 13
-    validation_stride: 11
   Crypto/D:
     alignment_period: 1
     datastore_stride: 1
     retrieval_context_length: 30
-    validation_stride: 27
   US_Term_Structure/B:
     alignment_period: 1
     datastore_stride: 1
     retrieval_context_length: 20
-    validation_stride: 27
   Oil_Price/B:
     alignment_period: 1
     datastore_stride: 1
     retrieval_context_length: 20
-    validation_stride: 27
   Job_Claims/W:
     alignment_period: 1
     datastore_stride: 1
     retrieval_context_length: 13
-    validation_stride: 11
   # These actual TIME datasets use Adaptime's frequency-derived defaults.
   Uncertainty_1M/M:
     alignment_period: 12
     datastore_stride: 12
     retrieval_context_length: 12
-    validation_stride: 5
   Housing_Inventory/M:
     alignment_period: 12
     datastore_stride: 12
     retrieval_context_length: 12
-    validation_stride: 5
   JOLTS/M:
     alignment_period: 12
     datastore_stride: 12
     retrieval_context_length: 12
-    validation_stride: 5
   US_Labor/M:
     alignment_period: 12
     datastore_stride: 12
     retrieval_context_length: 12
-    validation_stride: 5
   Vehicle_Supply/M:
     alignment_period: 12
     datastore_stride: 12
     retrieval_context_length: 12
-    validation_stride: 5
   Auto_Production_SF/M:
     alignment_period: 12
     datastore_stride: 12
     retrieval_context_length: 12
-    validation_stride: 5
   Commodity_Production/M:
     alignment_period: 12
     datastore_stride: 12
     retrieval_context_length: 12
-    validation_stride: 5
   Commodity_Import/M:
     alignment_period: 12
     datastore_stride: 12
     retrieval_context_length: 12
-    validation_stride: 5
   WUI_Global/Q:
     alignment_period: 4
     datastore_stride: 4
     retrieval_context_length: 4
-    validation_stride: 3
   Global_Price/Q:
     alignment_period: 4
     datastore_stride: 4
     retrieval_context_length: 4
-    validation_stride: 3
   Vehicle_Sales/M:
     alignment_period: 12
     datastore_stride: 12
     retrieval_context_length: 12
-    validation_stride: 5
   Online_Retail_2_UCI/D:
     alignment_period: 7
     datastore_stride: 7
     retrieval_context_length: 35
-    validation_stride: 27
   Supply_Chain_Customer/D:
     alignment_period: 7
     datastore_stride: 7
     retrieval_context_length: 35
-    validation_stride: 27
   Supply_Chain_Location/D:
     alignment_period: 7
     datastore_stride: 7
     retrieval_context_length: 35
-    validation_stride: 27
   azure2019_U/5T:
     alignment_period: 2016
     datastore_stride: 2016
     retrieval_context_length: 2016
-    validation_stride: 127
   Smart_Manufacturing/H:
     alignment_period: 168
     datastore_stride: 168
@@ -601,9 +557,7 @@ selectime_tasks:
         retrieval_context_length: 168
       long:
         retrieval_context_length: 336
-    validation_stride: 127
   MetroPT-3/5T:
     alignment_period: 288
     datastore_stride: 288
     retrieval_context_length: 2016
-    validation_stride: 127

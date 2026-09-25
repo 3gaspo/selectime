@@ -41,99 +41,31 @@ if [[ ! "$nni" =~ ^[a-z][a-z0-9_-]*$ ]]; then
 fi
 
 SELENA_HOST="${TIME_SELENA_HOST:-$nni@selena.hpc.edf.fr}"
-SOURCE_ROOT="${TIME_SELENA_RESULTS_ROOT:-$SELENA_HOST:/scratch/users/$nni/codes/$PROJECT_NAME}"
+SOURCE_ROOT="$SELENA_HOST:/scratch/users/$nni/codes/$PROJECT_NAME"
 DGX_OUTPUT_ROOT="$PROJECT_ROOT/outputs/selena"
 DGX_LOG_ROOT="$PROJECT_ROOT/logs/selena"
 mkdir -p "$DGX_OUTPUT_ROOT" "$DGX_LOG_ROOT"
 
 OUTPUT_FILTERS=()
+if [ "$SYNC_SIZE" != full ]; then
+    filter_text="$(python3 "$PROJECT_ROOT/src/timebench/pipeline/artifact_selection.py" filters --size "$SYNC_SIZE")"
+    mapfile -t OUTPUT_FILTERS <<< "$filter_text"
+fi
+
+SIZE_OPTIONS=()
 if [ "$SYNC_SIZE" = lightweight ]; then
-    OUTPUT_FILTERS=(
-        '--include=*/'
-        '--include=foundation_model_summary.csv'
-        '--include=foundation_model_summary.md'
-        '--include=foundation_model_report_manifest.json'
-        '--include=mase_vs_features.svg'
-        '--include=mase_vs_features_data.csv'
-        '--include=mase_vs_features_correlations.csv'
-        '--include=SELECTED_RUNS.json'
-        '--include=*/manifest_history/*.json'
-        '--include=manifest.json'
-        '--include=model_manifest.json'
-        '--include=result_manifest.json'
-        '--include=selection.json'
-        '--include=prepared.json'
-        '--include=retrieval.json'
-        '--include=prediction.json'
-        '--include=selections.csv'
-        '--include=selection_summary.csv'
-        '--include=comparison_summary.json'
-        '--include=time_summary_manifest.json'
-        '--include=time_summary.json'
-        '--include=time_tasks.csv'
-        '--include=audit_manifest.json'
-        '--include=config.json'
-        '--include=metrics_summary.json'
-        '--include=report_manifest.json'
-        '--include=comparison.csv'
-        '--include=task_summary.csv'
-        '--include=dataset_summary.csv'
-        '--include=full_dataset.csv'
-        '--include=dataset_features_full.csv'
-        '--exclude=*'
-    )
-elif [ "$SYNC_SIZE" = detailed ]; then
-    OUTPUT_FILTERS=(
-        '--include=*/'
-        '--include=foundation_model_summary.csv'
-        '--include=foundation_model_summary.md'
-        '--include=foundation_model_report_manifest.json'
-        '--include=mase_vs_features.svg'
-        '--include=mase_vs_features_data.csv'
-        '--include=mase_vs_features_correlations.csv'
-        '--include=SELECTED_RUNS.json'
-        '--include=*/manifest_history/*.json'
-        '--include=manifest.json'
-        '--include=model_manifest.json'
-        '--include=result_manifest.json'
-        '--include=selection.json'
-        '--include=prepared.json'
-        '--include=retrieval.json'
-        '--include=prediction.json'
-        '--include=selections.csv'
-        '--include=selection_summary.csv'
-        '--include=fallback.npy'
-        '--include=selected_candidate.npy'
-        '--include=comparison_summary.json'
-        '--include=time_summary_manifest.json'
-        '--include=time_summary.json'
-        '--include=time_tasks.csv'
-        '--include=audit_manifest.json'
-        '--include=config.json'
-        '--include=metrics_summary.json'
-        '--include=report_manifest.json'
-        '--include=comparison.csv'
-        '--include=metrics.npz'
-        '--include=task_summary.csv'
-        '--include=dataset_summary.csv'
-        '--include=window_events.csv'
-        '--include=nonfinite_positions.csv'
-        '--include=full.csv'
-        '--include=full_dataset.csv'
-        '--include=dataset_features_full.csv'
-        '--exclude=*'
-    )
+    SIZE_OPTIONS=(--max-size="${PUBLISH_MAX_FILE_BYTES:-100000000}" --exclude="*.pt" --exclude="*.npy" --exclude="*.cbm")
 fi
 
 echo "Pulling $PROJECT_NAME Selena outputs to DGX ($SYNC_SIZE)..."
-rsync -rlptz --partial --prune-empty-dirs --info=progress2 \
+rsync -rlptz "${SIZE_OPTIONS[@]}" --partial --prune-empty-dirs --info=progress2 \
     "${OUTPUT_FILTERS[@]}" \
     "$SOURCE_ROOT/outputs/" \
     "$DGX_OUTPUT_ROOT/"
 
 if [ -n "$JOB_ID" ]; then
     echo "Pulling Selena logs for job $JOB_ID..."
-    rsync -rlptz --partial --prune-empty-dirs --info=progress2 \
+    rsync -rlptz "${SIZE_OPTIONS[@]}" --partial --prune-empty-dirs --info=progress2 \
         '--include=*/' \
         "--include=*_${JOB_ID}_*.out" "--include=*_${JOB_ID}_*.err" \
         "--include=*_${JOB_ID}.out" "--include=*_${JOB_ID}.err" \
@@ -158,7 +90,7 @@ if [ -n "$JOB_ID" ]; then
             > "$status_file_list"
     fi
     if [ -s "$status_file_list" ]; then
-        rsync -rlptz --partial --prune-empty-dirs --from0 \
+        rsync -rlptz "${SIZE_OPTIONS[@]}" --partial --prune-empty-dirs --from0 \
             --files-from="$status_file_list" \
             "$SOURCE_ROOT/logs/" \
             "$DGX_LOG_ROOT/"
@@ -167,7 +99,7 @@ if [ -n "$JOB_ID" ]; then
     fi
 else
     echo "Pulling all Selena logs and workflow status..."
-    rsync -rlptz --partial --info=progress2 \
+    rsync -rlptz "${SIZE_OPTIONS[@]}" --partial --info=progress2 \
         "$SOURCE_ROOT/logs/" \
         "$DGX_LOG_ROOT/"
 fi

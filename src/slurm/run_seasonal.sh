@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
-export OUTPUTS_ROOT="$PROJECT_ROOT/outputs" LOGS_ROOT="$PROJECT_ROOT/logs"
+if [ -n "${SELENA_NNI:-}" ]; then
+    export OUTPUTS_ROOT="$TIME_SCRATCH_ROOT/outputs" LOGS_ROOT="$TIME_SCRATCH_ROOT/logs"
+else
+    export OUTPUTS_ROOT="$PROJECT_ROOT/outputs" LOGS_ROOT="$PROJECT_ROOT/logs"
+fi
 export TIME_OUTPUTS="$OUTPUTS_ROOT" TIME_LOGS="$LOGS_ROOT"
 source "$PROJECT_ROOT/src/slurm/runtime_paths.sh"
 export PYTHONPATH="$PROJECT_ROOT/src${PYTHONPATH:+:$PYTHONPATH}"

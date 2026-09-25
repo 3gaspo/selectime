@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def task(**overrides):
-    return replace(Task('synthetic/D', 'short', 4, 24, 20, 2, 8, 2, 4, 3), **overrides)
+    return replace(Task('synthetic/D', 'short', 4, 24, 20, 2, 8, 2, 4, 4), **overrides)
 
 
 def windows(selected=None):
@@ -236,6 +236,66 @@ class SourceContracts(unittest.TestCase):
 
 
 class WorkflowControls(unittest.TestCase):
+    def test_all_missing_validation_history_uses_default_without_model_call(self):
+        from timebench.pipeline.workflow import Workflow
+        import json
+
+        class Timer:
+            def start(self): pass
+            def stop(self): return 0.0
+
+        class Model:
+            def forecast(self, histories, horizon, **kwargs):
+                self_called = True
+                for history in histories:
+                    self.assertTrue(np.isfinite(history).any())
+                return [np.repeat(np.asarray(history)[..., -1:], horizon, axis=-1).reshape(-1, horizon)
+                        for history in histories]
+
+        with tempfile.TemporaryDirectory() as directory:
+            workflow = Workflow.__new__(Workflow)
+            workflow.config = yaml.safe_load((ROOT / 'src/timebench/conf/experiment.yaml').read_text())
+            workflow.config.update(model='ts_icl', bootstrap_replications=20)
+            workflow.model = 'ts_icl'
+            workflow.k_values = (1, 5, 10, 15, 20)
+            workflow.candidates = candidate_names(workflow.k_values, workflow.model)
+            workflow.controls = control_candidates(workflow.model)
+            workflow.raw_methods = [*workflow.candidates, HORIZON]
+            workflow.root = Path(directory)
+            workflow.storage = workflow.weights = Path('unused')
+            workflow.seed, workflow.device, workflow.batch_size, workflow.context_length = 0, 'cpu', 16, 16
+            workflow.config_path = ROOT / 'src/timebench/config/datasets.yaml'
+            selected = task(validation_length=4, max_datastore_windows=12)
+            workflow.tasks = [selected]
+            data = windows(selected)
+            values = np.asarray(data.source[0]['target'], dtype=np.float32)
+            first_origin = int(data.references('validation')[0, 2])
+            values[0, :first_origin] = np.nan
+            data.source[0]['target'] = values
+            support = lambda task, split, reader, refs: (np.isfinite(reader.labels(refs)),
+                                                         np.isfinite(reader.labels(refs)).any(axis=-1))
+            model = Model()
+            model.assertTrue = self.assertTrue
+            with patch('timebench.pipeline.workflow.Windows', return_value=data), \
+                 patch('timebench.pipeline.workflow.seed_run'), \
+                 patch('timebench.model_loading.load_forecaster', return_value=model), \
+                 patch('timebench.evaluation.timing.EvaluationTimer', Timer), \
+                 patch.object(workflow, 'support', new=support):
+                workflow.prepare()
+                workflow.extract('validation')
+                workflow.predict('validation')
+                vanilla = workflow.raw(selected, 'validation', UNIVARIATE)
+                metadata = json.loads((vanilla / 'prediction.json').read_text())
+                self.assertEqual(metadata['invalid_validation_context_count'], 1)
+                self.assertTrue(np.isnan(workflow.array(vanilla, 'prediction')[0]).all())
+                workflow.select('per_variate')
+                selection = workflow.resolve(selected, 'selections', 'per_variate',
+                    workflow.selection_dependencies(selected))
+                records = json.loads((selection / 'selection.json').read_text())['selections']
+                missing = next(entry for entry in records if entry['item'] == 0 and entry['channel'] == 0)
+                self.assertEqual(missing['selected_method'], UNIVARIATE)
+                self.assertEqual(missing['fallback_reason'], 'no_usable_validation_dates')
+
     def test_calibration_is_frozen_and_horizon_transfer_uses_one_neighbor(self):
         """Exercise preparation through assembly with real lifecycle and synthetic forecasts."""
         from timebench.pipeline.workflow import Workflow
@@ -288,20 +348,22 @@ class WorkflowControls(unittest.TestCase):
                     np.testing.assert_allclose(workflow.array(mixed, 'prediction'),
                         blend(workflow.array(workflow.raw(selected, 'test', UNIVARIATE), 'prediction'),
                               workflow.array(workflow.raw(selected, 'test', HORIZON), 'prediction'), weight))
-                    extraction = workflow.extraction(selected, 'validation')
+                    extraction = workflow.extraction(selected, 'validation', 'covariate')
                     if alias != 'chronos_bolt':
                         self.assertTrue((workflow.array(extraction, 'neighbor_ids') == -1).any())
-                        self.assertTrue((workflow.array(extraction, 'horizon_neighbor_ids') >= 0).any())
+                        horizon_extraction = workflow.extraction(selected, 'validation', 'horizon')
+                        self.assertTrue((workflow.array(horizon_extraction, 'neighbor_ids') >= 0).any())
                     horizon = workflow.raw(selected, 'test', HORIZON)
-                    refs = workflow.array(workflow.prepared(selected), 'test_references')
-                    datastore = workflow.array(workflow.prepared(selected), 'test_datastore')
-                    ids = workflow.array(workflow.extraction(selected, 'test'), 'horizon_neighbor_ids')
+                    test_data = workflow.prepared(selected, 'test')
+                    refs = workflow.array(test_data, 'test_references')
+                    datastore = workflow.array(test_data, 'test_datastore')
+                    ids = workflow.array(workflow.extraction(selected, 'test', 'horizon'), 'neighbor_ids')
                     row = int(np.flatnonzero(ids[:, 0] >= 0)[0])
                     neighbor = data.sequences(datastore[ids[row]])
                     query = data.histories(refs[row:row+1], selected.retrieval_context_length)[0]
                     expected = query_scaled_sequences(query, neighbor, selected.prediction_length)[0, -selected.prediction_length:]
                     np.testing.assert_allclose(workflow.array(horizon, 'prediction')[row], expected)
-                    self.assertEqual(workflow.path(selected, 'data', 'shared').relative_to(workflow.root).parts[0], alias)
+                    self.assertEqual(workflow.path(selected, 'data/test', 'shared').relative_to(workflow.root).parts[0], alias)
                     if alias == 'chronos_bolt':
                         self.assertEqual(workflow.methods(), [UNIVARIATE, HORIZON_MIX])
                     # Exercise reports with frozen mixture weights and Bolt's empty selector table.

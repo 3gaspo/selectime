@@ -5,6 +5,7 @@ import csv
 import json
 import numpy as np
 from timebench.proposal.candidates import candidate_names
+from timebench.results.performance import write_performance_report
 
 
 def write_csv(path, rows, fieldnames=None):
@@ -114,7 +115,26 @@ def build_report(inputs, destination, config):
             'fallback_count': counts, 'grid_rows': support, 'pooled_fallback_rate': counts / support if support else None}
         log(f'{method}: tasks={len(values)} mean_task_MASE={overall[method]["mean_task_MASE"]}')
     write_json(destination / 'comparison_summary.json', overall)
+    horizons = {(task.dataset, task.term): task.prediction_length for task, *_ in inputs}
+    performance_rows = [{
+        'model': row['report_label'], 'dataset': row['dataset'].rsplit('/', 1)[0],
+        'frequency': row['dataset'].rsplit('/', 1)[1], 'term': row['term'],
+        'horizon_steps': horizons[row['dataset'], row['term']],
+        'MASE': row['MASE_mean'], 'scaled_MASE': row['scaled_MASE_mean'],
+        'MASE_std': row['MASE_std'], 'MASE_variance': row['MASE_variance'],
+        'seasonal_MASE_variance': row['seasonal_MASE_variance'],
+        'inference_seconds': row['inference_seconds'],
+        'query_retrieval_seconds': row['query_retrieval_seconds'],
+        'datastore_preprocessing_seconds': row['datastore_preprocessing_seconds'],
+    } for row in rows]
+    reference_labels = {row['report_label'] for row in rows if row['method'] == 'vanilla_univariate'}
+    performance_artifacts = write_performance_report(
+        performance_rows, destination / 'performance',
+        reference=next(iter(reference_labels)) if len(reference_labels) == 1 else None,
+        scaled_aggregation='arithmetic', inputs=sources)
+    performance_files = [path.relative_to(destination).as_posix() for path in performance_artifacts]
     write_json(destination / 'report_manifest.json', {'schema_version': 1, 'experiment': 'selectime',
+        'performance_artifacts': performance_files,
         'requested_config': config, 'inputs': sources,
         'selection': {key: config[key] for key in
             ('report_current_config', 'report_config_filters', 'report_config_policy', 'report_repeat_policy')},
@@ -122,4 +142,5 @@ def build_report(inputs, destination, config):
         'selection_frequencies': 'observed_choices_in_selected_input_manifests',
         'task_dispersion': 'population_variance_over_finite_series_window_variate_cells',
         'selected_method_timing': 'unmeasured_not_sum_of_all_candidate_search_costs'})
-    return ['comparison.csv', 'selections.csv', 'selection_summary.csv', 'comparison_summary.json', 'report_manifest.json']
+    return ['comparison.csv', 'selections.csv', 'selection_summary.csv', 'comparison_summary.json',
+            'report_manifest.json', *performance_files]

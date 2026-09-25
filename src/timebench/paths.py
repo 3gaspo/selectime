@@ -20,16 +20,16 @@ def weights_root():
 
 
 def artifact_project_root():
-    from dotenv import load_dotenv
-    load_dotenv(PROJECT_ROOT / '.env')
     if os.getenv('SELENA_NNI'):
-        return Path(os.environ['TIME_STORAGE_ROOT']).expanduser().resolve() / 'codes' / 'selectime'
+        return Path('/scratch/users') / os.environ['SELENA_NNI'].strip().lower() / 'codes' / 'selectime'
     return PROJECT_ROOT
 
 
 def outputs_root():
+    """Project-owned runtime output root; copied environment files cannot redirect it."""
     return artifact_project_root() / 'outputs'
 
 
 def logs_root():
+    """Project-owned runtime log root paired with :func:`outputs_root`."""
     return artifact_project_root() / 'logs'

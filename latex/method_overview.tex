@@ -70,6 +70,9 @@ win-frequency rule gives
  \widehat{y}=(1-p)\widehat{y}_{\rm uni}+p\widehat{y}_{\rm alternative}.
 \]
 With no usable rows set $p=0$. Freeze one scalar $p$ per task before test.
+An all-missing available target history is not sent to a backbone and contributes
+no validation loss. If no usable validation rows remain, the canonical
+univariate method is selected. Official test support is unchanged.
 These controls do not enter the original task/per-variate selectors.
 Scope controls exist only for Chronos-2; top-5 mixing also exists for TS-ICL;
 direct-horizon mixing exists for all three backbones.
@@ -78,5 +81,6 @@ direct-horizon mixing exists for all three backbones.
 Official test windows and the Seasonal Naive metric-cell grid remain unchanged.
 Unavailable retrieval and non-finite candidate cells use canonical univariate
 forecasts with recorded masks. The initial K$\leq15$ Chronos-2 study is analyzed in the results recap.
-The expanded K=20 grid, new controls and other backbones remain unevaluated.
+The expanded Chronos-2/Bolt comparison is analyzed separately. TS-ICL remains
+unevaluated under the finite-history validation contract.
 \end{document}

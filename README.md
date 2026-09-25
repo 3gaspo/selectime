@@ -32,7 +32,8 @@ CSV loading, exclusions and missing-value policies are not reapplied.
 
 `src/timebench/config/datasets.yaml` contains the inherited official TIME
 horizons/test lengths and Adaptime's task-specific alignment periods, retrieval
-lookbacks, datastore strides and validation strides. The selected configuration
+lookbacks and datastore strides. Validation always uses the official horizon
+`H` as its stride. The selected configuration
 path and applied sections are logged and recorded in manifests. Explicit Hydra
 settings override the task protocol. The default scope preserves Adaptime's
 90 tasks and excludes `Coastal_T_S/5T`, `current_velocity/20T`, `azure2019_D/5T`,
@@ -46,13 +47,21 @@ Calendar ticks use sampling-step units, including frequency multipliers.
 Datastore dates are aligned to each query's phase and follow the task's
 frequency-dependent stride. There is no fitting interval.
 
-The validation interval immediately precedes test. Its default length is
-`H + (floor(test_length/H)-1)*validation_stride`, retaining Adaptime's planned
-validation-date count without reserving adaptation-training dates. Histories
-shorter than that requested span truncate the interval at the beginning of the
-series. Forecasts use all available past context up to the configured backbone context: 8192 for Chronos-2, 2048 by default
-for TS-ICL and Chronos-Bolt. Explicit TS-ICL contexts may extend to 4096. Retrieval
-requires the complete configured retrieval lookback.
+Validation dates step backward by `H` from the first official test date, with
+the same phase as the test dates and at most as many dates as the test grid.
+`validation_length` limits that count and defaults to `test_length`; histories
+that do not reach all requested dates report fewer available dates. Forecasts
+use all available past context up to the configured backbone
+context: 8192 for Chronos-2, 2048 by default for TS-ICL and Chronos-Bolt.
+Explicit TS-ICL contexts may extend to 4096. Retrieval requires the complete
+configured retrieval lookback.
+
+Validation rows are usable only when both the available target history and the
+forecast future contain a finite value. Unusable rows are not sent to any
+backbone and contribute no selection or mixture loss. Requested, available and
+usable date/row counts are recorded. When none are
+usable, selection keeps the canonical univariate default. This filtering is
+validation-only and does not change the official Seasonal-defined test support.
 
 Lookback distance is Euclidean after separate instance normalization of each
 query and neighbor. Search requires at least 80% finite feature overlap and a
@@ -145,7 +154,10 @@ Stages run in order:
 `prepare,extract_validation,predict_validation,select_task,select_per_variate,extract_test,predict_test,assemble,evaluate,report`.
 `stage=<name>` runs one stage directly. The cluster launcher accepts the
 comma-separated `STAGES` recovery override. Exact completed stages are reused;
-interrupted tasks restart from their beginning. Conflict controls are
+interrupted tasks restart from their beginning. A task whose artifacts were
+fully written before a later scheduler failure remains `computed`; a recovery
+launch finalizes that same task without recomputing it. Reports and downstream
+stages still accept only `completed` producers. Conflict controls are
 `TIME_RUN_CONFLICT_POLICY=overwrite_exact|overwrite_path|new`,
 `TIME_SKIP_COMPLETED`, and `TIME_FORCE_RERUN`.
 
@@ -192,14 +204,21 @@ scripts/                     concise experiment and Seasonal submission launcher
 ```
 
 Artifacts live exclusively in the owning project's `outputs/selectime/<backbone>/` on
-each execution surface:
-`data/shared/`, `retrieval/{validation,test}/`,
+each execution surface. Selena uses
+`/scratch/users/<nni>/codes/selectime/outputs/`; DGX/local execution uses the
+checkout's `outputs/`, regardless of copied artifact-root settings in `.env`.
+The layout is:
+`data/{validation,test}/shared/`,
+`retrieval/{validation,test}/{covariate,horizon}/`,
 `predictions/{validation,test}/<candidate>/`, `selections/{task,per_variate}/`,
-`evaluations/<method>/`, and `reports/comparison/`, each followed by
+and `evaluations/<method>/`, each followed by
 `<dataset>/<frequency>/<term>/run_n/`. Every stage uses schema-1 plain-configuration
 manifests. Raw predictions are float32 `.npy` files; evaluations retain standard
 TIME files with mean, population variance, standard deviation and finite/grid
-counts. Reports include matched Seasonal scaling, fallback rates, validation
+counts. Reports live separately under `outputs/reports/selectime/`. Validation
+and test caches have independent stage identities; unchanged univariate rows
+are copied by `(item, channel, origin)` from equivalent completed runs, and
+manifests record reused versus newly inferred rows. Reports include matched Seasonal scaling, fallback rates, validation
 choices and their selection frequencies. Runtime logs belong in `logs/`.
 
 Candidate forecasting, retrieval and datastore preprocessing timings are
@@ -211,6 +230,9 @@ The two selection results therefore do not claim a summed candidate latency.
 and `publish_job.sh` retain project-scoped cluster operations. Lightweight result
 transfer includes reports and compact metadata; detailed transfer adds metric
 arrays and masks; full transfer includes numeric prediction/retrieval payloads.
+Each allocation logs visible accelerators, GPU and host memory, and explicit
+cgroup availability before scientific stages. Every learned or CPU-only stage
+also records the device it actually selected.
 
 ## Research documentation
 
@@ -220,11 +242,19 @@ arrays and masks; full transfer includes numeric prediction/retrieval payloads.
 - [Method overview PDF](latex/method_overview.pdf)
 - [Experiment guideline source](latex/experiment_guideline.tex)
 - [Experiment guideline PDF](latex/experiment_guideline.pdf)
-- [Evidence status PDF](latex/executive_summary.pdf)
+- [Expanded comparison executive summary](latex/executive_summary.pdf)
 - [Results recap](docs/results_recap.md)
 
 Selectime inherits maintained TIME utilities from Improved TIME and adapts
 retrieval and validation-selection ideas from Adaptime. It includes no Ridge,
 adaptation-training mixture fitting, rolling fitting, TS-RAG ARM, or standalone foundation
-benchmarking workflow. The first analyzed comparison used K up to 15. Its results do not establish
-performance for the expanded K=20 candidates, controls or new backbones. The inherited code is Apache-2.0 licensed.
+benchmarking workflow. The completed expanded comparison covers all 90 tasks for
+Chronos-2 and Chronos-Bolt. The Chronos-2 scope mixture has the lowest mean task
+MASE (1.058165), 1.03% below univariate Chronos-2 and 0.08% below native
+multivariate input. Standalone retrieved-covariate candidates do not improve
+the aggregate mean, and the direct-horizon mixture is dominated by one extreme
+SG_Carpark task. TS-ICL has no forecast result: after its environment was
+repaired, the historical recovery stopped on an all-missing early validation
+history. The current validation contract excludes such rows and therefore
+requires fresh validation predictions and downstream selection. See the results recap and executive
+summary for the complete evidence boundaries. The inherited code is Apache-2.0 licensed.

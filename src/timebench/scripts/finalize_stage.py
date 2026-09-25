@@ -11,15 +11,20 @@ def main():
     parser.add_argument('launch')
     parser.add_argument('--interrupt', action='store_true')
     args = parser.parse_args()
-    if args.interrupt:
-        interrupt_launch(args.root, args.launch)
-        return
-    for path in args.root.rglob('stage_ready.json'):
-        manifest = load_manifest(path.parent)
-        if manifest['status'] == 'running' and manifest['launch']['launch_id'] == args.launch:
-            ready = json.loads(path.read_text(encoding='utf-8'))
-            RunHandle(path.parent, manifest, 'resume').complete(ready['required_artifacts'])
-            path.unlink()
+    roots = [args.root]
+    if args.root.name == 'selectime':
+        roots.append(args.root.parent / 'reports' / 'selectime')
+    for root in roots:
+        if args.interrupt:
+            interrupt_launch(root, args.launch)
+            continue
+        for path in root.rglob('stage_ready.json'):
+            manifest = load_manifest(path.parent)
+            if manifest['status'] == 'computed' and manifest['launch']['launch_id'] == args.launch:
+                ready = json.loads(path.read_text(encoding='utf-8'))
+                RunHandle(path.parent, manifest, 'finalize').complete(ready['required_artifacts'])
+                path.unlink()
+
 
 
 if __name__ == '__main__':

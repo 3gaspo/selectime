@@ -13,11 +13,10 @@ batch_size: 32
 k_values: [1, 5, 10, 15, 20]
 datastore_scope: all
 max_datastore_windows: null
-# null inherits the task's aligned protocol. Only validation_length=0 disables selection.
+# Only validation_length=0 disables selection.
 datastore_stride: null
-validation_stride: null
 retrieval_context_length: null
-# null keeps Adaptime's validation-date count without reserving training dates.
+# null requests at most the official number of test dates, immediately before test.
 validation_length: null
 minimum_overlap_fraction: 0.8
 query_block_size: 256

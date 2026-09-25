@@ -18,14 +18,20 @@ Chronos-2 evidence is summarized separately in the results recap.
 
 \section{Protocol}
 The official TIME test length and horizon $H$ define the unchanged test windows.
-The default validation length is
-$H+(\lfloor T_{\rm test}/H\rfloor-1)s_{\rm val}$, with cadence $s_{\rm val}$
-inherited from Adaptime and no reserved training interval. Truncate validation
-at the series beginning if necessary. Model contexts use observed history up
+Validation origins walk backward from the first test origin at stride $H$ and
+the same phase, capped by both the requested validation length and the number
+of official test dates. Truncate validation at the series beginning if
+necessary. Model contexts use observed history up
 to 8192 steps for Chronos-2 or 2048 by default for Bolt and TS-ICL; retrieval uses its configured fixed lookback. Apply the inherited
 task-specific alignment period and datastore stride, and require complete
 maximum-$K$ support for covariate forecasts. Direct-horizon transfer requires
 only one independently searched neighbor. Datastore caps are optional and disabled by default.
+
+Do not send a validation reference to a backbone unless both its available
+target history and H-step future contain finite support. Such a row contributes
+no validation loss. Record requested, available and usable counts. If no usable
+validation dates remain, select univariate input.
+This rule does not remove any official test cell.
 
 Validation retrieval ends strictly at validation start; test retrieval expands
 to the pre-test interval after selection. Neighbor futures are finite, wholly
@@ -81,7 +87,9 @@ Use an already prepared saved-Arrow dataset and a local checkpoint:
 The selected Seasonal Naive grid is a prerequisite for test forecasting.
 All project products live under \path{outputs/selectime/<backbone>/}; logs under
 \texttt{logs/}. Every stage allocates a schema-1 configuration-addressed
-manifest before work. Reuse exact completed runs and restart interrupted
+manifest before work. A fully written task first becomes \texttt{computed}; the
+successful scheduler step finalizes it as \texttt{completed}. Preserve computed
+tasks across later failure, reuse completed runs, and restart only interrupted
 tasks from their beginning. Reports retain consumed manifests, metric
 coverage, population dispersion, fallbacks and validation selection counts.
 Selector and mixture independent inference latency remains unmeasured.
@@ -103,4 +111,6 @@ not exercise the foundation backbone or a cluster environment. Obtain a narrow r
 smoke result before the full study, then analyze
 complete matched artifacts. Initial K$\leq15$ evidence does not establish
 performance under the new K=20 eligibility or the added controls/backbones.
+The historical TS-ICL recovery predates the finite-history validation filter;
+fresh validation predictions and downstream stages are required.
 \end{document}

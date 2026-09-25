@@ -9,7 +9,7 @@ TIME_DATASET="${TIME_DATASET:-$TIME_DATA_ROOT/hf_dataset}"
 TIME_METADATA="${TIME_METADATA:-$TIME_DATA_ROOT/time_metadata}"
 TIME_WEIGHTS="${TIME_WEIGHTS:-$TIME_STORAGE_ROOT/weights}"
 if [ -n "${SELENA_NNI:-}" ]; then
-    TIME_SCRATCH_ROOT="$TIME_STORAGE_ROOT/codes/selectime"
+    TIME_SCRATCH_ROOT="/scratch/users/${SELENA_NNI,,}/codes/selectime"
     selectime_artifact_root="$TIME_SCRATCH_ROOT"
 else
     selectime_artifact_root="$runtime_project_root"
@@ -48,3 +48,11 @@ export OUTPUTS_ROOT LOGS_ROOT TIME_OUTPUTS TIME_LOGS
 export HF_HOME HUGGINGFACE_HUB_CACHE HF_DATASETS_CACHE TRANSFORMERS_CACHE TORCH_HOME
 
 mkdir -p "$TIME_DATA_ROOT" "$TIME_METADATA" "$TIME_WEIGHTS" "$TIME_OUTPUTS" "$TIME_LOGS"
+
+# One compute-node resource snapshot per Slurm job, including helper jobs.
+if [ -n "${SLURM_JOB_ID:-}" ] && [ "${TIME_RESOURCES_LOGGED_JOB:-}" != "$SLURM_JOB_ID" ]; then
+    export TIME_RESOURCES_LOGGED_JOB="$SLURM_JOB_ID"
+    srun --ntasks=1 uv run --no-sync python \
+        "$runtime_project_root/src/timebench/pipeline/runtime_resources.py" || \
+        echo "[$(date -u '+%Y-%m-%d %H:%M:%S UTC')] resources probe failed; diagnostics unavailable" >&2
+fi

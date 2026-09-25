@@ -14,6 +14,8 @@ class Forecaster:
 
     def __init__(self, weights, device, context_length=2048):
         from tsicl import TSICL
+        from timebench.pipeline.runtime_resources import log_selected_device
+        log_selected_device(device, stage="forecast", model=self.alias)
         self.context_length, self.device = context_length, device
         self.pipeline = TSICL(model_path=str(Path(weights) / 'tsicl/tsicl-v1.ckpt'),
                               allow_auto_download=False)

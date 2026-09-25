@@ -16,7 +16,5 @@
 PROJECT_ROOT="${SLURM_SUBMIT_DIR:-$(pwd)}"
 cd "$PROJECT_ROOT"
 export PROJECT_ROOT TIME_LAUNCH_ID="${TIME_LAUNCH_ID:-selena_seasonal_${SLURM_JOB_ID}}"
-export OUTPUTS_ROOT="$PROJECT_ROOT/outputs" LOGS_ROOT="$PROJECT_ROOT/logs"
-export TIME_OUTPUTS="$OUTPUTS_ROOT" TIME_LOGS="$LOGS_ROOT"
 source "$PROJECT_ROOT/src/slurm/selena_runtime.sh"
 source "$PROJECT_ROOT/src/slurm/run_seasonal.sh"

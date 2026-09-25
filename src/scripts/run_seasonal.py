@@ -18,7 +18,9 @@ def main(config):
     from timebench.evaluation.metrics import seasonal_naive_point_forecast
     from timebench.evaluation.saver import save_window_predictions
     from timebench.evaluation.timing import EvaluationTimer
+    from timebench.pipeline.runtime_resources import log_selected_device
 
+    log_selected_device('cpu', stage='forecast', model='seasonal_naive')
     workflow = Workflow(OmegaConf.to_container(config, resolve=True))
     settings = load_dataset_config(workflow.config_path)
     tasks_root = Path(os.environ['TIME_SEASONAL_TASKS_ROOT'])

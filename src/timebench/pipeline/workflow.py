@@ -8,8 +8,10 @@ import random
 import numpy as np
 
 from timebench.data.windows import Task, Windows, write_prepared
+from timebench.evaluation.validation import finite_row_mask, validation_window_mask
 from timebench.paths import PROJECT_ROOT, dataset_storage_root, outputs_root, weights_root
-from timebench.pipeline.runs import allocate_run, load_manifest, select_completed_runs
+from timebench.pipeline.runs import (allocate_run, load_manifest, manifest_reference,
+    select_completed_runs)
 from timebench.proposal.candidates import (UNIVARIATE, MULTIVARIATE, SELF_AUGMENTATION,
     candidate_names, candidate_k, self_covariates, query_scaled_sequences, align_covariates,
     control_candidates, HORIZON, HORIZON_MIX)
@@ -111,15 +113,13 @@ class Workflow:
                     continue
                 effective = {**protocol, **protocol.get('ranges', {}).get(term, {})}
                 horizon, test_length = int(ds[term]['prediction_length']), int(ds['test_length'])
-                stride = int(effective['validation_stride'] if config['validation_stride'] is None else config['validation_stride'])
-                # Preserve Adaptime's validation-date count; discard its training interval.
                 validation = config['validation_length']
-                validation = horizon + (test_length // horizon - 1) * stride if validation is None else int(validation)
+                validation = test_length if validation is None else int(validation)
                 task = Task(name, term, horizon, test_length, validation,
                             int(get_seasonality(name.rpartition('/')[2])),
                             int(effective['retrieval_context_length'] if config['retrieval_context_length'] is None else config['retrieval_context_length']),
                             int(effective['alignment_period']),
-                            int(effective['datastore_stride'] if config['datastore_stride'] is None else config['datastore_stride']), stride,
+                            int(effective['datastore_stride'] if config['datastore_stride'] is None else config['datastore_stride']), horizon,
                             config['datastore_scope'], config['max_datastore_windows'])
                 task.validate()
                 if task.retrieval_context_length > self.context_length:
@@ -135,38 +135,117 @@ class Workflow:
                 'term': task.term, 'method': method}
 
     def path(self, task, phase, method):
+        if phase == 'reports':
+            return self.root.parent / 'reports' / 'selectime' / self.model / method / task.dataset / task.term
         return self.root / self.model / phase / method / task.dataset / task.term
+
+    def dependency_reference(self, path):
+        return manifest_reference(path)
 
     def science(self, task, phase, method, dependencies):
         from timebench.evaluation.grid import EVALUATION_GRID_DEFINITION
-        pipeline = {'task': task.config(), 'k_values': list(self.k_values), 'maximum_k_support': True,
-                    'representation': 'instance', 'distance': 'euclidean',
-                    'minimum_overlap_fraction': float(self.config['minimum_overlap_fraction']),
-                    'neighbor_scaling': 'lookback_statistics_to_query_lookback_scale',
-                    'datastore_policy': 'validation_before_validation_start_test_before_test_start',
-                    'self_covariates': ['sqrt_abs_past_only', 'sign_past_only'],
-                    'candidate_methods': self.candidates,
-                    'control_candidates': self.controls,
-                    'horizon_support': 'one_neighbor_independent_of_maximum_k',
-                    'mixture_rule': 'beta_1_1_validation_window_msse_win_frequency_half_ties',
-                    'dependencies': {name: {key: load_manifest(path)[key] for key in
-                        ('schema_version', 'identity', 'model_config', 'pipeline_config', 'experiment_config')}
-                        for name, path in dependencies.items()}}
+        task_base = {
+            'dataset': task.dataset,
+            'term': task.term,
+            'prediction_length': task.prediction_length,
+            'test_length': task.test_length,
+            'seasonality': task.seasonality,
+        }
+        pipeline = {
+            'phase': phase,
+            'method': method,
+            'task': task_base,
+            'dependencies': {
+                name: self.dependency_reference(path)
+                for name, path in dependencies.items()
+            },
+        }
+        model = {'component': phase, 'method': method}
+        experiment = {}
+        if phase.startswith('data/'):
+            split = phase.rpartition('/')[2]
+            pipeline.update(
+                split=split,
+                retrieval_context_length=task.retrieval_context_length,
+                alignment_period=task.alignment_period,
+                datastore_stride=task.datastore_stride,
+                datastore_scope=task.datastore_scope,
+                max_datastore_windows=task.max_datastore_windows,
+                datastore_policy=(
+                    'before_first_validation_origin'
+                    if split == 'validation'
+                    else 'before_first_test_origin'
+                ),
+            )
+            if split == 'validation':
+                pipeline.update(
+                    validation_length=task.validation_length,
+                    validation_stride=task.prediction_length,
+                    validation_schedule='walk_backward_from_first_test_origin_at_stride_H',
+                )
+        elif phase.startswith('retrieval/'):
+            split = phase.rpartition('/')[2]
+            pipeline.update(
+                split=split,
+                representation='instance_normalized_lookback',
+                distance='euclidean',
+                minimum_overlap_fraction=float(self.config['minimum_overlap_fraction']),
+                neighbor_scaling='lookback_statistics_to_query_lookback_scale',
+                retrieval_context_length=task.retrieval_context_length,
+                alignment_period=task.alignment_period,
+                datastore_stride=task.datastore_stride,
+                datastore_scope=task.datastore_scope,
+                neighbor_count=max(self.k_values) if method == 'covariate' else 1,
+            )
+        elif phase.startswith('predictions/'):
+            split = phase.rpartition('/')[2]
+            checkpoints = {'chronos2': 'chronos2', 'chronos_bolt': 'chronos-bolt-base', 'ts_icl': 'tsicl/tsicl-v1.ckpt'}
+            model = {
+                'backbone': self.model,
+                'checkpoint': checkpoints[self.model],
+                'context_length': self.context_length,
+                'method': method,
+                'point_forecast': 'median',
+                'cross_learning': False,
+            }
+            pipeline.update(
+                split=split,
+                validation_support='finite_context_and_future' if split == 'validation' else None,
+            )
+            if method == SELF_AUGMENTATION:
+                pipeline['self_covariates'] = ['sqrt_abs_past_only', 'sign_past_only']
+            if candidate_k(method):
+                pipeline.update(
+                    k=candidate_k(method),
+                    neighbor_scaling='lookback_statistics_to_query_lookback_scale',
+                )
+            if method == HORIZON:
+                pipeline['forecast_policy'] = 'direct_observed_neighbor_horizon'
+            experiment['seed'] = self.seed
         if phase == 'selections':
-            pipeline.update(bootstrap_replications=int(self.config['bootstrap_replications']),
-                            bootstrap_block_length=self.config['bootstrap_block_length'],
-                            selection_rule='paired_moving_date_block_bootstrap_one_standard_error',
-                            selection_preference='univariate_then_multivariate_then_self_augmentation_then_smallest_k')
+            pipeline.update(
+                validation_support='finite_context_and_future',
+                no_validation_fallback='univariate',
+                bootstrap_replications=int(self.config['bootstrap_replications']),
+                bootstrap_block_length=self.config['bootstrap_block_length'],
+                selection_rule=(
+                    'paired_moving_date_block_bootstrap_one_standard_error'
+                    if method in {'task', 'per_variate', 'scope_selector'}
+                    else 'beta_1_1_validation_window_msse_win_frequency_half_ties'
+                ),
+                selection_preference='univariate_then_multivariate_then_self_augmentation_then_smallest_k',
+            )
+            experiment['seed'] = self.seed
         if phase == 'evaluations':
             pipeline['evaluation_grid'] = EVALUATION_GRID_DEFINITION
         if phase == 'reports':
             pipeline['report_selection'] = {key: self.config[key] for key in
                 ('report_current_config', 'report_config_filters', 'report_config_policy', 'report_repeat_policy')}
-        checkpoints = {'chronos2': 'chronos2', 'chronos_bolt': 'chronos-bolt-base', 'ts_icl': 'tsicl/tsicl-v1.ckpt'}
-        return {'model_config': {'backbone': self.model, 'checkpoint': checkpoints[self.model],
-                                 'context_length': self.context_length, 'method': method,
-                                 'point_forecast': 'median', 'cross_learning': False},
-                'pipeline_config': pipeline, 'experiment_config': {'seed': self.seed}}
+        return {
+            'model_config': model,
+            'pipeline_config': pipeline,
+            'experiment_config': experiment,
+        }
 
     def allocate(self, task, phase, method, dependencies=None):
         dependencies = dependencies or {}
@@ -176,6 +255,7 @@ class Workflow:
                                             'query_block_size': self.config['query_block_size'],
                                             'datastore_block_size': self.config['datastore_block_size']},
                             provenance={'source_revisions': SOURCE_REVISIONS, 'dataset_config_path': str(self.config_path),
+                                        'task_config': task.config(),
                                         'dataset_path': str(self.storage / task.dataset),
                                         'upstream_manifests': {name: str(path / 'manifest.json') for name, path in dependencies.items()}})
 
@@ -191,35 +271,39 @@ class Workflow:
     def finish(self, run, files):
         if os.getenv('SELECTIME_DEFER_COMPLETION') == '1':
             write_json(run.run_dir / 'stage_ready.json', {'required_artifacts': files})
-            run._completed = True  # Finalizer marks completion only after successful srun.
+            run.compute(files)
         else:
             run.complete(files)
 
-    def prepared(self, task):
-        return self.resolve(task, 'data', 'shared')
+    def prepared(self, task, split):
+        return self.resolve(task, f'data/{split}', 'shared')
 
-    def extraction(self, task, split):
-        return self.resolve(task, 'retrieval', split, {'data': self.prepared(task)})
+    def extraction(self, task, split, kind):
+        return self.resolve(task, f'retrieval/{split}', kind, {'data': self.prepared(task, split)})
 
     def prediction_dependencies(self, task, split, method):
-        deps = {'data': self.prepared(task)}
+        deps = {'data': self.prepared(task, split)}
         if method != UNIVARIATE:
             deps['vanilla'] = self.raw(task, split, UNIVARIATE)
-        if candidate_k(method) or method == HORIZON:
-            deps['retrieval'] = self.extraction(task, split)
+        if candidate_k(method):
+            deps['retrieval'] = self.extraction(task, split, 'covariate')
+        elif method == HORIZON:
+            deps['retrieval'] = self.extraction(task, split, 'horizon')
         return deps
 
     def raw(self, task, split, method):
         return self.resolve(task, f'predictions/{split}', method, self.prediction_dependencies(task, split, method))
 
     def selection_dependencies(self, task):
-        return {'data': self.prepared(task), **{method: self.raw(task, 'validation', method) for method in self.candidates}}
+        return {'validation_data': self.prepared(task, 'validation'),
+                'test_data': self.prepared(task, 'test'),
+                **{method: self.raw(task, 'validation', method) for method in self.candidates}}
 
     def selection(self, task, granularity):
         return self.resolve(task, 'selections', granularity, self.selection_dependencies(task))
 
     def assembled_dependencies(self, task, granularity):
-        return {'selection': self.selection(task, granularity), 'data': self.prepared(task),
+        return {'selection': self.selection(task, granularity), 'data': self.prepared(task, 'test'),
                 **{method: self.raw(task, 'test', method) for method in self.candidates}}
 
     def prediction(self, task, method):
@@ -232,7 +316,7 @@ class Workflow:
 
     def control_dependencies(self, task, method, split):
         alternative = self.controls[method]
-        deps = {'data': self.prepared(task), 'vanilla': self.raw(task, split, UNIVARIATE),
+        deps = {'data': self.prepared(task, split), 'vanilla': self.raw(task, split, UNIVARIATE),
                 'alternative': self.raw(task, split, alternative)}
         if split == 'test':
             deps['calibration'] = self.resolve(task, 'selections', method,
@@ -247,8 +331,77 @@ class Workflow:
         except ValueError:
             return np.load(path, allow_pickle=False)
 
+    def reuse_univariate_rows(self, task, split, refs, current_run, values, fallback):
+        """Copy completed forecasts for unchanged item/channel/origin references."""
+        reused = np.zeros(len(refs), dtype=bool)
+        sources = []
+        current = current_run.manifest
+        manifests = sorted(
+            self.path(task, f'predictions/{split}', UNIVARIATE).glob('run_*/manifest.json'),
+            key=lambda path: path.parent.name,
+            reverse=True,
+        )
+        destination_rows = {tuple(map(int, row)): index for index, row in enumerate(refs)}
+        for manifest_path in manifests:
+            if manifest_path.parent == current_run.run_dir:
+                continue
+            manifest = load_manifest(manifest_path)
+            metadata_path = manifest_path.parent / 'prediction.json'
+            if (
+                manifest['status'] != 'completed'
+                or manifest.get('identity') != current.get('identity')
+                or manifest.get('model_config') != current.get('model_config')
+                or manifest.get('experiment_config') != current.get('experiment_config')
+                or not metadata_path.is_file()
+            ):
+                continue
+            metadata = json.loads(metadata_path.read_text(encoding='utf-8'))
+            if (
+                metadata.get('method') != UNIVARIATE
+                or metadata.get('split') != split
+                or metadata.get('context_length') != self.context_length
+            ):
+                continue
+            recorded = manifest.get('provenance', {}).get('upstream_manifests', {}).get('data')
+            data_run = Path(recorded).parent if recorded else None
+            if data_run is None or not data_run.is_dir():
+                reference = manifest.get('pipeline_config', {}).get('dependencies', {}).get('data', {})
+                run_name = reference.get('run') if isinstance(reference, dict) else None
+                candidates = (
+                    self.path(task, f'data/{split}', 'shared') / run_name,
+                    self.path(task, 'data', 'shared') / run_name,
+                ) if run_name else ()
+                data_run = next((path for path in candidates if path.is_dir()), None)
+            source_refs_path = data_run / f'{split}_references.npy' if data_run else None
+            prediction_path = manifest_path.parent / 'prediction.npy'
+            fallback_path = manifest_path.parent / 'fallback.npy'
+            if not source_refs_path or not source_refs_path.is_file() or not prediction_path.is_file():
+                continue
+            source_refs = np.load(source_refs_path, mmap_mode='r', allow_pickle=False)
+            predictions = np.load(prediction_path, mmap_mode='r', allow_pickle=False)
+            source_fallback = (
+                np.load(fallback_path, mmap_mode='r', allow_pickle=False)
+                if fallback_path.is_file()
+                else np.zeros(len(source_refs), dtype=bool)
+            )
+            copied = 0
+            for source_index, reference in enumerate(source_refs):
+                destination = destination_rows.get(tuple(map(int, reference)))
+                if destination is None or reused[destination]:
+                    continue
+                values[destination] = predictions[source_index]
+                fallback[destination] = source_fallback[source_index]
+                reused[destination] = True
+                copied += 1
+            if copied:
+                sources.append({'manifest': str(manifest_path), 'rows': copied})
+            if reused.all():
+                break
+        return reused, sources
+
     def support(self, task, split, windows, refs):
-        targets = np.isfinite(windows.labels(refs))
+        labels = windows.labels(refs)
+        targets = np.isfinite(labels)
         if split == 'test':
             from timebench.evaluation.grid import flatten_univariate_grid, load_evaluation_grid
             from timebench.pipeline.evaluation_grid import resolve_shared_evaluation_grid
@@ -257,68 +410,66 @@ class Workflow:
             if not np.array_equal(expected, targets):
                 raise ValueError('Official test references and Seasonal grid do not align')
             return expected, cells
-        return targets, targets.any(axis=-1)
+        return targets, validation_window_mask(
+            windows.histories(refs, self.context_length), labels
+        )
 
     def prepare(self):
         for task in self.tasks:
-            with self.allocate(task, 'data', 'shared') as run:
-                if run.should_run:
-                    log(f'prepare {task.dataset}/{task.term}')
-                    self.finish(run, write_prepared(Windows(task, self.storage), run.run_dir))
+            windows = Windows(task, self.storage)
+            for split in ('validation', 'test'):
+                with self.allocate(task, f'data/{split}', 'shared') as run:
+                    if run.should_run:
+                        log(f'prepare_{split} {task.dataset}/{task.term}')
+                        self.finish(run, write_prepared(windows, run.run_dir, split))
 
     def extract(self, split):
         from timebench.proposal.retrieval import context_representation, blockwise_topk
         for task in self.tasks:
-            data = self.prepared(task)
-            with self.allocate(task, 'retrieval', split, {'data': data}) as run:
-                if not run.should_run:
-                    continue
-                log(f'extract_{split} {task.dataset}/{task.term}')
-                windows = Windows(task, self.storage)
-                refs = self.array(data, f'{split}_references')
-                datastore_refs = self.array(data, f'{split}_datastore')
-                r, h = task.retrieval_context_length, task.prediction_length
-                started = perf_counter()
-                representations = save_array(run.run_dir / 'datastore_representation.npy', (len(datastore_refs), r))
-                for start in range(0, len(datastore_refs), self.config['datastore_block_size']):
-                    rows = datastore_refs[start:start + self.config['datastore_block_size']]
-                    sequences = windows.sequences(rows)
-                    represented = context_representation(sequences[:, :r])
-                    represented[~np.isfinite(sequences[:, r:]).all(axis=-1)] = np.nan
-                    representations[start:start + len(rows)] = represented
-                finish_array(run.run_dir / 'datastore_representation.npy', representations)
-                preprocessing_seconds = perf_counter() - started
-                started = perf_counter()
-                query = save_array(run.run_dir / 'query_representation.npy', (len(refs), r))
-                query[:] = np.nan
-                for start in range(0, len(refs), self.config['query_block_size']):
-                    rows = refs[start:start + self.config['query_block_size']]
-                    for local, history in enumerate(windows.histories(rows, r)):
-                        if len(history) == r:
-                            query[start + local] = context_representation(history)
-                finish_array(run.run_dir / 'query_representation.npy', query)
-                distances, ids = blockwise_topk(query, representations, refs, datastore_refs,
-                    self.array(data, f'{split}_ticks'), self.array(data, f'{split}_datastore_ticks'),
-                    self.array(data, f'{split}_datastore_ends'), k=max(self.k_values),
-                    period=task.alignment_period, stride=task.datastore_stride, horizon=h,
-                    scope=task.datastore_scope, minimum_overlap_fraction=self.config['minimum_overlap_fraction'],
-                    query_block_size=self.config['query_block_size'], datastore_block_size=self.config['datastore_block_size'])
-                np.save(run.run_dir / 'neighbor_ids.npy', ids, allow_pickle=False)
-                # Horizon transfer needs one neighbor even when max-K covariates are ineligible.
-                _, horizon_ids = blockwise_topk(query, representations, refs, datastore_refs,
-                    self.array(data, f'{split}_ticks'), self.array(data, f'{split}_datastore_ticks'),
-                    self.array(data, f'{split}_datastore_ends'), k=1,
-                    period=task.alignment_period, stride=task.datastore_stride, horizon=h,
-                    scope=task.datastore_scope, minimum_overlap_fraction=self.config['minimum_overlap_fraction'],
-                    query_block_size=self.config['query_block_size'], datastore_block_size=self.config['datastore_block_size'])
-                np.save(run.run_dir / 'horizon_neighbor_ids.npy', horizon_ids, allow_pickle=False)
-                np.save(run.run_dir / 'neighbor_distances.npy', distances, allow_pickle=False)
-                np.save(run.run_dir / 'eligible.npy', (ids >= 0).all(axis=-1), allow_pickle=False)
-                write_json(run.run_dir / 'retrieval.json', {'schema_version': 1, 'split': split,
-                    'max_k': max(self.k_values), 'queries': len(refs), 'eligible_queries': int((ids >= 0).all(axis=-1).sum()),
-                    'datastore_windows': len(datastore_refs), 'datastore_preprocessing_seconds': preprocessing_seconds,
-                    'query_retrieval_seconds': perf_counter() - started})
-                self.finish(run, ['datastore_representation.npy', 'query_representation.npy', 'neighbor_ids.npy', 'horizon_neighbor_ids.npy', 'neighbor_distances.npy', 'eligible.npy', 'retrieval.json'])
+            data = self.prepared(task, split)
+            for kind in ('covariate', 'horizon'):
+                with self.allocate(task, f'retrieval/{split}', kind, {'data': data}) as run:
+                    if not run.should_run:
+                        continue
+                    log(f'extract_{split} kind={kind} {task.dataset}/{task.term}')
+                    windows = Windows(task, self.storage)
+                    refs = self.array(data, f'{split}_references')
+                    datastore_refs = self.array(data, f'{split}_datastore')
+                    r, h = task.retrieval_context_length, task.prediction_length
+                    started = perf_counter()
+                    representations = save_array(run.run_dir / 'datastore_representation.npy', (len(datastore_refs), r))
+                    for start in range(0, len(datastore_refs), self.config['datastore_block_size']):
+                        rows = datastore_refs[start:start + self.config['datastore_block_size']]
+                        sequences = windows.sequences(rows)
+                        represented = context_representation(sequences[:, :r])
+                        represented[~np.isfinite(sequences[:, r:]).all(axis=-1)] = np.nan
+                        representations[start:start + len(rows)] = represented
+                    finish_array(run.run_dir / 'datastore_representation.npy', representations)
+                    preprocessing_seconds = perf_counter() - started
+                    started = perf_counter()
+                    query = save_array(run.run_dir / 'query_representation.npy', (len(refs), r))
+                    query[:] = np.nan
+                    for start in range(0, len(refs), self.config['query_block_size']):
+                        rows = refs[start:start + self.config['query_block_size']]
+                        for local, history in enumerate(windows.histories(rows, r)):
+                            if len(history) == r:
+                                query[start + local] = context_representation(history)
+                    finish_array(run.run_dir / 'query_representation.npy', query)
+                    k = max(self.k_values) if kind == 'covariate' else 1
+                    distances, ids = blockwise_topk(query, representations, refs, datastore_refs,
+                        self.array(data, f'{split}_ticks'), self.array(data, f'{split}_datastore_ticks'),
+                        self.array(data, f'{split}_datastore_ends'), k=k,
+                        period=task.alignment_period, stride=task.datastore_stride, horizon=h,
+                        scope=task.datastore_scope, minimum_overlap_fraction=self.config['minimum_overlap_fraction'],
+                        query_block_size=self.config['query_block_size'], datastore_block_size=self.config['datastore_block_size'])
+                    np.save(run.run_dir / 'neighbor_ids.npy', ids, allow_pickle=False)
+                    np.save(run.run_dir / 'neighbor_distances.npy', distances, allow_pickle=False)
+                    np.save(run.run_dir / 'eligible.npy', (ids >= 0).all(axis=-1), allow_pickle=False)
+                    write_json(run.run_dir / 'retrieval.json', {'schema_version': 1, 'split': split,
+                        'kind': kind, 'max_k': k, 'queries': len(refs), 'eligible_queries': int((ids >= 0).all(axis=-1).sum()),
+                        'datastore_windows': len(datastore_refs), 'datastore_preprocessing_seconds': preprocessing_seconds,
+                        'query_retrieval_seconds': perf_counter() - started})
+                    self.finish(run, ['datastore_representation.npy', 'query_representation.npy', 'neighbor_ids.npy', 'neighbor_distances.npy', 'eligible.npy', 'retrieval.json'])
 
     def predict(self, split):
         from timebench.model_loading import load_forecaster
@@ -328,7 +479,7 @@ class Workflow:
         methods = [method for method in self.raw_methods
                    if group == 'all' or (method == UNIVARIATE) == (group == 'vanilla')]
         for task in self.tasks:
-            data = self.prepared(task)
+            data = self.prepared(task, split)
             windows = Windows(task, self.storage)
             refs = self.array(data, f'{split}_references')
             targets, cells = self.support(task, split, windows, refs)
@@ -339,18 +490,28 @@ class Workflow:
                         continue
                     log(f'predict_{split} method={method} {task.dataset}/{task.term}')
                     seed_run(self.seed)
-                    if model is None and len(refs) and method != HORIZON:
-                        model = load_forecaster(self.model, self.weights, self.device, self.context_length)
                     values = save_array(run.run_dir / 'prediction.npy', (len(refs), task.prediction_length))
+                    values[:] = np.nan
                     fallback = np.zeros(len(refs), dtype=bool)
+                    invalid_context = np.zeros(len(refs), dtype=bool)
+                    produced = np.zeros(len(refs), dtype=bool)
+                    reused = np.zeros(len(refs), dtype=bool)
+                    reuse_sources = []
+                    if method == UNIVARIATE:
+                        reused, reuse_sources = self.reuse_univariate_rows(
+                            task, split, refs, run, values, fallback
+                        )
+                        produced[reused] = True
                     vanilla = None if method == UNIVARIATE else self.array(deps['vanilla'], 'prediction')
                     if vanilla is not None:
                         values[:] = vanilla
                     extraction = deps.get('retrieval')
                     k = candidate_k(method)
                     retrieval = bool(k) or method == HORIZON
-                    ids = self.array(extraction, 'horizon_neighbor_ids' if method == HORIZON else 'neighbor_ids') if retrieval else None
+                    ids = self.array(extraction, 'neighbor_ids') if retrieval else None
                     datastore = self.array(data, f'{split}_datastore') if retrieval else None
+                    if model is None and (~reused).any() and method != HORIZON:
+                        model = load_forecaster(self.model, self.weights, self.device, self.context_length)
                     timer = EvaluationTimer()
                     timer.start()
                     if method == MULTIVARIATE:
@@ -359,23 +520,52 @@ class Workflow:
                         row_order = np.argsort(inverse, kind='stable')
                         offsets = np.r_[0, np.cumsum(np.bincount(inverse, minlength=len(keys)))]
                         for start in range(0, len(keys), self.batch_size):
-                            histories = [windows.multivariate_history(item, origin, self.context_length)
-                                         for item, origin in keys[start:start + self.batch_size]]
-                            forecasts = model.forecast(histories, task.prediction_length)
-                            for local, forecast in enumerate(forecasts):
-                                group = start + local
+                            groups, histories = [], []
+                            for group in range(start, min(start + self.batch_size, len(keys))):
+                                item, origin = keys[group]
                                 positions = row_order[offsets[group]:offsets[group + 1]]
+                                history = windows.multivariate_history(item, origin, self.context_length)
+                                if split == 'validation':
+                                    finite_channels = finite_row_mask(history)
+                                    row_context = finite_channels[refs[positions, 1]]
+                                    invalid_context[positions[~row_context]] = True
+                                    fallback[positions[~cells[positions]]] = True
+                                    if not cells[positions].any() or not finite_channels.all():
+                                        fallback[positions] = True
+                                        continue
+                                groups.append(group)
+                                histories.append(history)
+                            if not groups:
+                                continue
+                            forecasts = model.forecast(histories, task.prediction_length)
+                            for group, forecast in zip(groups, forecasts):
+                                positions = row_order[offsets[group]:offsets[group + 1]]
+                                if split == 'validation':
+                                    positions = positions[cells[positions]]
                                 values[positions] = forecast[refs[positions, 1]]
+                                produced[positions] = True
                     else:
                         for start in range(0, len(refs), self.batch_size):
                             positions = np.arange(start, min(start + self.batch_size, len(refs)))
+                            positions = positions[~reused[positions]]
+                            if not len(positions):
+                                continue
+                            histories = windows.histories(refs[positions], self.context_length)
+                            if split == 'validation':
+                                labels = windows.labels(refs[positions])
+                                usable_history = finite_row_mask(histories)
+                                usable_window = validation_window_mask(histories, labels)
+                                invalid_context[positions[~usable_history]] = True
+                                fallback[positions[~usable_window]] = True
+                                positions = positions[usable_window]
+                                histories = [history for history, usable in zip(histories, usable_window) if usable]
                             if retrieval:
                                 usable = (ids[positions] >= 0).all(axis=-1)
                                 fallback[positions[~usable]] = True
                                 positions = positions[usable]
+                                histories = [history for history, keep in zip(histories, usable) if keep]
                             if not len(positions):
                                 continue
-                            histories = windows.histories(refs[positions], self.context_length)
                             past, future = None, None
                             if method == SELF_AUGMENTATION:
                                 past = [self_covariates(history) for history in histories]
@@ -391,9 +581,10 @@ class Workflow:
                                 model.forecast(histories, task.prediction_length,
                                                past_covariates=past, future_covariates=future))
                             values[positions] = np.stack([forecast[0] for forecast in forecasts])
+                            produced[positions] = True
                     seconds = timer.stop()
                     invalid = cells & ~np.all(~targets | np.isfinite(values), axis=-1)
-                    if invalid.any() and method == UNIVARIATE:
+                    if (invalid & ~invalid_context).any() and method == UNIVARIATE:
                         raise ValueError('Canonical univariate forecast is non-finite on required support')
                     if vanilla is not None:
                         values[invalid] = vanilla[invalid]
@@ -401,11 +592,20 @@ class Workflow:
                     finish_array(run.run_dir / 'prediction.npy', values)
                     np.save(run.run_dir / 'fallback.npy', fallback, allow_pickle=False)
                     retrieval_metadata = json.loads((extraction / 'retrieval.json').read_text()) if retrieval else {}
+                    prepared_metadata = json.loads((data / 'prepared.json').read_text(encoding='utf-8'))
+                    usable_ticks = np.unique(self.array(data, f'{split}_ticks')[cells]) if len(refs) else []
                     write_json(run.run_dir / 'prediction.json', {'schema_version': 1, 'method': method, 'split': split,
                         'context_length': self.context_length, 'inference_seconds': seconds,
                         'query_retrieval_seconds': retrieval_metadata.get('query_retrieval_seconds', 0),
                         'datastore_preprocessing_seconds': retrieval_metadata.get('datastore_preprocessing_seconds', 0),
                         'fallback_count': int((fallback & cells).sum()), 'grid_rows': int(cells.sum()),
+                        'validation_counts': ({**prepared_metadata['counts'],
+                            'usable_rows': int(cells.sum()), 'usable_dates': int(len(usable_ticks))}
+                            if split == 'validation' else None),
+                        'reused_rows': int(reused.sum()),
+                        'newly_inferred_rows': int((produced & ~reused).sum()),
+                        'reuse_sources': reuse_sources,
+                        'invalid_validation_context_count': int((invalid_context & cells).sum()),
                         'insufficient_retrieval_count': int((~(ids >= 0).all(axis=-1) & cells).sum()) if retrieval else 0,
                         'nonfinite_fallback_count': int(invalid.sum()),
                         'timing_policy': 'measured_candidate_query_loop_precomputed_vanilla_fallback_separate_retrieval'})
@@ -425,15 +625,15 @@ class Workflow:
                     continue
                 log(f'select_{granularity} {task.dataset}/{task.term}')
                 windows = Windows(task, self.storage)
-                refs = self.array(deps['data'], 'validation_references')
+                refs = self.array(deps['validation_data'], 'validation_references')
                 predictions = {method: self.array(deps[method], 'prediction') for method in self.candidates}
                 result = select_candidates(predictions, windows.labels(refs), windows.msse_scales(refs), refs,
-                    self.array(deps['data'], 'validation_ticks'), granularity=granularity, seed=self.seed,
+                    self.array(deps['validation_data'], 'validation_ticks'), granularity=granularity, seed=self.seed,
                     prediction_length=task.prediction_length, validation_stride=task.validation_stride,
                     replications=self.config['bootstrap_replications'], block_length=self.config['bootstrap_block_length'])
                 if granularity == 'per_variate':
                     present = {(entry['item'], entry['channel']) for entry in result['selections']}
-                    for item, channel in np.unique(self.array(deps['data'], 'test_references')[:, :2], axis=0):
+                    for item, channel in np.unique(self.array(deps['test_data'], 'test_references')[:, :2], axis=0):
                         if (int(item), int(channel)) not in present:
                             entry = select_with_block_bootstrap({name: np.empty(0) for name in self.candidates},
                                 seed=self.seed, prediction_length=task.prediction_length, validation_stride=task.validation_stride)
@@ -471,7 +671,7 @@ class Workflow:
         if self.model == 'chronos_bolt':
             return
         for task in self.tasks:
-            refs = self.array(self.prepared(task), 'test_references')
+            refs = self.array(self.prepared(task, 'test'), 'test_references')
             for granularity, method in zip(('task', 'per_variate'), SELECTED_METHODS):
                 deps = self.assembled_dependencies(task, granularity)
                 with self.allocate(task, 'predictions/test', method, deps) as run:
@@ -506,7 +706,7 @@ class Workflow:
         from timebench.proposal.selection import blend
         for task in self.tasks:
             windows = Windows(task, self.storage)
-            refs = self.array(self.prepared(task), 'test_references')
+            refs = self.array(self.prepared(task, 'test'), 'test_references')
             targets, cells = self.support(task, 'test', windows, refs)
             for method, alternative in self.controls.items():
                 deps = self.control_dependencies(task, method, 'test')
@@ -588,7 +788,7 @@ class Workflow:
                     prediction = self.path(task, 'predictions/test', method) / recorded.parent.name
                     upstream = load_manifest(prediction)
                     expected = manifest['pipeline_config']['dependencies']['prediction']
-                    if upstream['status'] != 'completed' or any(upstream[key] != value for key, value in expected.items()):
+                    if upstream['status'] != 'completed' or self.dependency_reference(prediction) != expected:
                         raise ValueError(f'Report prediction does not match its evaluation: {prediction}')
                     inputs.append((task, method, evaluation, prediction, manifest['selection']))
         # Report is itself a recoverable task and records its complete selected input identities.
@@ -600,6 +800,9 @@ class Workflow:
                 self.finish(run, build_report(inputs, run.run_dir, self.config))
 
     def run(self, stage):
+        from timebench.pipeline.runtime_resources import log_selected_device
+        selected_device = self.device if stage.startswith('predict') else 'cpu'
+        log_selected_device(selected_device, stage=stage, component='selectime')
         log(f'stage={stage} tasks={len(self.tasks)} seed={self.seed} Slurm={os.getenv("SLURM_JOB_ID")}')
         if stage == 'pipeline':
             if os.getenv('SELECTIME_DEFER_COMPLETION') == '1':

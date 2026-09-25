@@ -1,16 +1,176 @@
-\documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
-\title{Selectime evidence status}
-\author{}
-\date{}
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=21mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,amsmath,booktabs,graphicx,xcolor,float}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\newcommand{\good}[1]{\textcolor{green!45!black}{#1}}
+\newcommand{\bad}[1]{\textcolor{red!70!black}{#1}}
 \begin{document}
-\maketitle
-No Selectime experiment has been executed or analyzed. No accuracy or runtime
-benefit is supported yet. Prior Adaptime artifacts are not evidence for this
-new computation and artifact contract.
 
-The next evidence required is a complete matched comparison of the simple
-Chronos-2 candidates and both validation-selection granularities on the 90-task
-TIME grid, with inspected validation choices, retrieval support, fallback
-counts and metric coverage.
+\begin{center}
+{\Large\bfseries Selectime: expanded input-selection study}\\[4pt]
+19 September 2026
+\end{center}
+
+\section*{Main findings}
+
+On 90 matched TIME tasks, the best aggregate result is the frozen
+\textbf{Chronos-2 scope mixture}: mean task MASE 1.058165, or
+\good{1.03\% lower} than univariate Chronos-2. It is only 0.08\% below native
+multivariate Chronos-2, so the practical difference between those two means is
+small. Per-variate and task selection improve on univariate by 0.83\% and
+0.49\%, respectively. The standalone retrieved-covariate candidates are all
+worse than univariate, and increasing $K$ from 1 to 20 adds substantial
+recorded inference cost without an aggregate accuracy gain.
+
+Chronos-Bolt univariate has mean task MASE 1.167905, 9.23\% above univariate
+Chronos-2. The direct-horizon mixture is not usable as an aggregate method: one
+SG\_Carpark task reaches MASE 313,637 with Chronos-2 and 382,465 with Bolt,
+dominating both 90-task means. The remaining findings are not driven by this
+method.
+
+\section{Question and protocol}
+
+For an observed target history $x$ and horizon-$H$ future $y$, a frozen
+backbone maps its supplied input representation to a median point forecast
+$\widehat y$. Selectime asks whether a held-out validation period can choose or
+mix useful inputs without training model parameters and without observing the
+official test future.
+
+Chronos-2 compares univariate, native multivariate, past-only
+$\sqrt{|x|}$/sign augmentation, and retrieved covariates for
+$K\in\{1,5,10,15,20\}$. It also reports task and per-variate candidate
+selection, binary scope selection, a frozen univariate/multivariate mixture, a
+frozen univariate/top-5 mixture, and a direct-neighbor-horizon mixture.
+Chronos-Bolt reports univariate forecasts and the direct-horizon mixture.
+
+Validation choices use mean squared scaled error and are frozen before test.
+Validation rows with no finite available target history are excluded before
+backbone inference; if no usable rows remain, selection keeps univariate input.
+Soft mixtures use a Beta$(1,1)$ smoothed validation win frequency with half
+ties and exclude fallback rows. Retrieval uses instance-normalized lookback
+distance, aligned historical windows, and lookback-only rescaling. Candidate
+fallbacks use the canonical univariate forecast. The comparison uses seed 0
+once. Each method has 67,502 finite MASE cells on the same Seasonal-defined
+grid; the reported mean gives equal weight to each of 90 task means.
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\textwidth]{../outputs/analysis/expanded_results_20260919/mean_task_mase.pdf}
+\caption{Raw arithmetic mean task MASE for every stable reported method.
+Direct-horizon mixtures are separated because their outlier would make the
+other bars unreadable. Lower is better.}
+\end{figure}
+
+\section{Obtained accuracy}
+
+\begin{center}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Method & Mean MASE & Scaled MASE & $\Delta$ vs C2 uni. & Win/loss/tie\\
+\midrule
+C2 scope mixture & \textbf{1.058165} & \textbf{0.701774} & \good{$-1.03\%$} & 56/10/24\\
+C2 multivariate & 1.058981 & 0.703148 & \good{$-0.96\%$} & 43/23/24\\
+C2 per-variate selector & 1.060312 & 0.703046 & \good{$-0.83\%$} & 55/27/8\\
+C2 task selector & 1.063977 & 0.704353 & \good{$-0.49\%$} & 35/16/39\\
+C2 top-5 mixture & 1.064982 & 0.705235 & \good{$-0.40\%$} & 49/27/14\\
+C2 scope selector & 1.065183 & 0.705885 & \good{$-0.38\%$} & 24/10/56\\
+C2 univariate & 1.069230 & 0.708652 & 0.00\% & --\\
+C2 self-augmentation & 1.071291 & 0.711580 & \bad{$+0.19\%$} & 42/48/0\\
+C2 retrieved $K=1$ & 1.078047 & 0.712306 & \bad{$+0.82\%$} & 30/52/8\\
+C2 retrieved $K=5$ & 1.082413 & 0.715548 & \bad{$+1.23\%$} & 27/55/8\\
+C2 retrieved $K=20$ & 1.086914 & 0.716907 & \bad{$+1.65\%$} & 32/50/8\\
+C2 retrieved $K=10$ & 1.087506 & 0.717717 & \bad{$+1.71\%$} & 29/53/8\\
+C2 retrieved $K=15$ & 1.089185 & 0.717431 & \bad{$+1.87\%$} & 30/52/8\\
+Bolt univariate & 1.167905 & 0.776717 & \bad{$+9.23\%$} & 8/82/0\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+``Scaled MASE'' divides each task MASE by its matched held-out Seasonal Naive
+MASE before averaging. Win/loss/tie is paired against univariate Chronos-2 on
+the same tasks. Scope mixing wins on 56 tasks and loses on 10, but the small
+aggregate margin over native multivariate input does not establish a
+meaningful or statistically significant superiority.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../outputs/analysis/expanded_results_20260919/paired_task_ratios.pdf}
+\caption{Paired task MASE ratios. The dashed line is parity with univariate
+Chronos-2; the vertical scale is logarithmic. The boxes show heterogeneous
+task effects hidden by the aggregate mean.}
+\end{figure}
+
+\section{What validation selected}
+
+The task selector keeps univariate input on 39 of 90 tasks, chooses
+multivariate on 31, self-augmentation on nine, and retrieval on eleven. Its
+retrieval choices include four $K=20$ tasks. The 3,882 per-variate decisions
+use univariate input 51.4\% of the time and multivariate input 22.3\%; all
+retrieval choices together account for 14.9\%.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../outputs/analysis/expanded_results_20260919/selection_frequencies.pdf}
+\caption{Frozen validation choices for the original task and per-variate
+selectors. These frequencies describe selected representations, not causal
+contributions to accuracy.}
+\end{figure}
+
+Every standalone retrieved-$K$ method uses univariate fallback on 10,293 cells
+(15.25\%). The task and per-variate selectors fall back on 6 and 440 cells;
+the top-5 mixture falls back on 3,032 cells. Complete metric coverage therefore
+does not imply successful retrieval everywhere.
+
+\section{Accuracy and recorded cost}
+
+The summed Chronos-2 candidate query-loop times are 235 seconds for
+univariate, 247 for multivariate, 736 for self-augmentation, and 433, 1,406,
+2,710, 3,950 and 5,279 seconds for $K=1,5,10,15,20$. These are not end-to-end
+times: retrieval and datastore preprocessing are recorded separately, and
+selected methods reuse candidate artifacts rather than having an independently
+measured latency.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.86\textwidth]{../outputs/analysis/expanded_results_20260919/candidate_accuracy_time.pdf}
+\caption{Candidate accuracy versus recorded query-loop time. Larger retrieved
+sets are slower and do not improve the 90-task mean.}
+\end{figure}
+
+\section{Direct-horizon instability}
+
+The direct-horizon method rescales a retrieved observed continuation using
+neighbor and query lookback standard deviations, then mixes it with the
+univariate forecast. Its Chronos-2/Bolt aggregate MASE is 3,485.98/4,250.80.
+Excluding only SG\_Carpark/15T/short reduces those means to 1.1471/1.2139,
+showing that one extreme task dominates, although even the reduced means do
+not beat the corresponding vanilla forecasts.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../outputs/analysis/expanded_results_20260919/direct_horizon_instability.pdf}
+\caption{Sorted direct-horizon-mixture task MASE. The log scale exposes the
+single six-order-of-magnitude failure while retaining the other tasks.}
+\end{figure}
+
+The compact synchronized evidence proves the extreme finite errors and the
+unbounded rescaling rule, but it does not include raw neighbor or prediction
+arrays. The exact offending neighbor/channel cannot therefore be reconstructed
+locally. The supported conclusion is that this direct-horizon formulation is
+numerically unsafe as evaluated; attributing the outlier to a specific
+near-constant lookback remains a plausible mechanism, not an observed fact.
+
+\section{Limits}
+
+The report manifests and compact task summaries agree with the expanded
+scientific contract. Raw prediction, retrieval and metric arrays were not
+independently inspected. One seed provides no repeat robustness or significance
+assessment. Population standard deviations describe within-task metric cells,
+not uncertainty across runs. Selected-method latency remains undefined. These
+limits do not change the observed ordering, but they constrain claims about
+generalization, uncertainty and execution cost.
+
 \end{document}

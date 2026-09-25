@@ -10,6 +10,8 @@ class Forecaster:
 
     def __init__(self, weights, device, context_length=2048):
         from chronos import BaseChronosPipeline
+        from timebench.pipeline.runtime_resources import log_selected_device
+        log_selected_device(device, stage="forecast", model=self.alias)
         self.context_length = context_length
         self.pipeline = BaseChronosPipeline.from_pretrained(
             str(Path(weights) / 'chronos-bolt-base'), device_map=device, local_files_only=True)

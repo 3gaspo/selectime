@@ -3,7 +3,6 @@ from dataclasses import asdict, dataclass
 from functools import lru_cache
 from pathlib import Path
 import json
-import math
 import numpy as np
 import pandas as pd
 
@@ -36,8 +35,8 @@ class Task:
             raise ValueError('Validation must be disabled or contain a complete horizon')
         if self.datastore_stride % self.alignment_period:
             raise ValueError('datastore_stride must be a multiple of alignment_period')
-        if math.gcd(self.validation_stride, self.alignment_period) != 1:
-            raise ValueError('validation_stride must cycle alignment phases')
+        if self.validation_stride != self.prediction_length:
+            raise ValueError('validation_stride must equal the official test stride H')
         if self.datastore_scope not in ('all', 'same_series'):
             raise ValueError('datastore_scope must be all or same_series')
         if self.max_datastore_windows is not None and self.max_datastore_windows < 1:
@@ -95,7 +94,19 @@ class Windows:
 
     def boundary(self, item, split):
         test_start = self.shapes[item][1] - self.task.test_length
-        return max(0, test_start - self.task.validation_length) if split == 'validation' else test_start
+        if split == 'validation':
+            return max(0, test_start - self.validation_date_count(item) * self.task.prediction_length)
+        return test_start
+
+    def validation_date_count(self, item):
+        if self.task.validation_length == 0:
+            return 0
+        test_start = self.shapes[item][1] - self.task.test_length
+        test_count = len(interval_origins(
+            test_start, self.shapes[item][1], self.task.prediction_length,
+            self.task.prediction_length,
+        ))
+        return min(test_count, self.task.validation_length // self.task.prediction_length)
 
     def references(self, split):
         rows = []
@@ -103,11 +114,15 @@ class Windows:
             if split == 'test':
                 start, stop, stride = self.boundary(item, split), length, self.task.prediction_length
             elif split == 'validation':
-                start = self.boundary(item, split)
-                stop, stride = self.boundary(item, 'test'), self.task.validation_stride
+                test_start = self.boundary(item, 'test')
+                count = self.validation_date_count(item)
+                origins = test_start - self.task.prediction_length * np.arange(
+                    count, 0, -1, dtype=np.int64
+                )
             else:
                 raise ValueError(split)
-            origins = interval_origins(start, stop, self.task.prediction_length, stride)
+            if split == 'test':
+                origins = interval_origins(start, stop, self.task.prediction_length, stride)
             origins = origins[origins > 0]
             for channel in range(channels):
                 rows.extend((item, channel, int(origin)) for origin in origins)
@@ -177,23 +192,37 @@ class Windows:
         return refs, end_ticks
 
 
-def write_prepared(windows, destination):
+def write_prepared(windows, destination, split):
     destination = Path(destination)
-    files, counts = [], {}
-    for split in ('validation', 'test'):
-        refs = windows.references(split)
-        datastore, ends = windows.datastore(split, refs)
-        products = {f'{split}_references': refs, f'{split}_ticks': windows.ticks(refs),
-                    f'{split}_datastore': datastore, f'{split}_datastore_ticks': windows.ticks(datastore),
-                    f'{split}_datastore_ends': ends}
-        for name, values in products.items():
-            np.save(destination / f'{name}.npy', values, allow_pickle=False)
-            files.append(f'{name}.npy')
-        counts[split] = {'queries': len(refs), 'datastore': len(datastore)}
+    refs = windows.references(split)
+    datastore, ends = windows.datastore(split, refs)
+    products = {f'{split}_references': refs, f'{split}_ticks': windows.ticks(refs),
+                f'{split}_datastore': datastore, f'{split}_datastore_ticks': windows.ticks(datastore),
+                f'{split}_datastore_ends': ends}
+    files = []
+    for name, values in products.items():
+        np.save(destination / f'{name}.npy', values, allow_pickle=False)
+        files.append(f'{name}.npy')
+    channels = windows.shapes[0][0]
+    if any(shape[0] != channels for shape in windows.shapes):
+        raise ValueError('Prepared task has inconsistent channel counts')
+    requested_dates = (
+        sum(windows.validation_date_count(item) for item in range(len(windows.shapes)))
+        if split == 'validation'
+        else sum(windows.task.test_length // windows.task.prediction_length for _ in windows.shapes)
+    )
+    counts = {
+        'requested_dates': int(requested_dates),
+        'requested_rows': int(requested_dates * channels),
+        'available_dates': int(len(refs) // channels),
+        'available_rows': int(len(refs)),
+        'datastore_rows': int(len(datastore)),
+    }
     (destination / 'prepared.json').write_text(json.dumps({
-        'schema_version': 1, 'task': windows.task.config(), 'counts': counts,
+        'schema_version': 1, 'task': windows.task.config(), 'split': split, 'counts': counts,
         'source_path': str(windows.source_path),
         'datastore_policy': 'validation_before_validation_start_test_before_test_start',
+        'validation_schedule': 'walk_backward_from_first_test_origin_at_stride_H',
         'reference_columns': ['item', 'channel', 'origin'], 'calendar_tick': 'pandas Period ordinal',
     }, indent=2), encoding='utf-8')
     return [*files, 'prepared.json']
