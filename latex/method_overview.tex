@@ -2,85 +2,83 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage[hidelinks]{hyperref}
-\title{Selectime: Validation-selected inputs and frozen forecast mixtures}
+\title{Selectime: Validation-selected scopes and frozen forecast mixtures}
 \author{}
 \date{}
 \begin{document}
 \maketitle
-\section{Candidate family}
-Given an observed target prefix and a horizon $H$, compare independent
-univariate forecasting, joint multivariate forecasting, past-only target
-augmentation with $\sqrt{|x|}$ and $\operatorname{sign}(x)$, and retrieved
-covariates for $K\in\{1,5,10,15,20\}$. The default backbone is frozen Chronos-2; TS-ICL omits native multivariate
-inputs and the two scope controls. Chronos-Bolt compares univariate vanilla
-with direct-horizon mixing only. Native backbone forecasts are medians.
-There is no backbone parameter fitting.
+
+\section{Forecast family}
+Given an observed target prefix and horizon $H$, form frozen-backbone median
+forecasts from univariate input, native multivariate input, and retrieved
+covariates for $K\in\{1,5,10,15,20\}$. Chronos-2 supports every input;
+TS-ICL omits multivariate input and scope controls; Chronos-Bolt reports only
+univariate vanilla. Raw top-$K$ forecasts are mixture inputs, not reported
+standalone methods.
 
 \section{Aligned retrieval}
-For a fixed retrieval lookback $r$, represent each query and neighbor as
-$z(x)=(x-\mu(x))/\max(\sigma(x),10^{-8})$, using only that lookback's finite
-past values. Rank eligible neighbors by Euclidean distance on finite overlap
-(at least 80\%, with squared distances adjusted for overlap). Require a complete
-maximum-$K$ list for covariate candidates; smaller $K$ values reuse prefixes.
-Direct-horizon transfer searches independently for one eligible neighbor. The datastore is within
-one dataset/frequency task, across items and variates by default. A same-series
-ablation is retained. Task-specific calendar phases and frequency-dependent
-strides define the eligible dates.
-
-Before supplying a neighbor trajectory $s_i$ to the backbone, apply
+For retrieval lookback $r$, represent query or neighbor history $x$ as
 \[
-\widetilde s_i=(s_i-\mu_i)\frac{\max(\sigma_q,10^{-8})}
-                                  {\max(\sigma_i,10^{-8})}+\mu_q,
+z(x)=\frac{x-\mu(x)}{\max(\sigma(x),10^{-8})},
 \]
-where both sets of statistics use past retrieval lookbacks only. Supply the
-rescaled neighbor past and observed future as covariates. Self-augmentation
-has no future covariates.
+using finite lookback values only. Rank eligible neighbors by Euclidean
+distance on at least 80\% finite overlap. Require a complete maximum-$K$ list;
+smaller $K$ values reuse ordered prefixes. The default datastore spans all
+items and variates in one dataset/frequency task; same-series scope remains an
+ablation. Task-specific calendar phases and strides define eligible dates.
 
-\section{Chronology and selection}
-The validation datastore ends before validation starts. The validation period
-immediately precedes the official TIME test interval. After freezing method
-and $K$, expand retrieval to all eligible pre-test history. Complete neighbor
-futures must end before the applicable boundary and be observed before the
-query; no test observation enters the datastore.
-
-Score candidates by mean squared error divided by the mean seasonal squared
-difference over the observed target prefix (MSSE). Average variates within
-each validation date before comparing dates for task-level selection;
-per-variate selection scores each item/variate's dates independently.
-Use Adaptime's paired moving-date-block bootstrap: a candidate is admissible
-when its mean loss difference from the observed best is at most one bootstrap
-standard error. Prefer univariate, multivariate, self-augmentation, then smaller
-$K$ within that threshold. Choices remain fixed throughout testing.
-
-\section{Binary scope control and soft mixtures}
-The scope selector applies the same task bootstrap rule to only univariate
-and multivariate vanilla. It is a hard gate. The scope mixture blends those
-forecasts; the top-5 mixture blends univariate with the top-5 covariate forecast.
-For direct-horizon mixing, the alternative is the nearest historical neighbor's
-rescaled continuation $\widetilde{s}_{1,\rm future}$, without invoking the
-backbone on that neighbor or passing it as a covariate.
-
-For each soft mixture, compare the two predictions by MSSE on eligible
-validation item/variate/window rows. Exclude alternative fallback rows and
-non-finite losses. Let $n$ be the number of paired rows and $w$ the number
-of alternative wins, with ties contributing one half. Adaptime's Beta$(1,1)$
-win-frequency rule gives
+Before supplying neighbor trajectory $s_i$, transform it to query units:
 \[
- p=\frac{1+w}{2+n},\qquad
- \widehat{y}=(1-p)\widehat{y}_{\rm uni}+p\widehat{y}_{\rm alternative}.
+\widetilde s_i=(s_i-\mu_i)
+\frac{\max(\sigma_q,10^{-8})}{\max(\sigma_i,10^{-8})}+\mu_q,
 \]
-With no usable rows set $p=0$. Freeze one scalar $p$ per task before test.
-An all-missing available target history is not sent to a backbone and contributes
-no validation loss. If no usable validation rows remain, the canonical
-univariate method is selected. Official test support is unchanged.
-These controls do not enter the original task/per-variate selectors.
-Scope controls exist only for Chronos-2; top-5 mixing also exists for TS-ICL;
-direct-horizon mixing exists for all three backbones.
+where both statistics use past retrieval lookbacks only. Supply the transformed
+neighbor histories and their already observed futures as covariates.
 
-\section{Evidence}
-Official test windows and the Seasonal Naive metric-cell grid remain unchanged.
-Unavailable retrieval and non-finite candidate cells use canonical univariate
-forecasts with recorded masks. The initial K$\leq15$ Chronos-2 study is analyzed in the results recap.
-The expanded Chronos-2/Bolt comparison is analyzed separately. TS-ICL remains
-unevaluated under the finite-history validation contract.
+\section{Validation chronology and hard scope selection}
+Validation origins use the official test phase and step backward by $H$ before
+the first test origin. By default, their count is capped to the official test
+date count. Validation retrieval ends before validation starts; test retrieval
+ends before test starts. No test observation enters either datastore.
+
+Score forecasts with MSSE: mean squared forecast error divided by the seasonal
+squared-difference scale from the observed prefix. The hard scope selectors
+compare only univariate and multivariate. The task selector averages variates
+within each validation date; the per-variate selector treats each item/variate
+separately. Adaptime's paired moving-date-block bootstrap admits a scope when
+its mean loss difference from the observed best is at most one bootstrap
+standard error, preferring univariate within that threshold.
+
+\section{Win-frequency mixtures}
+The scope mixtures combine univariate and multivariate once per task or per
+item/variate. Each top-$K$ mixture combines univariate with its corresponding
+retrieved-covariate forecast. For an alternative, exclude fallback and
+non-finite validation rows. Let $n$ be paired usable rows and $w$ alternative
+wins, with ties contributing one half. The frozen Beta$(1,1)$ weight is
+\[
+p=\frac{1+w}{2+n},\qquad
+\widehat y=(1-p)\widehat y_{\rm uni}+p\widehat y_{\rm alt}.
+\]
+No usable row gives $p=0$.
+
+\section{Closed-form scope ridge}
+The task-level scope ridge uses exactly the same validation references. Let
+$d=\widehat y_{\rm multi}-\widehat y_{\rm uni}$ and
+$r=y-\widehat y_{\rm uni}$. For finite target cells $j$, let $a_j$ be the
+reciprocal of that row's observed-future count times its seasonal scale. With
+fixed $\alpha=1$, fit
+\[
+p=\frac{\sum_j a_jd_jr_j}{\alpha+\sum_j a_jd_j^2},\qquad
+\widehat y=\widehat y_{\rm uni}+pd.
+\]
+The coefficient is not clipped. With no usable training row, record an
+unfitted fallback and use $p=0$.
+
+\section{Support and evidence}
+A validation row requires finite support in its available context and future.
+Unusable rows never reach a backbone. Heuristic controls default to univariate
+when no validation evidence remains; scope ridge explicitly records its
+unfitted vanilla fallback. Official test support and the Seasonal Naive metric
+grid are unchanged. Earlier standalone-candidate and horizon-mixture evidence
+in the results recap is historical and does not define the current method set.
 \end{document}

@@ -1,12 +1,9 @@
-"""The simple candidate family and its past-only covariate transformations."""
+"""Raw forecast inputs and the validation-combined reported methods."""
 import warnings
 import numpy as np
 
 UNIVARIATE = 'vanilla_univariate'
 MULTIVARIATE = 'vanilla_multivariate'
-SELF_AUGMENTATION = 'self_augmentation'
-HORIZON = 'top1_horizon'
-HORIZON_MIX = 'top1-horizon-mix'
 
 
 def candidate_names(k_values, model='chronos2'):
@@ -15,27 +12,30 @@ def candidate_names(k_values, model='chronos2'):
     if model not in ('chronos2', 'ts_icl'):
         raise ValueError(f'Unsupported backbone: {model}')
     scope = [MULTIVARIATE] if model == 'chronos2' else []
-    return [UNIVARIATE, *scope, SELF_AUGMENTATION, *[f'top_k_{k}' for k in k_values]]
+    return [UNIVARIATE, *scope, *[f'top_k_{k}' for k in k_values]]
 
 
-def control_candidates(model):
-    """Task-level binary selector and frozen soft mixtures, outside the K selectors."""
-    scope = {'scope_selector': MULTIVARIATE, 'scope_mix': MULTIVARIATE} if model == 'chronos2' else {}
-    covariate = {'top5_mix': 'top_k_5'} if model != 'chronos_bolt' else {}
-    return {**scope, **covariate, HORIZON_MIX: HORIZON}
+def control_candidates(model, k_values=()):
+    """Reported selectors and fitted mixtures mapped to their raw alternative."""
+    if model == 'chronos_bolt':
+        return {}
+    scope = ({
+        'scope_selector': MULTIVARIATE,
+        'scope_selector_per_variate': MULTIVARIATE,
+        'scope_mix': MULTIVARIATE,
+        'scope_mix_per_variate': MULTIVARIATE,
+        'scope_ridge': MULTIVARIATE,
+    } if model == 'chronos2' else {})
+    retrieval = {f'top_k_{k}_mix': f'top_k_{k}' for k in k_values}
+    return {**scope, **retrieval}
 
 
 def candidate_k(method):
-    return int(method.removeprefix('top_k_')) if method.startswith('top_k_') else 0
+    return int(method.removeprefix('top_k_').removesuffix('_mix')) if method.startswith('top_k_') else 0
 
 
 def selection_rank(method):
-    return ({UNIVARIATE: 0, MULTIVARIATE: 1, SELF_AUGMENTATION: 2}.get(method, 3), candidate_k(method))
-
-
-def self_covariates(history):
-    history = np.asarray(history, dtype=np.float32)
-    return np.stack((np.sqrt(np.abs(history)), np.sign(history)))
+    return ({UNIVARIATE: 0, MULTIVARIATE: 1}.get(method, 2), candidate_k(method))
 
 
 def query_scaled_sequences(query_lookback, neighbors, horizon):

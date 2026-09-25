@@ -4,23 +4,19 @@ Selectime compares frozen foundation-model input choices on the TIME benchmark a
 selects them using a held-out validation period. It performs no parameter
 training. The official test windows and Seasonal Naive metric grid remain fixed.
 
-The candidate family is vanilla univariate, native vanilla multivariate,
-self-augmentation, and top-K retrieved covariates for `K in {1,5,10,15,20}` with Chronos-2.
-TS-ICL retains univariate, augmentation and top-K candidates but excludes native
-multivariate and scope controls. Chronos-Bolt compares only vanilla and
-`top1-horizon-mix`. Canonical backbone aliases are `chronos2`, `ts_icl`,
-and `chronos_bolt`.
-Self-augmentation supplies `sqrt(abs(x))` and `sign(x)` as past-only covariates.
-Top-K supplies retrieved histories and their already observed futures as past
-and future covariates. Backbone candidates use deterministic median point forecasts; mixtures
-combine these point forecasts with frozen validation weights.
+Chronos-2 reports univariate and native multivariate baselines, hard scope
+selection, validation-weighted scope mixtures, a fixed-alpha scope ridge, and
+one univariate/top-K mixture for each `K in {1,5,10,15,20}`. Raw top-K forecasts
+are intermediate mixture inputs, not standalone reported methods. TS-ICL keeps
+the top-K mixtures but has no native multivariate or scope methods. Chronos-Bolt
+reports only vanilla. Canonical backbone aliases are `chronos2`, `ts_icl`, and
+`chronos_bolt`.
 
-The two original selectors are implemented: one selects a single candidate per
-dataset/frequency/term task; the other selects independently per dataset item
-and target variate. Both use the same validation forecasts and Adaptime's paired
-moving-date-block-bootstrap one-standard-error rule. They prefer univariate
-vanilla, multivariate vanilla, self-augmentation, then smaller K among candidates
-within one standard error of the observed best validation score.
+Top-K supplies retrieved histories and their already observed futures as past
+and future covariates. Backbone forecasts are deterministic medians. Scope
+selection chooses univariate or multivariate either once per task or once per
+item/variate using Adaptime's paired moving-date-block-bootstrap
+one-standard-error rule.
 
 ## Data and protocol
 
@@ -45,7 +41,8 @@ the official test starts. Previously observed test values remain outside the
 datastore, while backbone contexts use the history observed at each query.
 Calendar ticks use sampling-step units, including frequency multipliers.
 Datastore dates are aligned to each query's phase and follow the task's
-frequency-dependent stride. There is no fitting interval.
+frequency-dependent stride. There is no separate fitting interval: scope ridge
+fits only on the same pre-test validation windows used by every other control.
 
 Validation dates step backward by `H` from the first official test date, with
 the same phase as the test dates and at most as many dates as the test grid.
@@ -60,7 +57,8 @@ Validation rows are usable only when both the available target history and the
 forecast future contain a finite value. Unusable rows are not sent to any
 backbone and contribute no selection or mixture loss. Requested, available and
 usable date/row counts are recorded. When none are
-usable, selection keeps the canonical univariate default. This filtering is
+usable, selectors and heuristic mixtures keep the canonical univariate default;
+scope ridge records an unfitted vanilla fallback. This filtering is
 validation-only and does not change the official Seasonal-defined test support.
 
 Lookback distance is Euclidean after separate instance normalization of each
@@ -78,35 +76,31 @@ query item/variate. `max_datastore_windows=null` disables the optional cap;
 when set, `all` divides the budget evenly across variates and retains recent
 aligned dates, whereas `same_series` applies the cap per item/variate.
 
-Selection minimizes per-date mean-variate MSSE (mean squared error divided by
-the seasonal squared-difference scale from the observed prefix). Per-variate
-selection uses that variate's date losses. All candidates share scored target
-steps and date support. With no usable validation dates, selection chooses
-univariate vanilla. A single date uses the observed minimum because a block
-bootstrap cannot estimate its uncertainty. Retrieval-ineligible and non-finite
-candidate cells use the canonical univariate forecast; masks and counts persist.
-Canonical univariate forecasts must be finite on required support.
+Scope selection minimizes per-date mean-variate MSSE (mean squared error divided
+by the seasonal squared-difference scale from the observed prefix). The
+per-variate selector uses that variate's date losses. A single date uses the
+observed minimum because a block bootstrap cannot estimate uncertainty.
+Retrieval-ineligible and non-finite candidate cells use the canonical
+univariate forecast; masks and counts persist. Canonical univariate forecasts
+must be finite on required support.
 
-## Binary scope selection and soft mixtures
+## Scope controls and top-K mixtures
 
-`scope_selector` applies the same task-level bootstrap rule to only univariate
-and multivariate vanilla. `scope_mix` blends those two forecasts. `top5_mix`
-blends univariate with future-included top-5 covariate forecasts.
-`top1-horizon-mix` blends univariate with the nearest neighbor's directly
-retrieved horizon, rescaled to query units using lookback statistics. That
-horizon is an observed historical continuation, not a backbone forecast or
-covariate input. It requires only one neighbor, independently of maximum-K
-covariate eligibility. Its raw `top1_horizon` predictions are intermediate
-artifacts, not an extra reported method or selector candidate.
+`scope_selector` chooses one vanilla scope for a complete task;
+`scope_selector_per_variate` makes the same hard choice independently per
+item/variate. `scope_mix` and `scope_mix_per_variate` blend the two scopes at
+those respective granularities. Each `top_k_<K>_mix` blends univariate with its
+future-included top-K covariate forecast.
 
-Each soft mixture freezes one scalar weight per task from paired eligible
-validation item/variate/window MSSE wins. With `w` wins (ties count one half)
-and `n` trials, the alternative weight is `(1+w)/(2+n)`. No usable trials gives
-pure univariate vanilla. Test predictions are `(1-p)*vanilla+p*alternative`.
-Retrieval/non-finite candidate fallback rows do not estimate mixture weights.
-The four controls are reported separately and never enter the two original
-selectors. Scope controls exist only for Chronos-2; top-5 mix also exists for
-TS-ICL; horizon mix exists for all three backbones.
+Heuristic mixtures freeze weights from paired eligible validation-window MSSE
+wins. With `w` wins (ties count one half) and `n` trials, the alternative weight
+is `(1+w)/(2+n)`. No usable trials gives pure univariate vanilla. The task-level
+`scope_ridge` instead fits
+`univariate + p*(multivariate-univariate)` by an MSSE-weighted closed form with
+`scope_ridge_alpha=1.0`; `p` is not clipped. With no usable fitting row it
+records an unfitted `p=0` vanilla fallback. Retrieval fallback rows never fit a
+mixture. Scope controls exist only for Chronos-2; top-K mixtures also exist for
+TS-ICL.
 
 ## Running
 
@@ -137,21 +131,18 @@ A narrow remote smoke run uses `SG_Weather/D`, short:
 EXPERIMENT_MODE=test bash scripts/submit_experiment.sh dgx
 ```
 
-Direct execution and the two separately callable selectors use Hydra:
+Direct execution uses Hydra:
 
 ```bash
 PYTHONPATH=src uv run --no-sync python src/scripts/run_selectime.py
-PYTHONPATH=src uv run --no-sync python src/scripts/select_per_task.py
-PYTHONPATH=src uv run --no-sync python src/scripts/select_per_variate.py
 ```
 
-The standalone selector scripts require completed preparation and validation
-forecasts. Example overrides are `datasets=[SG_Weather/D]`, `terms=[short]`,
+Example overrides are `datasets=[SG_Weather/D]`, `terms=[short]`,
 `datastore_scope=same_series`, and `max_datastore_windows=10000`.
 `validation_length=0` explicitly disables validation and selects univariate.
 
 Stages run in order:
-`prepare,extract_validation,predict_validation,select_task,select_per_variate,extract_test,predict_test,assemble,evaluate,report`.
+`prepare,extract_validation,predict_validation,calibrate,extract_test,predict_test,assemble,evaluate,report`.
 `stage=<name>` runs one stage directly. The cluster launcher accepts the
 comma-separated `STAGES` recovery override. Exact completed stages are reused;
 interrupted tasks restart from their beginning. A task whose artifacts were
@@ -196,7 +187,7 @@ src/timebench/evaluation/     narrowed TIME adapter, metrics, shared grid and sa
 src/timebench/results/        comparison and selection summaries
 src/timebench/conf/           Hydra experiment configuration
 src/timebench/config/         official TIME grid and per-task retrieval protocol
-src/scripts/                 pipeline, task/per-variate selector and Seasonal entry points
+src/scripts/                 pipeline, lifecycle and Seasonal entry points
 src/slurm/                   common scheduler workflow and runtime implementations
 src/tests/                   lightweight scientific regression contracts
 scripts/                     concise experiment and Seasonal submission launchers
@@ -209,8 +200,8 @@ each execution surface. Selena uses
 checkout's `outputs/`, regardless of copied artifact-root settings in `.env`.
 The layout is:
 `data/{validation,test}/shared/`,
-`retrieval/{validation,test}/{covariate,horizon}/`,
-`predictions/{validation,test}/<candidate>/`, `selections/{task,per_variate}/`,
+`retrieval/{validation,test}/covariate/`,
+`predictions/{validation,test}/<candidate>/`, `selections/<control>/`,
 and `evaluations/<method>/`, each followed by
 `<dataset>/<frequency>/<term>/run_n/`. Every stage uses schema-1 plain-configuration
 manifests. Raw predictions are float32 `.npy` files; evaluations retain standard
@@ -222,9 +213,9 @@ manifests record reused versus newly inferred rows. Reports include matched Seas
 choices and their selection frequencies. Runtime logs belong in `logs/`.
 
 Candidate forecasting, retrieval and datastore preprocessing timings are
-reported separately. Selected test predictions reuse candidate artifacts;
-their independent inference latency is unmeasured and remains undefined.
-The two selection results therefore do not claim a summed candidate latency.
+reported separately. Assembled selector and mixture outputs reuse candidate
+artifacts; their independent inference latency is unmeasured and remains
+undefined.
 
 `sync_code_to_selena.sh`, `sync_results_to_dgx.sh`, `clear_selena_artifacts.sh`,
 and `publish_job.sh` retain project-scoped cluster operations. Lightweight result
@@ -246,14 +237,15 @@ also records the device it actually selected.
 - [Results recap](docs/results_recap.md)
 
 Selectime inherits maintained TIME utilities from Improved TIME and adapts
-retrieval and validation-selection ideas from Adaptime. It includes no Ridge,
-adaptation-training mixture fitting, rolling fitting, TS-RAG ARM, or standalone foundation
+retrieval and validation-selection ideas from Adaptime. Ridge appears only as
+the closed-form fixed-alpha `scope_ridge`; the project includes no adaptation
+training, rolling fitting, TS-RAG ARM, or standalone foundation
 benchmarking workflow. The completed expanded comparison covers all 90 tasks for
 Chronos-2 and Chronos-Bolt. The Chronos-2 scope mixture has the lowest mean task
 MASE (1.058165), 1.03% below univariate Chronos-2 and 0.08% below native
-multivariate input. Standalone retrieved-covariate candidates do not improve
-the aggregate mean, and the direct-horizon mixture is dominated by one extreme
-SG_Carpark task. TS-ICL has no forecast result: after its environment was
+multivariate input. Historical standalone retrieved-covariate candidates did
+not improve the aggregate mean and are no longer reported directly. TS-ICL has
+no forecast result: after its environment was
 repaired, the historical recovery stopped on an all-missing early validation
 history. The current validation contract excludes such rows and therefore
 requires fresh validation predictions and downstream selection. See the results recap and executive

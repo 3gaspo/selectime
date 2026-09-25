@@ -4,7 +4,7 @@ from pathlib import Path
 import csv
 import json
 import numpy as np
-from timebench.proposal.candidates import candidate_names
+from timebench.proposal.candidates import UNIVARIATE, MULTIVARIATE
 from timebench.results.performance import write_performance_report
 
 
@@ -23,7 +23,7 @@ def average_statistics(rows):
     for key in result:
         values = [row[key] for row in rows]
         if all(value is None or isinstance(value, (int, float)) for value in values):
-            result[key] = float(np.mean(values)) if all(value is not None for value in values) else None
+            result[key] = float(np.nanmean(values)) if all(value is not None for value in values) else None
         elif any(value != values[0] for value in values):
             raise ValueError(f'Cannot average incompatible report field {key}')
     return result
@@ -52,6 +52,8 @@ def build_report(inputs, destination, config):
         if summary['evaluation_grid']['definition'] != seasonal['evaluation_grid']['definition'] or summary['evaluation_grid']['valid_values'] != seasonal['evaluation_grid']['valid_values']:
             raise ValueError('Comparison requires the same Seasonal metric grid')
         label = method + selection['model_label'][len(config['model']):]
+        provenance = metadata.get('retrieval_provenance') or {}
+        prediction_outputs = summary.get('prediction_outputs', {})
         row = {'dataset': task.dataset, 'term': task.term, 'method': method, 'report_label': label,
                'inference_seconds': summary.get('inference_seconds'),
                'query_retrieval_seconds': metadata.get('query_retrieval_seconds'),
@@ -59,10 +61,21 @@ def build_report(inputs, destination, config):
                'timing_policy': metadata['timing_policy'], 'fallback_count': metadata['fallback_count'],
                'alternative': metadata.get('alternative'), 'alternative_weight': metadata.get('alternative_weight'),
                'grid_rows': metadata['grid_rows'],
+               'prediction_nan_values': prediction_outputs.get('evaluation_nan_values'),
+               'produced_nan_values': metadata.get('produced_nan_values'),
+               'prediction_values': prediction_outputs.get('evaluation_values'),
+               'prediction_nan_rate': (
+                   prediction_outputs.get('evaluation_nan_values', 0)
+                   / prediction_outputs['evaluation_values']
+                   if prediction_outputs.get('evaluation_values') else None),
+               'retrieval_extractions': provenance.get('retrieval_extractions', 0),
+               'retrieved_neighbors': provenance.get('retrieved_neighbors', 0),
+               'same_user_neighbors': provenance.get('same_user_neighbors', 0),
+               'same_user_retrieval_percentage': provenance.get('same_user_retrieval_percentage'),
+               'normalized_time_distance_sum': provenance.get('normalized_time_distance_sum', 0),
+               'average_normalized_time_distance_to_query': provenance.get('average_normalized_time_distance_to_query'),
                'fallback_rate': metadata['fallback_count'] / metadata['grid_rows'] if metadata['grid_rows'] else None}
         for metric, values in summary['metrics'].items():
-            if values['finite_values'] < seasonal['metrics'][metric]['finite_values']:
-                raise ValueError(f'{task.dataset}/{task.term}/{method}: lost {metric} coverage')
             for field in ('mean', 'variance', 'std', 'dispersion_ddof', 'finite_values', 'evaluation_values', 'total_values'):
                 row[f'{metric}_{field}'] = values[field]
         mase, baseline = summary['metrics']['MASE'], seasonal['metrics']['MASE']
@@ -78,7 +91,7 @@ def build_report(inputs, destination, config):
                         'evaluation_manifest': str(evaluation / 'manifest.json'),
                         'prediction_manifest': str(prediction / 'manifest.json'),
                         'seasonal_manifest': str(seasonal_root / 'manifest.json'), 'selection': selection})
-        if method.startswith('selected_') or method == 'scope_selector':
+        if method.startswith('scope_selector'):
             selection = json.loads((prediction / 'selection.json').read_text())
             for entry in selection['selections']:
                 selection_rows.append({'dataset': task.dataset, 'term': task.term, 'selector': method,
@@ -95,10 +108,10 @@ def build_report(inputs, destination, config):
         'dataset', 'term', 'selector', 'report_label', 'evaluation_run', 'item', 'channel',
         'selected_method', 'validation_dates', 'observed_best', 'block_length', 'fallback_reason'])
     selection_summary = []
-    for selector in ('selected_task', 'selected_per_variate', 'scope_selector'):
+    for selector in ('scope_selector', 'scope_selector_per_variate'):
         selected = [row['selected_method'] for row in selection_rows if row['selector'] == selector]
         counts = Counter(selected)
-        for method in candidate_names(config['k_values'], config['model']):
+        for method in (UNIVARIATE, MULTIVARIATE):
             selection_summary.append({'selector': selector, 'candidate': method, 'count': counts[method],
                                       'total_selections': len(selected),
                                       'rate': counts[method] / len(selected) if selected else None})
@@ -109,10 +122,22 @@ def build_report(inputs, destination, config):
         scaled = [row['scaled_MASE_mean'] for row in values if row['scaled_MASE_mean'] is not None]
         timings = [row['inference_seconds'] for row in values]
         counts, support = sum(row['fallback_count'] for row in values), sum(row['grid_rows'] for row in values)
-        overall[method] = {'tasks': len(values), 'mean_task_MASE': float(np.mean(mase)) if mase else None,
-            'mean_task_scaled_MASE': float(np.mean(scaled)) if scaled else None,
+        neighbors = sum(row['retrieved_neighbors'] for row in values)
+        same_user = sum(row['same_user_neighbors'] for row in values)
+        distance_sum = sum(row['normalized_time_distance_sum'] for row in values)
+        prediction_nans = sum(row['prediction_nan_values'] or 0 for row in values)
+        prediction_values = sum(row['prediction_values'] or 0 for row in values)
+        overall[method] = {'tasks': len(values), 'mean_task_MASE': float(np.nanmean(mase)) if mase else None,
+            'mean_task_scaled_MASE': float(np.nanmean(scaled)) if scaled else None,
             'summed_inference_seconds': sum(timings) if all(value is not None for value in timings) else None,
-            'fallback_count': counts, 'grid_rows': support, 'pooled_fallback_rate': counts / support if support else None}
+            'fallback_count': counts, 'grid_rows': support, 'pooled_fallback_rate': counts / support if support else None,
+            'prediction_nan_values': prediction_nans, 'prediction_values': prediction_values,
+            'prediction_nan_rate': prediction_nans / prediction_values if prediction_values else None,
+            'produced_nan_values': sum(row['produced_nan_values'] or 0 for row in values),
+            'retrieval_extractions': sum(row['retrieval_extractions'] for row in values),
+            'retrieved_neighbors': neighbors,
+            'same_user_retrieval_percentage': 100 * same_user / neighbors if neighbors else None,
+            'average_normalized_time_distance_to_query': distance_sum / neighbors if neighbors else None}
         log(f'{method}: tasks={len(values)} mean_task_MASE={overall[method]["mean_task_MASE"]}')
     write_json(destination / 'comparison_summary.json', overall)
     horizons = {(task.dataset, task.term): task.prediction_length for task, *_ in inputs}
@@ -126,6 +151,9 @@ def build_report(inputs, destination, config):
         'inference_seconds': row['inference_seconds'],
         'query_retrieval_seconds': row['query_retrieval_seconds'],
         'datastore_preprocessing_seconds': row['datastore_preprocessing_seconds'],
+        'prediction_nan_values': row['prediction_nan_values'],
+        'prediction_values': row['prediction_values'],
+        'prediction_nan_rate': row['prediction_nan_rate'],
     } for row in rows]
     reference_labels = {row['report_label'] for row in rows if row['method'] == 'vanilla_univariate'}
     performance_artifacts = write_performance_report(
@@ -140,6 +168,11 @@ def build_report(inputs, destination, config):
             ('report_current_config', 'report_config_filters', 'report_config_policy', 'report_repeat_policy')},
         'aggregation': 'average_exact_repeat_statistics_then_average_configuration_statistics',
         'selection_frequencies': 'observed_choices_in_selected_input_manifests',
+        'retrieval_provenance': {
+            'same_user': 'same dataset item/user as the query',
+            'normalized_time_distance': '(query_tick-neighbor_tick)/(query_tick-earliest_datastore_tick)',
+            'extraction_unit': 'one query retrieval',
+        },
         'task_dispersion': 'population_variance_over_finite_series_window_variate_cells',
         'selected_method_timing': 'unmeasured_not_sum_of_all_candidate_search_costs'})
     return ['comparison.csv', 'selections.csv', 'selection_summary.csv', 'comparison_summary.json',

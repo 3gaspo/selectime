@@ -51,6 +51,75 @@ def win_frequency_mixture(predictions, labels, scales, eligible=None):
             'fallback_reason': None if trials else 'no_usable_validation_rows'}
 
 
+def win_frequency_mixtures(predictions, labels, scales, references, *, granularity,
+                           eligible=None):
+    """Fit one win-frequency weight for a task or independently per variate."""
+    if granularity not in ('task', 'per_variate'):
+        raise ValueError('granularity must be task or per_variate')
+    references = np.asarray(references)
+    keys = np.unique(references[:, :2], axis=0) if granularity == 'per_variate' else [None]
+    selections = []
+    for key in keys:
+        positions = (np.flatnonzero((references[:, :2] == key).all(axis=1))
+                     if key is not None else np.arange(len(references)))
+        fitted = win_frequency_mixture(
+            {name: np.asarray(values)[positions] for name, values in predictions.items()},
+            np.asarray(labels)[positions], np.asarray(scales)[positions],
+            eligible=(np.asarray(eligible)[positions] if eligible is not None else None),
+        )
+        if key is not None:
+            fitted.update(item=int(key[0]), channel=int(key[1]))
+        selections.append(fitted)
+    return {'schema_version': 1, 'granularity': granularity, 'selections': selections}
+
+
+def scope_ridge(predictions, labels, scales, eligible=None, alpha=1.0):
+    """Fit y = univariate + p(multivariate-univariate) by closed-form ridge."""
+    if alpha <= 0:
+        raise ValueError('scope_ridge alpha must be positive')
+    alternative = next(method for method in predictions if method != UNIVARIATE)
+    vanilla = np.asarray(predictions[UNIVARIATE], dtype=np.float64)
+    candidate = np.asarray(predictions[alternative], dtype=np.float64)
+    labels = np.asarray(labels, dtype=np.float64)
+    scales = np.asarray(scales, dtype=np.float64)
+    valid_targets = np.isfinite(labels)
+    rows = (valid_targets.any(axis=-1) & np.isfinite(scales) & (scales > 0)
+            & np.all(~valid_targets | np.isfinite(vanilla), axis=-1)
+            & np.all(~valid_targets | np.isfinite(candidate), axis=-1))
+    if eligible is not None:
+        rows &= np.asarray(eligible, dtype=bool)
+    valid = valid_targets & rows[:, None]
+    if not valid.any():
+        return {'schema_version': 1, 'granularity': 'task', 'selections': [{
+            'alternative': alternative,
+            'rule': 'closed_form_msse_weighted_ridge',
+            'alpha': float(alpha),
+            'usable_rows': 0,
+            'usable_values': 0,
+            'vanilla_weight': 1.0,
+            'alternative_weight': 0.0,
+            'fallback_reason': 'no_usable_training_rows',
+        }]}
+    counts = valid_targets.sum(axis=-1)
+    weights = np.divide(1.0, counts * scales, out=np.zeros_like(scales),
+                        where=(counts > 0) & np.isfinite(scales) & (scales > 0))
+    difference = candidate - vanilla
+    residual = labels - vanilla
+    numerator = np.sum(np.where(valid, weights[:, None] * difference * residual, 0.0))
+    denominator = alpha + np.sum(np.where(valid, weights[:, None] * difference ** 2, 0.0))
+    coefficient = float(numerator / denominator)
+    return {'schema_version': 1, 'granularity': 'task', 'selections': [{
+        'alternative': alternative,
+        'rule': 'closed_form_msse_weighted_ridge',
+        'alpha': float(alpha),
+        'usable_rows': int(rows.sum()),
+        'usable_values': int(valid.sum()),
+        'vanilla_weight': 1.0 - coefficient,
+        'alternative_weight': coefficient,
+        'fallback_reason': None,
+    }]}
+
+
 def blend(vanilla, alternative, weight):
     """A frozen scalar task weight; zero weight never propagates candidate NaNs."""
     if weight == 0:
@@ -103,7 +172,7 @@ def select_with_block_bootstrap(losses, *, seed, prediction_length, validation_s
             'validation_dates': n_dates, 'replications': replications, 'block_length': length,
             'block_length_source': 'configured' if block_length else 'automatic',
             'fallback_reason': 'fewer_than_two_validation_dates' if n_dates < 2 else None,
-            'preference': 'univariate_then_multivariate_then_self_augmentation_then_smallest_k',
+            'preference': 'univariate_then_multivariate',
             'candidates': records}
 
 

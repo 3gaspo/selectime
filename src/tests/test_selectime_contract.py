@@ -6,12 +6,12 @@ import unittest
 import numpy as np
 import yaml
 from timebench.data.windows import Task, Windows, aligned_origins
-from timebench.proposal.candidates import (UNIVARIATE, MULTIVARIATE, SELF_AUGMENTATION,
-    candidate_names, self_covariates, query_scaled_sequences, align_covariates,
-    control_candidates, HORIZON, HORIZON_MIX)
+from timebench.proposal.candidates import (UNIVARIATE, MULTIVARIATE, candidate_names,
+    query_scaled_sequences, align_covariates, control_candidates)
 from timebench.proposal.retrieval import blockwise_topk, context_representation, eligible
 from timebench.proposal.selection import (date_losses, row_msse, select_candidates,
-    select_with_block_bootstrap, win_frequency_mixture, blend)
+    select_with_block_bootstrap, win_frequency_mixture, win_frequency_mixtures,
+    scope_ridge, blend)
 from timebench.results.comparison import aggregate_rows
 from timebench.pipeline.runs import allocate_run, select_completed_runs, set_selected_run, ManifestError
 import tempfile
@@ -101,10 +101,6 @@ class RetrievalTests(unittest.TestCase):
             np.array([6, 6]), k=3, period=1, stride=1, horizon=2, scope='same_series')
         np.testing.assert_array_equal(incomplete, [[-1, -1, -1]])
 
-    def test_negative_target_self_augmentation(self):
-        np.testing.assert_allclose(self_covariates([-4, 0, 9]), [[2, 0, 3], [-1, 0, 1]])
-
-
 class SelectionTests(unittest.TestCase):
     def test_beta_mixture_wins_ties_exclusions_and_empty_support(self):
         labels = np.zeros((4, 2))
@@ -119,12 +115,29 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual(empty['alternative_weight'], 0)
         np.testing.assert_array_equal(blend(np.ones((1, 2)), np.full((1, 2), np.nan), 0), [[1, 1]])
 
+    def test_per_variate_mixture_and_closed_form_scope_ridge(self):
+        refs = np.array([[0, channel, date] for channel in range(2) for date in range(2)])
+        labels = np.zeros((4, 1))
+        predictions = {UNIVARIATE: np.ones((4, 1)),
+                       MULTIVARIATE: np.array([[0], [0], [2], [2]])}
+        fitted = win_frequency_mixtures(predictions, labels, np.ones(4), refs,
+                                        granularity='per_variate')
+        self.assertEqual([entry['alternative_weight'] for entry in fitted['selections']],
+                         [0.75, 0.25])
+        ridge = scope_ridge(predictions, labels, np.ones(4), alpha=1.0)
+        self.assertAlmostEqual(ridge['selections'][0]['alternative_weight'], 0.0)
+        empty = scope_ridge(predictions, np.full((4, 1), np.nan), np.ones(4), alpha=1.0)
+        self.assertEqual(empty['selections'][0]['alternative_weight'], 0.0)
+        self.assertEqual(empty['selections'][0]['fallback_reason'], 'no_usable_training_rows')
+
     def test_backbone_candidate_scopes(self):
         self.assertIn('top_k_20', candidate_names([1, 5, 10, 15, 20]))
         self.assertNotIn(MULTIVARIATE, candidate_names([1, 5, 20], 'ts_icl'))
-        self.assertNotIn('scope_mix', control_candidates('ts_icl'))
+        self.assertNotIn('scope_mix', control_candidates('ts_icl', [1, 5, 20]))
+        self.assertEqual(set(control_candidates('ts_icl', [1, 5, 20])),
+                         {'top_k_1_mix', 'top_k_5_mix', 'top_k_20_mix'})
         self.assertEqual(candidate_names([1], 'chronos_bolt'), [UNIVARIATE])
-        self.assertEqual(control_candidates('chronos_bolt'), {HORIZON_MIX: HORIZON})
+        self.assertEqual(control_candidates('chronos_bolt', [1]), {})
         with self.assertRaises(ValueError):
             candidate_names([1], 'tsicl')
 
@@ -142,7 +155,7 @@ class SelectionTests(unittest.TestCase):
 
     def test_shared_support_date_weight_and_scaled_loss(self):
         predictions = {UNIVARIATE: np.array([[1, 99], [3, 3], [2, 2]]),
-                       SELF_AUGMENTATION: np.array([[1, 0], [3, 3], [2, 2]])}
+                       MULTIVARIATE: np.array([[1, 0], [3, 3], [2, 2]])}
         labels = np.array([[0, np.nan], [0, 0], [0, 0]])
         losses = row_msse(predictions, labels, np.array([1, 9, 1]))
         np.testing.assert_allclose(losses[UNIVARIATE], [1, 1, 4])
@@ -259,10 +272,11 @@ class WorkflowControls(unittest.TestCase):
             workflow.model = 'ts_icl'
             workflow.k_values = (1, 5, 10, 15, 20)
             workflow.candidates = candidate_names(workflow.k_values, workflow.model)
-            workflow.controls = control_candidates(workflow.model)
-            workflow.raw_methods = [*workflow.candidates, HORIZON]
+            workflow.controls = control_candidates(workflow.model, workflow.k_values)
+            workflow.raw_methods = list(workflow.candidates)
             workflow.root = Path(directory)
             workflow.storage = workflow.weights = Path('unused')
+            workflow.vanilla_predictions_path = None
             workflow.seed, workflow.device, workflow.batch_size, workflow.context_length = 0, 'cpu', 16, 16
             workflow.config_path = ROOT / 'src/timebench/config/datasets.yaml'
             selected = task(validation_length=4, max_datastore_windows=12)
@@ -288,15 +302,8 @@ class WorkflowControls(unittest.TestCase):
                 metadata = json.loads((vanilla / 'prediction.json').read_text())
                 self.assertEqual(metadata['invalid_validation_context_count'], 1)
                 self.assertTrue(np.isnan(workflow.array(vanilla, 'prediction')[0]).all())
-                workflow.select('per_variate')
-                selection = workflow.resolve(selected, 'selections', 'per_variate',
-                    workflow.selection_dependencies(selected))
-                records = json.loads((selection / 'selection.json').read_text())['selections']
-                missing = next(entry for entry in records if entry['item'] == 0 and entry['channel'] == 0)
-                self.assertEqual(missing['selected_method'], UNIVARIATE)
-                self.assertEqual(missing['fallback_reason'], 'no_usable_validation_dates')
 
-    def test_calibration_is_frozen_and_horizon_transfer_uses_one_neighbor(self):
+    def test_calibration_is_frozen_and_only_combined_retrieval_is_reported(self):
         """Exercise preparation through assembly with real lifecycle and synthetic forecasts."""
         from timebench.pipeline.workflow import Workflow
         import json
@@ -315,10 +322,11 @@ class WorkflowControls(unittest.TestCase):
                 workflow.model = alias
                 workflow.k_values = (1,) if alias == 'chronos_bolt' else (1, 5, 10, 15, 20)
                 workflow.candidates = candidate_names(workflow.k_values, alias)
-                workflow.controls = control_candidates(alias)
-                workflow.raw_methods = [*workflow.candidates, HORIZON]
+                workflow.controls = control_candidates(alias, workflow.k_values)
+                workflow.raw_methods = list(workflow.candidates)
                 workflow.root = Path(directory)
                 workflow.storage = workflow.weights = Path('unused')
+                workflow.vanilla_predictions_path = None
                 workflow.seed, workflow.device, workflow.batch_size, workflow.context_length = 0, 'cpu', 16, 16
                 workflow.config_path = ROOT / 'src/timebench/config/datasets.yaml'
                 selected = task(max_datastore_windows=12)
@@ -334,39 +342,34 @@ class WorkflowControls(unittest.TestCase):
                     workflow.prepare()
                     workflow.extract('validation')
                     workflow.predict('validation')
-                    workflow.select('task')
-                    workflow.select('per_variate')
-                    calibration = workflow.resolve(selected, 'selections', HORIZON_MIX,
-                        workflow.control_dependencies(selected, HORIZON_MIX, 'validation'))
-                    frozen = json.loads((calibration / 'selection.json').read_text())
+                    workflow.calibrate()
+                    mixed_method = ('scope_mix' if alias == 'chronos2' else
+                                    'top_k_1_mix' if alias == 'ts_icl' else None)
+                    if mixed_method:
+                        calibration = workflow.resolve(selected, 'selections', mixed_method,
+                            workflow.control_dependencies(selected, mixed_method, 'validation'))
+                        frozen = json.loads((calibration / 'selection.json').read_text())
                     workflow.extract('test')
                     workflow.predict('test')
                     workflow.assemble()
-                    mixed = workflow.prediction(selected, HORIZON_MIX)
-                    self.assertEqual(json.loads((mixed / 'selection.json').read_text()), frozen)
-                    weight = frozen['alternative_weight']
-                    np.testing.assert_allclose(workflow.array(mixed, 'prediction'),
-                        blend(workflow.array(workflow.raw(selected, 'test', UNIVARIATE), 'prediction'),
-                              workflow.array(workflow.raw(selected, 'test', HORIZON), 'prediction'), weight))
+                    if mixed_method:
+                        mixed = workflow.prediction(selected, mixed_method)
+                        self.assertEqual(json.loads((mixed / 'selection.json').read_text()), frozen)
+                        weight = frozen['selections'][0]['alternative_weight']
+                        alternative = workflow.controls[mixed_method]
+                        np.testing.assert_allclose(workflow.array(mixed, 'prediction'),
+                            blend(workflow.array(workflow.raw(selected, 'test', UNIVARIATE), 'prediction'),
+                                  workflow.array(workflow.raw(selected, 'test', alternative), 'prediction'), weight))
                     extraction = workflow.extraction(selected, 'validation', 'covariate')
                     if alias != 'chronos_bolt':
                         self.assertTrue((workflow.array(extraction, 'neighbor_ids') == -1).any())
-                        horizon_extraction = workflow.extraction(selected, 'validation', 'horizon')
-                        self.assertTrue((workflow.array(horizon_extraction, 'neighbor_ids') >= 0).any())
-                    horizon = workflow.raw(selected, 'test', HORIZON)
-                    test_data = workflow.prepared(selected, 'test')
-                    refs = workflow.array(test_data, 'test_references')
-                    datastore = workflow.array(test_data, 'test_datastore')
-                    ids = workflow.array(workflow.extraction(selected, 'test', 'horizon'), 'neighbor_ids')
-                    row = int(np.flatnonzero(ids[:, 0] >= 0)[0])
-                    neighbor = data.sequences(datastore[ids[row]])
-                    query = data.histories(refs[row:row+1], selected.retrieval_context_length)[0]
-                    expected = query_scaled_sequences(query, neighbor, selected.prediction_length)[0, -selected.prediction_length:]
-                    np.testing.assert_allclose(workflow.array(horizon, 'prediction')[row], expected)
+                    refs = workflow.array(workflow.prepared(selected, 'test'), 'test_references')
                     self.assertEqual(workflow.path(selected, 'data/test', 'shared').relative_to(workflow.root).parts[0], alias)
                     if alias == 'chronos_bolt':
-                        self.assertEqual(workflow.methods(), [UNIVARIATE, HORIZON_MIX])
-                    # Exercise reports with frozen mixture weights and Bolt's empty selector table.
+                        self.assertEqual(workflow.methods(), [UNIVARIATE])
+                    self.assertFalse(any(method.startswith('top_k_') and not method.endswith('_mix')
+                                         for method in workflow.methods()))
+                    # Exercise reports with frozen controls and Bolt's empty selector table.
                     from timebench.results.comparison import build_report
                     from timebench.evaluation.grid import EVALUATION_GRID_DEFINITION
                     metrics = {'evaluation_grid': {'definition': EVALUATION_GRID_DEFINITION, 'valid_values': len(refs)},
@@ -391,8 +394,9 @@ class WorkflowControls(unittest.TestCase):
                         build_report(inputs, report, workflow.config)
                     summary = json.loads((report / 'comparison_summary.json').read_text())
                     self.assertEqual(set(summary), set(workflow.methods()))
-                    self.assertIsNone(summary[HORIZON_MIX]['summed_inference_seconds'])
-                    del refs, datastore, ids  # Release Windows mmap handles before temporary cleanup.
+                    if mixed_method:
+                        self.assertIsNone(summary[mixed_method]['summed_inference_seconds'])
+                    del refs  # Release Windows mmap handles before temporary cleanup.
 
 
 class ReportingContracts(unittest.TestCase):

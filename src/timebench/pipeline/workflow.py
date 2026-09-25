@@ -13,15 +13,13 @@ from timebench.evaluation.validation import finite_row_mask, validation_window_m
 from timebench.paths import PROJECT_ROOT, dataset_storage_root, outputs_root, weights_root
 from timebench.pipeline.runs import (allocate_run, load_manifest, manifest_reference,
     select_completed_runs)
-from timebench.proposal.candidates import (UNIVARIATE, MULTIVARIATE, SELF_AUGMENTATION,
-    candidate_names, candidate_k, self_covariates, query_scaled_sequences, align_covariates,
-    control_candidates, HORIZON, HORIZON_MIX)
+from timebench.proposal.candidates import (UNIVARIATE, MULTIVARIATE, candidate_names,
+    candidate_k, query_scaled_sequences, align_covariates, control_candidates)
 
 SOURCE_REVISIONS = {'improved_time': '541a2802cd2a35d39156aef4c37de6964d112786',
                     'adaptime': '33e75400d8c64414e4e13567c4e899803908bc44'}
-STAGES = ('prepare', 'extract_validation', 'predict_validation', 'select_task', 'select_per_variate',
+STAGES = ('prepare', 'extract_validation', 'predict_validation', 'calibrate',
           'extract_test', 'predict_test', 'assemble', 'evaluate', 'report')
-SELECTED_METHODS = ('selected_task', 'selected_per_variate')
 
 
 def log(message):
@@ -77,24 +75,28 @@ class Workflow:
         if config['report_config_policy'] not in CONFIG_POLICIES or config['report_repeat_policy'] not in REPEAT_POLICIES:
             raise ValueError('Invalid report configuration or repeat policy')
         self.root, self.storage, self.weights = outputs_root() / 'selectime', dataset_storage_root(), weights_root()
+        self.vanilla_predictions_path = (
+            Path(config['vanilla_predictions_path']).expanduser().resolve()
+            if config.get('vanilla_predictions_path') else None
+        )
         self.seed, self.device = int(config['seed']), config['device']
         self.batch_size = int(config['batch_size'])
-        default_context = 8192 if self.model == 'chronos2' else 2048
+        default_context = limits[self.model]
         self.context_length = int(config['context_length'] or default_context)
         self.k_values = (1,) if self.model == 'chronos_bolt' else tuple(map(int, config['k_values']))
         if not self.k_values or min(self.k_values) <= 0 or tuple(sorted(set(self.k_values))) != self.k_values:
             raise ValueError('k_values must be a sorted, distinct, positive list')
         if not 1 <= self.context_length <= limits[self.model] or self.batch_size < 1:
             raise ValueError('Context exceeds backbone limit or batch_size is not positive')
-        if self.model != 'chronos_bolt' and 5 not in self.k_values:
-            raise ValueError('top5_mix requires K=5 in k_values')
         if config['bootstrap_replications'] < 2 or (config['bootstrap_block_length'] is not None and config['bootstrap_block_length'] < 1):
             raise ValueError('Invalid bootstrap settings')
+        if float(config['scope_ridge_alpha']) <= 0:
+            raise ValueError('scope_ridge_alpha must be positive')
         if min(config['query_block_size'], config['datastore_block_size']) < 1 or not 0 < config['minimum_overlap_fraction'] <= 1:
             raise ValueError('Invalid retrieval block size or overlap fraction')
         self.candidates = candidate_names(self.k_values, self.model)
-        self.controls = control_candidates(self.model)
-        self.raw_methods = [*self.candidates, HORIZON]
+        self.controls = control_candidates(self.model, self.k_values)
+        self.raw_methods = list(self.candidates)
         self.config_path = Path(config['dataset_config'] or Path(__file__).parents[1] / 'config/datasets.yaml').resolve()
         settings = yaml.safe_load(self.config_path.read_text(encoding='utf-8'))
         names = list(settings['datasets']) if config['datasets'] == ['all'] else config['datasets']
@@ -212,33 +214,44 @@ class Workflow:
             pipeline.update(
                 split=split,
                 validation_support='finite_context_and_future' if split == 'validation' else None,
+                prediction_artifact_contract='vanilla_reuse_nan_counts_retrieval_provenance',
             )
-            if method == SELF_AUGMENTATION:
-                pipeline['self_covariates'] = ['sqrt_abs_past_only', 'sign_past_only']
             if candidate_k(method):
                 pipeline.update(
                     k=candidate_k(method),
                     neighbor_scaling='lookback_statistics_to_query_lookback_scale',
                 )
-            if method == HORIZON:
-                pipeline['forecast_policy'] = 'direct_observed_neighbor_horizon'
             experiment['seed'] = self.seed
         if phase == 'selections':
+            granularity = 'per_variate' if method.endswith('_per_variate') else 'task'
+            if method.startswith('scope_selector'):
+                rule = 'paired_moving_date_block_bootstrap_one_standard_error'
+            elif method == 'scope_ridge':
+                rule = 'closed_form_msse_weighted_ridge_alpha_1'
+            else:
+                rule = 'beta_1_1_validation_window_msse_win_frequency_half_ties'
             pipeline.update(
                 validation_support='finite_context_and_future',
+                granularity=granularity,
                 no_validation_fallback='univariate',
-                bootstrap_replications=int(self.config['bootstrap_replications']),
-                bootstrap_block_length=self.config['bootstrap_block_length'],
-                selection_rule=(
-                    'paired_moving_date_block_bootstrap_one_standard_error'
-                    if method in {'task', 'per_variate', 'scope_selector'}
-                    else 'beta_1_1_validation_window_msse_win_frequency_half_ties'
-                ),
-                selection_preference='univariate_then_multivariate_then_self_augmentation_then_smallest_k',
+                selection_rule=rule,
             )
+            if method.startswith('scope_selector'):
+                pipeline.update(
+                    bootstrap_replications=int(self.config['bootstrap_replications']),
+                    bootstrap_block_length=self.config['bootstrap_block_length'],
+                    selection_preference='univariate_then_multivariate',
+                )
+            if method == 'scope_ridge':
+                pipeline.update(
+                    alpha=float(self.config['scope_ridge_alpha']),
+                    fitting_windows='same_test_aligned_pretest_validation_windows_as_other_controls',
+                    no_training_support='unfitted_vanilla_fallback',
+                )
             experiment['seed'] = self.seed
         if phase == 'evaluations':
             pipeline['evaluation_grid'] = EVALUATION_GRID_DEFINITION
+            pipeline['nan_policy'] = 'omit_nan_predictions_report_counts_reject_infinity'
         if phase == 'reports':
             pipeline['report_selection'] = {key: self.config[key] for key in
                 ('report_current_config', 'report_config_filters', 'report_config_policy', 'report_repeat_policy')}
@@ -288,37 +301,22 @@ class Workflow:
             deps['vanilla'] = self.raw(task, split, UNIVARIATE)
         if candidate_k(method):
             deps['retrieval'] = self.extraction(task, split, 'covariate')
-        elif method == HORIZON:
-            deps['retrieval'] = self.extraction(task, split, 'horizon')
         return deps
 
     def raw(self, task, split, method):
         return self.resolve(task, f'predictions/{split}', method, self.prediction_dependencies(task, split, method))
 
-    def selection_dependencies(self, task):
-        return {'validation_data': self.prepared(task, 'validation'),
-                'test_data': self.prepared(task, 'test'),
-                **{method: self.raw(task, 'validation', method) for method in self.candidates}}
-
-    def selection(self, task, granularity):
-        return self.resolve(task, 'selections', granularity, self.selection_dependencies(task))
-
-    def assembled_dependencies(self, task, granularity):
-        return {'selection': self.selection(task, granularity), 'data': self.prepared(task, 'test'),
-                **{method: self.raw(task, 'test', method) for method in self.candidates}}
-
     def prediction(self, task, method):
         if method in self.controls:
             return self.resolve(task, 'predictions/test', method, self.control_dependencies(task, method, 'test'))
-        if method in SELECTED_METHODS:
-            granularity = 'task' if method == 'selected_task' else 'per_variate'
-            return self.resolve(task, 'predictions/test', method, self.assembled_dependencies(task, granularity))
         return self.raw(task, 'test', method)
 
     def control_dependencies(self, task, method, split):
         alternative = self.controls[method]
         deps = {'data': self.prepared(task, split), 'vanilla': self.raw(task, split, UNIVARIATE),
                 'alternative': self.raw(task, split, alternative)}
+        if split == 'validation' and method.endswith('_per_variate'):
+            deps['test_data'] = self.prepared(task, 'test')
         if split == 'test':
             deps['calibration'] = self.resolve(task, 'selections', method,
                                                self.control_dependencies(task, method, 'validation'))
@@ -428,7 +426,7 @@ class Workflow:
         from timebench.proposal.retrieval import context_representation, blockwise_topk
         for task in self.tasks:
             data = self.prepared(task, split)
-            for kind in ('covariate', 'horizon'):
+            for kind in ('covariate',):
                 with self.allocate(task, f'retrieval/{split}', kind, {'data': data}) as run:
                     if not run.should_run:
                         continue
@@ -456,7 +454,7 @@ class Workflow:
                             if len(history) == r:
                                 query[start + local] = context_representation(history)
                     finish_array(run.run_dir / 'query_representation.npy', query)
-                    k = max(self.k_values) if kind == 'covariate' else 1
+                    k = max(self.k_values)
                     distances, ids = blockwise_topk(query, representations, refs, datastore_refs,
                         self.array(data, f'{split}_ticks'), self.array(data, f'{split}_datastore_ticks'),
                         self.array(data, f'{split}_datastore_ends'), k=k,
@@ -475,6 +473,10 @@ class Workflow:
     def predict(self, split):
         from timebench.model_loading import load_forecaster
         from timebench.evaluation.timing import EvaluationTimer
+        from timebench.pipeline.vanilla_reuse import load_vanilla_test_rows
+        from timebench.proposal.retrieval import (
+            retrieval_provenance_rows, summarize_retrieval_provenance,
+        )
         model = None
         group = self.config['prediction_group']
         methods = [method for method in self.raw_methods
@@ -498,20 +500,42 @@ class Workflow:
                     produced = np.zeros(len(refs), dtype=bool)
                     reused = np.zeros(len(refs), dtype=bool)
                     reuse_sources = []
-                    if method == UNIVARIATE:
+                    external_vanilla = None
+                    if split == 'test' and method in (UNIVARIATE, MULTIVARIATE):
+                        external_rows, external_vanilla = load_vanilla_test_rows(
+                            self.vanilla_predictions_path,
+                            backbone=self.model,
+                            target_mode=('multivariate' if method == MULTIVARIATE else 'univariate'),
+                            dataset=task.dataset,
+                            term=task.term,
+                            context_length=self.context_length,
+                            prediction_length=task.prediction_length,
+                            test_length=task.test_length,
+                            references=refs,
+                        )
+                        if external_rows is not None:
+                            values[:] = external_rows
+                            reused[:] = True
+                            produced[:] = True
+                            reuse_sources.append({
+                                'manifest': external_vanilla['manifest'],
+                                'rows': int(len(refs)),
+                                'kind': 'evaluating_tsfms_canonical_vanilla',
+                            })
+                    if method == UNIVARIATE and not reused.all():
                         reused, reuse_sources = self.reuse_univariate_rows(
                             task, split, refs, run, values, fallback
                         )
                         produced[reused] = True
                     vanilla = None if method == UNIVARIATE else self.array(deps['vanilla'], 'prediction')
-                    if vanilla is not None:
+                    if vanilla is not None and not reused.all():
                         values[:] = vanilla
                     extraction = deps.get('retrieval')
                     k = candidate_k(method)
-                    retrieval = bool(k) or method == HORIZON
+                    retrieval = bool(k)
                     ids = self.array(extraction, 'neighbor_ids') if retrieval else None
                     datastore = self.array(data, f'{split}_datastore') if retrieval else None
-                    if model is None and (~reused).any() and method != HORIZON:
+                    if model is None and (~reused).any():
                         model = load_forecaster(self.model, self.weights, self.device, self.context_length)
                     timer = EvaluationTimer()
                     timer.start()
@@ -525,6 +549,9 @@ class Workflow:
                             for group in range(start, min(start + self.batch_size, len(keys))):
                                 item, origin = keys[group]
                                 positions = row_order[offsets[group]:offsets[group + 1]]
+                                positions = positions[~reused[positions]]
+                                if not len(positions):
+                                    continue
                                 history = windows.multivariate_history(item, origin, self.context_length)
                                 if split == 'validation':
                                     finite_channels = finite_row_mask(history)
@@ -541,6 +568,7 @@ class Workflow:
                             forecasts = model.forecast(histories, task.prediction_length)
                             for group, forecast in zip(groups, forecasts):
                                 positions = row_order[offsets[group]:offsets[group + 1]]
+                                positions = positions[~reused[positions]]
                                 if split == 'validation':
                                     positions = positions[cells[positions]]
                                 values[positions] = forecast[refs[positions, 1]]
@@ -568,9 +596,7 @@ class Workflow:
                             if not len(positions):
                                 continue
                             past, future = None, None
-                            if method == SELF_AUGMENTATION:
-                                past = [self_covariates(history) for history in histories]
-                            elif retrieval:
+                            if retrieval:
                                 past, future = [], []
                                 for row, history in zip(positions, histories):
                                     neighbors = windows.sequences(datastore[ids[row, :k or 1]])
@@ -578,24 +604,44 @@ class Workflow:
                                     p, f = align_covariates(scaled, len(history), task.prediction_length)
                                     past.append(p)
                                     future.append(f)
-                            forecasts = ([np.asarray(value) for value in future] if method == HORIZON else
-                                model.forecast(histories, task.prediction_length,
-                                               past_covariates=past, future_covariates=future))
+                            forecasts = model.forecast(histories, task.prediction_length,
+                                                       past_covariates=past, future_covariates=future)
                             values[positions] = np.stack([forecast[0] for forecast in forecasts])
                             produced[positions] = True
                     seconds = timer.stop()
+                    required = targets & cells[:, None]
+                    produced_nan_counts = (required & np.isnan(values)).sum(axis=1).astype(np.int64)
+                    produced_nan_values = int(produced_nan_counts.sum())
                     invalid = cells & ~np.all(~targets | np.isfinite(values), axis=-1)
-                    if (invalid & ~invalid_context).any() and method == UNIVARIATE:
-                        raise ValueError('Canonical univariate forecast is non-finite on required support')
+                    infinite = cells & np.any(targets & np.isinf(values), axis=-1)
+                    if infinite.any():
+                        raise ValueError(f'Infinite {method} forecast on required support')
                     if vanilla is not None:
                         values[invalid] = vanilla[invalid]
                         fallback[invalid] = True
                     finish_array(run.run_dir / 'prediction.npy', values)
                     np.save(run.run_dir / 'fallback.npy', fallback, allow_pickle=False)
+                    np.save(run.run_dir / 'produced_nan_counts.npy', produced_nan_counts,
+                            allow_pickle=False)
                     retrieval_metadata = json.loads((extraction / 'retrieval.json').read_text()) if retrieval else {}
                     prepared_metadata = json.loads((data / 'prepared.json').read_text(encoding='utf-8'))
                     usable_ticks = np.unique(self.array(data, f'{split}_ticks')[cells]) if len(refs) else []
                     fallback_summary = summarize_fallbacks(fallback, cells)
+                    prediction_nan_values = int((required & np.isnan(values)).sum())
+                    prediction_values = int(required.sum())
+                    provenance_rows = None
+                    retrieval_provenance = None
+                    if retrieval:
+                        provenance_rows = retrieval_provenance_rows(
+                            refs,
+                            datastore,
+                            ids[:, :k or 1],
+                            self.array(data, f'{split}_ticks'),
+                            self.array(data, f'{split}_datastore_ticks'),
+                        )
+                        np.save(run.run_dir / 'retrieval_provenance.npy', provenance_rows,
+                                allow_pickle=False)
+                        retrieval_provenance = summarize_retrieval_provenance(provenance_rows)
                     write_json(run.run_dir / 'prediction.json', {'schema_version': 1, 'method': method, 'split': split,
                         'context_length': self.context_length, 'inference_seconds': seconds,
                         'query_retrieval_seconds': retrieval_metadata.get('query_retrieval_seconds', 0),
@@ -608,45 +654,29 @@ class Workflow:
                         'reused_rows': int(reused.sum()),
                         'newly_inferred_rows': int((produced & ~reused).sum()),
                         'reuse_sources': reuse_sources,
+                        'external_vanilla': external_vanilla,
+                        'prediction_nan_values': prediction_nan_values,
+                        'produced_nan_values': produced_nan_values,
+                        'prediction_values': prediction_values,
+                        'prediction_nan_rate': (prediction_nan_values / prediction_values
+                                                if prediction_values else None),
+                        'retrieval_provenance': retrieval_provenance,
                         'invalid_validation_context_count': int((invalid_context & cells).sum()),
                         'insufficient_retrieval_count': int((~(ids >= 0).all(axis=-1) & cells).sum()) if retrieval else 0,
                         'nonfinite_fallback_count': int(invalid.sum()),
                         'timing_policy': 'measured_candidate_query_loop_precomputed_vanilla_fallback_separate_retrieval'})
-                    self.finish(run, ['prediction.npy', 'fallback.npy', 'prediction.json'])
+                    files = ['prediction.npy', 'fallback.npy', 'produced_nan_counts.npy',
+                             'prediction.json']
+                    if provenance_rows is not None:
+                        files.append('retrieval_provenance.npy')
+                    self.finish(run, files)
         del model
 
-    def select(self, granularity):
-        from timebench.proposal.selection import select_candidates, select_with_block_bootstrap
-        if granularity == 'task':
-            self.calibrate_controls()
-        if self.model == 'chronos_bolt':
-            return
-        for task in self.tasks:
-            deps = self.selection_dependencies(task)
-            with self.allocate(task, 'selections', granularity, deps) as run:
-                if not run.should_run:
-                    continue
-                log(f'select_{granularity} {task.dataset}/{task.term}')
-                windows = Windows(task, self.storage)
-                refs = self.array(deps['validation_data'], 'validation_references')
-                predictions = {method: self.array(deps[method], 'prediction') for method in self.candidates}
-                result = select_candidates(predictions, windows.labels(refs), windows.msse_scales(refs), refs,
-                    self.array(deps['validation_data'], 'validation_ticks'), granularity=granularity, seed=self.seed,
-                    prediction_length=task.prediction_length, validation_stride=task.validation_stride,
-                    replications=self.config['bootstrap_replications'], block_length=self.config['bootstrap_block_length'])
-                if granularity == 'per_variate':
-                    present = {(entry['item'], entry['channel']) for entry in result['selections']}
-                    for item, channel in np.unique(self.array(deps['test_data'], 'test_references')[:, :2], axis=0):
-                        if (int(item), int(channel)) not in present:
-                            entry = select_with_block_bootstrap({name: np.empty(0) for name in self.candidates},
-                                seed=self.seed, prediction_length=task.prediction_length, validation_stride=task.validation_stride)
-                            entry.update(item=int(item), channel=int(channel), validation_date_ticks=[])
-                            result['selections'].append(entry)
-                write_json(run.run_dir / 'selection.json', result)
-                self.finish(run, ['selection.json'])
-
-    def calibrate_controls(self):
-        from timebench.proposal.selection import select_candidates, win_frequency_mixture
+    def calibrate(self):
+        from timebench.proposal.selection import (
+            select_candidates, select_with_block_bootstrap, scope_ridge,
+            win_frequency_mixture, win_frequency_mixtures,
+        )
         for task in self.tasks:
             windows = Windows(task, self.storage)
             for method, alternative in self.controls.items():
@@ -658,57 +688,63 @@ class Workflow:
                     predictions = {UNIVARIATE: self.array(deps['vanilla'], 'prediction'),
                                    alternative: self.array(deps['alternative'], 'prediction')}
                     labels, scales = windows.labels(refs), windows.msse_scales(refs)
-                    if method == 'scope_selector':
+                    granularity = 'per_variate' if method.endswith('_per_variate') else 'task'
+                    eligible = ~self.array(deps['alternative'], 'fallback')
+                    if method.startswith('scope_selector'):
                         result = select_candidates(predictions, labels, scales, refs,
-                            self.array(deps['data'], 'validation_ticks'), granularity='task', seed=self.seed,
+                            self.array(deps['data'], 'validation_ticks'), granularity=granularity, seed=self.seed,
                             prediction_length=task.prediction_length, validation_stride=task.validation_stride,
                             replications=self.config['bootstrap_replications'], block_length=self.config['bootstrap_block_length'])
+                    elif method == 'scope_ridge':
+                        result = scope_ridge(
+                            predictions, labels, scales, eligible=eligible,
+                            alpha=float(self.config['scope_ridge_alpha']),
+                        )
+                    elif granularity == 'per_variate':
+                        result = win_frequency_mixtures(
+                            predictions, labels, scales, refs, granularity=granularity,
+                            eligible=eligible,
+                        )
                     else:
-                        result = win_frequency_mixture(predictions, labels, scales,
-                            eligible=~self.array(deps['alternative'], 'fallback'))
+                        result = {'schema_version': 1, 'granularity': 'task', 'selections': [
+                            win_frequency_mixture(predictions, labels, scales, eligible=eligible)
+                        ]}
+                    if granularity == 'per_variate':
+                        present = {(entry['item'], entry['channel']) for entry in result['selections']}
+                        test_refs = self.array(deps['test_data'], 'test_references')
+                        for item, channel in np.unique(test_refs[:, :2], axis=0):
+                            key = int(item), int(channel)
+                            if key in present:
+                                continue
+                            if method.startswith('scope_selector'):
+                                entry = select_with_block_bootstrap(
+                                    {UNIVARIATE: np.empty(0), alternative: np.empty(0)},
+                                    seed=self.seed, prediction_length=task.prediction_length,
+                                    validation_stride=task.validation_stride,
+                                    replications=self.config['bootstrap_replications'],
+                                    block_length=self.config['bootstrap_block_length'],
+                                )
+                                entry['validation_date_ticks'] = []
+                            else:
+                                entry = {
+                                    'alternative': alternative,
+                                    'rule': 'beta_1_1_validation_window_msse_win_frequency_half_ties',
+                                    'trials': 0,
+                                    'wins_including_half_ties': 0.0,
+                                    'alternative_weight': 0.0,
+                                    'fallback_reason': 'no_usable_validation_rows',
+                                }
+                            entry.update(item=key[0], channel=key[1])
+                            result['selections'].append(entry)
                     write_json(run.run_dir / 'selection.json', result)
                     self.finish(run, ['selection.json'])
 
     def assemble(self):
         self.assemble_controls()
-        if self.model == 'chronos_bolt':
-            return
-        for task in self.tasks:
-            refs = self.array(self.prepared(task, 'test'), 'test_references')
-            for granularity, method in zip(('task', 'per_variate'), SELECTED_METHODS):
-                deps = self.assembled_dependencies(task, granularity)
-                with self.allocate(task, 'predictions/test', method, deps) as run:
-                    if not run.should_run:
-                        continue
-                    selection = json.loads((deps['selection'] / 'selection.json').read_text())
-                    values = save_array(run.run_dir / 'prediction.npy', (len(refs), task.prediction_length))
-                    fallback = np.zeros(len(refs), dtype=bool)
-                    chosen = np.empty(len(refs), dtype=np.int64)
-                    records = selection['selections']
-                    for entry in records:
-                        positions = (np.flatnonzero((refs[:, :2] == (entry['item'], entry['channel'])).all(axis=-1))
-                                     if granularity == 'per_variate' else np.arange(len(refs)))
-                        selected = entry['selected_method']
-                        values[positions] = self.array(deps[selected], 'prediction')[positions]
-                        fallback[positions] = self.array(deps[selected], 'fallback')[positions]
-                        chosen[positions] = self.candidates.index(selected)
-                    finish_array(run.run_dir / 'prediction.npy', values)
-                    np.save(run.run_dir / 'fallback.npy', fallback, allow_pickle=False)
-                    np.save(run.run_dir / 'selected_candidate.npy', chosen, allow_pickle=False)
-                    write_json(run.run_dir / 'selection.json', selection)
-                    windows = Windows(task, self.storage)
-                    _, cells = self.support(task, 'test', windows, refs)
-                    fallback_summary = summarize_fallbacks(fallback, cells)
-                    write_json(run.run_dir / 'prediction.json', {'schema_version': 1, 'method': method, 'split': 'test',
-                        'context_length': self.context_length, 'inference_seconds': None,
-                        'timing_policy': 'assembled_from_candidate_artifacts_no_independent_selected_method_latency',
-                        'fallback_count': fallback_summary['fallback_count'],
-                        'grid_rows': fallback_summary['evaluated_rows'],
-                        'candidate_names': self.candidates, 'granularity': granularity})
-                    self.finish(run, ['prediction.npy', 'fallback.npy', 'selected_candidate.npy', 'selection.json', 'prediction.json'])
 
     def assemble_controls(self):
         from timebench.proposal.selection import blend
+        from timebench.proposal.retrieval import summarize_retrieval_provenance
         for task in self.tasks:
             windows = Windows(task, self.storage)
             refs = self.array(self.prepared(task, 'test'), 'test_references')
@@ -719,35 +755,68 @@ class Workflow:
                     if not run.should_run:
                         continue
                     calibration = json.loads((deps['calibration'] / 'selection.json').read_text())
-                    weight = (float(calibration['selections'][0]['selected_method'] == alternative)
-                              if method == 'scope_selector' else calibration['alternative_weight'])
+                    granularity = calibration['granularity']
                     vanilla = self.array(deps['vanilla'], 'prediction')
                     candidate = self.array(deps['alternative'], 'prediction')
-                    # Assemble in batches without copying both full candidate payloads into RAM.
                     values = save_array(run.run_dir / 'prediction.npy', vanilla.shape)
-                    for start in range(0, len(refs), self.batch_size):
-                        stop = start + self.batch_size
-                        values[start:stop] = blend(vanilla[start:stop], candidate[start:stop], weight)
-                    fallback = (np.asarray(self.array(deps['alternative'], 'fallback')).copy() if weight else
-                                np.zeros(len(refs), dtype=bool))
+                    values[:] = vanilla
+                    weights = np.zeros(len(refs), dtype=np.float64)
+                    for entry in calibration['selections']:
+                        positions = (np.flatnonzero(
+                            (refs[:, :2] == (entry['item'], entry['channel'])).all(axis=-1)
+                        ) if granularity == 'per_variate' else np.arange(len(refs)))
+                        weight = (float(entry['selected_method'] == alternative)
+                                  if method.startswith('scope_selector')
+                                  else float(entry['alternative_weight']))
+                        weights[positions] = weight
+                        values[positions] = blend(vanilla[positions], candidate[positions], weight)
+                    alternative_fallback = self.array(deps['alternative'], 'fallback')
+                    fallback = np.asarray(alternative_fallback & (weights != 0), dtype=bool)
                     invalid = cells & ~np.all(~targets | np.isfinite(values), axis=-1)
                     values[invalid], fallback[invalid] = vanilla[invalid], True
                     finish_array(run.run_dir / 'prediction.npy', values)
                     np.save(run.run_dir / 'fallback.npy', fallback, allow_pickle=False)
+                    np.save(run.run_dir / 'alternative_weight.npy', weights, allow_pickle=False)
+                    provenance_rows = np.zeros((len(refs), 4), dtype=np.float64)
+                    produced_nan_counts = np.zeros(len(refs), dtype=np.int64)
+                    source = deps['alternative'] / 'retrieval_provenance.npy'
+                    used = weights != 0
+                    if used.any():
+                        if source.is_file():
+                            provenance_rows[used] = np.load(
+                                source, mmap_mode='r', allow_pickle=False
+                            )[used]
+                        produced_nan_counts[used] = np.load(
+                            deps['alternative'] / 'produced_nan_counts.npy', mmap_mode='r',
+                            allow_pickle=False,
+                        )[used]
+                    np.save(run.run_dir / 'retrieval_provenance.npy', provenance_rows,
+                            allow_pickle=False)
+                    np.save(run.run_dir / 'produced_nan_counts.npy', produced_nan_counts,
+                            allow_pickle=False)
                     write_json(run.run_dir / 'selection.json', calibration)
                     fallback_summary = summarize_fallbacks(fallback, cells)
                     write_json(run.run_dir / 'prediction.json', {'schema_version': 1, 'method': method, 'split': 'test',
                         'context_length': self.context_length, 'inference_seconds': None,
                         'timing_policy': 'assembled_from_candidate_artifacts_no_independent_selected_method_latency',
-                        'alternative': alternative, 'alternative_weight': weight,
+                        'alternative': alternative,
+                        'alternative_weight': (float(weights[0]) if granularity == 'task' else None),
+                        'weight_granularity': granularity,
+                        'weight_min': float(weights.min()) if len(weights) else None,
+                        'weight_max': float(weights.max()) if len(weights) else None,
+                        'produced_nan_values': int(produced_nan_counts.sum()),
+                        'retrieval_provenance': summarize_retrieval_provenance(provenance_rows),
                         'fallback_count': fallback_summary['fallback_count'],
                         'grid_rows': fallback_summary['evaluated_rows']})
-                    self.finish(run, ['prediction.npy', 'fallback.npy', 'selection.json', 'prediction.json'])
+                    self.finish(run, ['prediction.npy', 'fallback.npy', 'alternative_weight.npy',
+                                      'retrieval_provenance.npy', 'produced_nan_counts.npy',
+                                      'selection.json', 'prediction.json'])
 
     def methods(self):
         if self.model == 'chronos_bolt':
-            return [UNIVARIATE, HORIZON_MIX]
-        return [*self.candidates, *SELECTED_METHODS, *self.controls]
+            return [UNIVARIATE]
+        raw_baselines = [UNIVARIATE, *([MULTIVARIATE] if self.model == 'chronos2' else [])]
+        return [*raw_baselines, *self.controls]
 
     def evaluation(self, task, method):
         return self.resolve(task, 'evaluations', method, {'prediction': self.prediction(task, method)})
@@ -820,9 +889,7 @@ class Workflow:
             self.extract(stage.removeprefix('extract_'))
         elif stage.startswith('predict_') and stage in STAGES:
             self.predict(stage.removeprefix('predict_'))
-        elif stage in ('select_task', 'select_per_variate'):
-            self.select(stage.removeprefix('select_'))
-        elif stage in ('prepare', 'assemble', 'evaluate', 'report'):
+        elif stage in ('prepare', 'calibrate', 'assemble', 'evaluate', 'report'):
             getattr(self, stage)()
         else:
             raise ValueError(f'Unknown stage {stage}')

@@ -3,6 +3,55 @@ import warnings
 import numpy as np
 
 
+def retrieval_provenance_rows(query_refs, datastore_refs, neighbor_ids,
+                              query_ticks, datastore_ticks):
+    """Per-query counts: extractions, neighbors, same-user neighbors, lag sum."""
+    query_refs = np.asarray(query_refs)
+    datastore_refs = np.asarray(datastore_refs)
+    neighbor_ids = np.asarray(neighbor_ids)
+    query_ticks = np.asarray(query_ticks)
+    datastore_ticks = np.asarray(datastore_ticks)
+    rows = np.zeros((len(query_refs), 4), dtype=np.float64)
+    rows[:, 0] = 1
+    if not len(datastore_refs):
+        return rows
+    earliest = float(np.min(datastore_ticks))
+    for row, ids in enumerate(neighbor_ids):
+        valid = ids[ids >= 0]
+        if not len(valid):
+            continue
+        neighbors = datastore_refs[valid]
+        rows[row, 1] = len(valid)
+        rows[row, 2] = np.sum(neighbors[:, 0] == query_refs[row, 0])
+        denominator = max(float(query_ticks[row]) - earliest, 1.0)
+        rows[row, 3] = np.sum(
+            (float(query_ticks[row]) - datastore_ticks[valid]) / denominator
+        )
+    return rows
+
+
+def summarize_retrieval_provenance(rows):
+    rows = np.asarray(rows, dtype=np.float64)
+    totals = rows.sum(axis=0) if len(rows) else np.zeros(4, dtype=np.float64)
+    extractions, neighbors, same_user, distance_sum = totals
+    return {
+        'retrieval_extractions': int(extractions),
+        'retrieved_neighbors': int(neighbors),
+        'same_user_neighbors': int(same_user),
+        'same_user_retrieval_percentage': (
+            float(100 * same_user / neighbors) if neighbors else None
+        ),
+        'normalized_time_distance_sum': float(distance_sum),
+        'average_normalized_time_distance_to_query': (
+            float(distance_sum / neighbors) if neighbors else None
+        ),
+        'same_user_definition': 'same dataset item/user as the query',
+        'normalized_time_distance_definition': (
+            '(query_tick-neighbor_tick)/(query_tick-earliest_datastore_tick)'
+        ),
+    }
+
+
 def context_representation(context):
     """Normalize each lookback independently, retaining missing positions."""
     values = np.asarray(context, dtype=np.float32)
