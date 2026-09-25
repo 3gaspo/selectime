@@ -8,6 +8,7 @@ import random
 import numpy as np
 
 from timebench.data.windows import Task, Windows, write_prepared
+from timebench.evaluation.fallback import summarize_fallbacks
 from timebench.evaluation.validation import finite_row_mask, validation_window_mask
 from timebench.paths import PROJECT_ROOT, dataset_storage_root, outputs_root, weights_root
 from timebench.pipeline.runs import (allocate_run, load_manifest, manifest_reference,
@@ -594,11 +595,13 @@ class Workflow:
                     retrieval_metadata = json.loads((extraction / 'retrieval.json').read_text()) if retrieval else {}
                     prepared_metadata = json.loads((data / 'prepared.json').read_text(encoding='utf-8'))
                     usable_ticks = np.unique(self.array(data, f'{split}_ticks')[cells]) if len(refs) else []
+                    fallback_summary = summarize_fallbacks(fallback, cells)
                     write_json(run.run_dir / 'prediction.json', {'schema_version': 1, 'method': method, 'split': split,
                         'context_length': self.context_length, 'inference_seconds': seconds,
                         'query_retrieval_seconds': retrieval_metadata.get('query_retrieval_seconds', 0),
                         'datastore_preprocessing_seconds': retrieval_metadata.get('datastore_preprocessing_seconds', 0),
-                        'fallback_count': int((fallback & cells).sum()), 'grid_rows': int(cells.sum()),
+                        'fallback_count': fallback_summary['fallback_count'],
+                        'grid_rows': fallback_summary['evaluated_rows'],
                         'validation_counts': ({**prepared_metadata['counts'],
                             'usable_rows': int(cells.sum()), 'usable_dates': int(len(usable_ticks))}
                             if split == 'validation' else None),
@@ -695,10 +698,12 @@ class Workflow:
                     write_json(run.run_dir / 'selection.json', selection)
                     windows = Windows(task, self.storage)
                     _, cells = self.support(task, 'test', windows, refs)
+                    fallback_summary = summarize_fallbacks(fallback, cells)
                     write_json(run.run_dir / 'prediction.json', {'schema_version': 1, 'method': method, 'split': 'test',
                         'context_length': self.context_length, 'inference_seconds': None,
                         'timing_policy': 'assembled_from_candidate_artifacts_no_independent_selected_method_latency',
-                        'fallback_count': int((fallback & cells).sum()), 'grid_rows': int(cells.sum()),
+                        'fallback_count': fallback_summary['fallback_count'],
+                        'grid_rows': fallback_summary['evaluated_rows'],
                         'candidate_names': self.candidates, 'granularity': granularity})
                     self.finish(run, ['prediction.npy', 'fallback.npy', 'selected_candidate.npy', 'selection.json', 'prediction.json'])
 
@@ -730,11 +735,13 @@ class Workflow:
                     finish_array(run.run_dir / 'prediction.npy', values)
                     np.save(run.run_dir / 'fallback.npy', fallback, allow_pickle=False)
                     write_json(run.run_dir / 'selection.json', calibration)
+                    fallback_summary = summarize_fallbacks(fallback, cells)
                     write_json(run.run_dir / 'prediction.json', {'schema_version': 1, 'method': method, 'split': 'test',
                         'context_length': self.context_length, 'inference_seconds': None,
                         'timing_policy': 'assembled_from_candidate_artifacts_no_independent_selected_method_latency',
                         'alternative': alternative, 'alternative_weight': weight,
-                        'fallback_count': int((fallback & cells).sum()), 'grid_rows': int(cells.sum())})
+                        'fallback_count': fallback_summary['fallback_count'],
+                        'grid_rows': fallback_summary['evaluated_rows']})
                     self.finish(run, ['prediction.npy', 'fallback.npy', 'selection.json', 'prediction.json'])
 
     def methods(self):
