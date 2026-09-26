@@ -9,13 +9,16 @@ TIME_DATASET="${TIME_DATASET:-$TIME_DATA_ROOT/hf_dataset}"
 TIME_METADATA="${TIME_METADATA:-$TIME_DATA_ROOT/time_metadata}"
 TIME_WEIGHTS="${TIME_WEIGHTS:-$TIME_STORAGE_ROOT/weights}"
 if [ -n "${SELENA_NNI:-}" ]; then
-    TIME_SCRATCH_ROOT="/scratch/users/${SELENA_NNI,,}/codes/selectime"
-    selectime_artifact_root="$TIME_SCRATCH_ROOT"
+    TIME_SCRATCH_ROOT="/scratch/users/${SELENA_NNI,,}/codes/$(basename "$runtime_project_root")"
+    export TIME_SCRATCH_ROOT
+    default_outputs_root="$TIME_SCRATCH_ROOT/outputs"
+    default_logs_root="$TIME_SCRATCH_ROOT/logs"
 else
-    selectime_artifact_root="$runtime_project_root"
+    default_outputs_root="$runtime_project_root/outputs"
+    default_logs_root="$runtime_project_root/logs"
 fi
-OUTPUTS_ROOT="$selectime_artifact_root/outputs"
-LOGS_ROOT="$selectime_artifact_root/logs"
+OUTPUTS_ROOT="${OUTPUTS_ROOT:-${TIME_OUTPUTS:-$default_outputs_root}}"
+LOGS_ROOT="${LOGS_ROOT:-${TIME_LOGS:-$default_logs_root}}"
 TIME_OUTPUTS="$OUTPUTS_ROOT"
 TIME_LOGS="$LOGS_ROOT"
 
@@ -34,6 +37,12 @@ case "$TIME_SEASONAL_SCOPE" in
 esac
 TIME_SEASONAL_ROOT="${TIME_SEASONAL_ROOT:-$default_seasonal_root}"
 TIME_SEASONAL_TASKS_ROOT="${TIME_SEASONAL_TASKS_ROOT:-$TIME_SEASONAL_ROOT/foundation_models/tasks}"
+if [ "$TIME_SEASONAL_SCOPE" = shared ]; then
+    default_seasonal_logs_root="$TIME_SEASONAL_ROOT/logs"
+else
+    default_seasonal_logs_root="$TIME_LOGS"
+fi
+TIME_SEASONAL_LOGS_ROOT="${TIME_SEASONAL_LOGS_ROOT:-$default_seasonal_logs_root}"
 
 HF_HOME="${HF_HOME:-$TIME_WEIGHTS/huggingface}"
 HUGGINGFACE_HUB_CACHE="${HUGGINGFACE_HUB_CACHE:-$HF_HOME/hub}"
@@ -43,7 +52,7 @@ TORCH_HOME="${TORCH_HOME:-$TIME_WEIGHTS/torch}"
 
 export TIME_STORAGE_ROOT TIME_DATA_ROOT TIME_DATASET TIME_METADATA TIME_WEIGHTS
 export TIME_PROJECT_NAME=selectime
-export TIME_SEASONAL_SCOPE TIME_SEASONAL_ROOT TIME_SEASONAL_TASKS_ROOT
+export TIME_SEASONAL_SCOPE TIME_SEASONAL_ROOT TIME_SEASONAL_TASKS_ROOT TIME_SEASONAL_LOGS_ROOT
 export OUTPUTS_ROOT LOGS_ROOT TIME_OUTPUTS TIME_LOGS
 export HF_HOME HUGGINGFACE_HUB_CACHE HF_DATASETS_CACHE TRANSFORMERS_CACHE TORCH_HOME
 

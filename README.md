@@ -197,7 +197,10 @@ scripts/                     concise experiment and Seasonal submission launcher
 Artifacts live exclusively in the owning project's `outputs/selectime/<backbone>/` on
 each execution surface. Selena uses
 `/scratch/users/<nni>/codes/selectime/outputs/`; DGX/local execution uses the
-checkout's `outputs/`, regardless of copied artifact-root settings in `.env`.
+checkout's `outputs/`. Those are defaults; explicit `OUTPUTS_ROOT` and
+`LOGS_ROOT` values take precedence. The shared Seasonal producer deliberately
+uses the common Seasonal artifact root and its `logs/` child, while Selectime
+consumes that grid through `TIME_SEASONAL_TASKS_ROOT`.
 The layout is:
 `data/{validation,test}/shared/`,
 `retrieval/{validation,test}/covariate/`,

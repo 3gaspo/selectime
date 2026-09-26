@@ -3,8 +3,6 @@ set -euo pipefail
 cd "$PROJECT_ROOT"
 cluster="${1:-dgx}"
 export TIME_SEASONAL_SCOPE="${2:-${TIME_SEASONAL_SCOPE:-shared}}"
-export OUTPUTS_ROOT="$PROJECT_ROOT/outputs" LOGS_ROOT="$PROJECT_ROOT/logs"
-export TIME_OUTPUTS="$OUTPUTS_ROOT" TIME_LOGS="$LOGS_ROOT"
 case "$cluster" in
     dgx)
         export TIME_STORAGE_ROOT="${TIME_STORAGE_ROOT:-$HOME}"
@@ -18,4 +16,9 @@ esac
 if [ "$#" -ge 2 ]; then shift 2; elif [ "$#" -eq 1 ]; then shift; fi
 dependency=()
 [ -z "${SBATCH_DEPENDENCY:-}" ] || dependency=(--dependency="$SBATCH_DEPENDENCY")
-sbatch "${dependency[@]}" "$front" "$@"
+mkdir -p "$TIME_LOGS" "$TIME_SEASONAL_LOGS_ROOT"
+sbatch "${dependency[@]}" \
+    --output="$TIME_SEASONAL_LOGS_ROOT/%x_%j.out" \
+    --error="$TIME_SEASONAL_LOGS_ROOT/%x_%j.err" \
+    --export="ALL,OUTPUTS_ROOT=$TIME_SEASONAL_ROOT,LOGS_ROOT=$TIME_SEASONAL_LOGS_ROOT" \
+    "$front" "$@"

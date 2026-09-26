@@ -208,6 +208,13 @@ class SourceContracts(unittest.TestCase):
         self.assertIn('groups=(vanilla remaining)', workflow)
         self.assertIn('"prediction_group=$group"', workflow)
         self.assertLess(workflow.index('srun --ntasks=1'), workflow.index('finalize_stage', workflow.index('srun --ntasks=1')))
+        runtime = (ROOT / 'src/slurm/runtime_paths.sh').read_text()
+        selena_runtime = (ROOT / 'src/slurm/selena_runtime.sh').read_text()
+        seasonal_submit = (ROOT / 'src/slurm/submit_seasonal.sh').read_text()
+        self.assertIn('OUTPUTS_ROOT="${OUTPUTS_ROOT:-${TIME_OUTPUTS:-$default_outputs_root}}"', runtime)
+        self.assertIn('OUTPUTS_ROOT="${OUTPUTS_ROOT:-$TIME_SCRATCH_ROOT/outputs}"', selena_runtime)
+        self.assertIn('LOGS_ROOT=$TIME_SEASONAL_LOGS_ROOT', seasonal_submit)
+        self.assertNotIn('export OUTPUTS_ROOT=', workflow)
 
     def test_grid_and_excluded_implementation(self):
         config = yaml.safe_load((ROOT / 'src/timebench/conf/experiment.yaml').read_text())
