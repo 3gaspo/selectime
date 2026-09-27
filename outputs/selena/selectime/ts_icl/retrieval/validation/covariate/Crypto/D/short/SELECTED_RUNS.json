@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "retrieval/validation",
+          "method": "covariate"
+        },
+        "pipeline_config": {
+          "alignment_period": 1,
+          "datastore_scope": "all",
+          "datastore_stride": 1,
+          "dependencies": {
+            "data": {
+              "completed_at": "2026-09-27T14:20:27.473718+00:00",
+              "identity": {
+                "dataset": "Crypto",
+                "frequency": "D",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            }
+          },
+          "distance": "euclidean",
+          "method": "covariate",
+          "minimum_overlap_fraction": 0.8,
+          "neighbor_count": 20,
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "phase": "retrieval/validation",
+          "representation": "instance_normalized_lookback",
+          "retrieval_context_length": 30,
+          "split": "validation",
+          "task": {
+            "dataset": "Crypto/D",
+            "prediction_length": 30,
+            "seasonality": 1,
+            "term": "short",
+            "test_length": 273
+          }
+        }
+      }
+    }
+  ]
+}

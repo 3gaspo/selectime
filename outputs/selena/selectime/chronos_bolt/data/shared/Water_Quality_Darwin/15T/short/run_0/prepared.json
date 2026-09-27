@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "Water_Quality_Darwin/15T",
+    "term": "short",
+    "prediction_length": 16,
+    "test_length": 1440,
+    "validation_length": 11319,
+    "seasonality": 96,
+    "retrieval_context_length": 672,
+    "alignment_period": 96,
+    "datastore_stride": 96,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 3474,
+      "datastore": 119346
+    },
+    "test": {
+      "queries": 3780,
+      "datastore": 240786
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Water_Quality_Darwin/15T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

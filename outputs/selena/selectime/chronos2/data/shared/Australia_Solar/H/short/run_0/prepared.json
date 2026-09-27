@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "Australia_Solar/H",
+    "term": "short",
+    "prediction_length": 24,
+    "test_length": 2520,
+    "validation_length": 13232,
+    "seasonality": 24,
+    "retrieval_context_length": 168,
+    "alignment_period": 24,
+    "datastore_stride": 24,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 315,
+      "datastore": 57363
+    },
+    "test": {
+      "queries": 315,
+      "datastore": 4047
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Australia_Solar/H",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

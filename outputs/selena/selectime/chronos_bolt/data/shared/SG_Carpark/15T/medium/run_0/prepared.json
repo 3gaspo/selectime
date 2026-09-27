@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "SG_Carpark/15T",
+    "term": "medium",
+    "prediction_length": 96,
+    "test_length": 672,
+    "validation_length": 858,
+    "seasonality": 96,
+    "retrieval_context_length": 672,
+    "alignment_period": 672,
+    "datastore_stride": 672,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 2478,
+      "datastore": 44958
+    },
+    "test": {
+      "queries": 2478,
+      "datastore": 48144
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/SG_Carpark/15T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

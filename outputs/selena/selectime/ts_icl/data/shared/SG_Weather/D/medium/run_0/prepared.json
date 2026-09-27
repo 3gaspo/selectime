@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "SG_Weather/D",
+    "term": "medium",
+    "prediction_length": 7,
+    "test_length": 366,
+    "validation_length": 1384,
+    "seasonality": 1,
+    "retrieval_context_length": 7,
+    "alignment_period": 1,
+    "datastore_stride": 1,
+    "validation_stride": 27,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 1248,
+      "datastore": 28560
+    },
+    "test": {
+      "queries": 1248,
+      "datastore": 61776
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/SG_Weather/D",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

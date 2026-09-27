@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "component": "selections",
+          "method": "top_k_1_mix"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-27T18:10:31.070890+00:00",
+              "identity": {
+                "dataset": "CPHL",
+                "frequency": "H",
+                "method": "top_k_1",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "data": {
+              "completed_at": "2026-09-27T14:14:46.640827+00:00",
+              "identity": {
+                "dataset": "CPHL",
+                "frequency": "H",
+                "method": "shared",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-27T14:25:58.025808+00:00",
+              "identity": {
+                "dataset": "CPHL",
+                "frequency": "H",
+                "method": "vanilla_univariate",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            }
+          },
+          "granularity": "task",
+          "method": "top_k_1_mix",
+          "no_validation_fallback": "univariate",
+          "phase": "selections",
+          "selection_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+          "task": {
+            "dataset": "CPHL/H",
+            "prediction_length": 24,
+            "seasonality": 24,
+            "term": "short",
+            "test_length": 672
+          },
+          "validation_support": "finite_context_and_future"
+        }
+      }
+    }
+  ]
+}

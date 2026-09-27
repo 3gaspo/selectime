@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "granularity": "per_variate",
+  "selections": [
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "vanilla_univariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 30,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 1.1050252576097177,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 1.1050252576097177,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        926352,
+        926400,
+        926448,
+        926496,
+        926544,
+        926592,
+        926640,
+        926688,
+        926736,
+        926784,
+        926832,
+        926880,
+        926928,
+        926976,
+        927024,
+        927072,
+        927120,
+        927168,
+        927216,
+        927264,
+        927312,
+        927360,
+        927408,
+        927456,
+        927504,
+        927552,
+        927600,
+        927648,
+        927696,
+        927744
+      ],
+      "item": 0,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "vanilla_univariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 30,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 1.0361530568547488,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 1.0361530568547488,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        926350,
+        926398,
+        926446,
+        926494,
+        926542,
+        926590,
+        926638,
+        926686,
+        926734,
+        926782,
+        926830,
+        926878,
+        926926,
+        926974,
+        927022,
+        927070,
+        927118,
+        927166,
+        927214,
+        927262,
+        927310,
+        927358,
+        927406,
+        927454,
+        927502,
+        927550,
+        927598,
+        927646,
+        927694,
+        927742
+      ],
+      "item": 1,
+      "channel": 0
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+| domain | vanilla univariate |
+| --- | --- |
+| Climate | 0.820131 |
+| Cloud operations | 0.694462 |
+| Economics | 0.810532 |
+| Energy | 0.699229 |
+| Finance | 0.830711 |
+| Healthcare | 0.852966 |
+| Industry | 0.713178 |
+| Sales | 0.458393 |
+| Transport | 0.697881 |

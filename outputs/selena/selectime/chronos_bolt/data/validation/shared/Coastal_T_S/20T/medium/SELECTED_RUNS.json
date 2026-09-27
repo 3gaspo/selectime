@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "data/validation",
+          "method": "shared"
+        },
+        "pipeline_config": {
+          "alignment_period": 72,
+          "datastore_policy": "before_first_validation_origin",
+          "datastore_scope": "all",
+          "datastore_stride": 72,
+          "dependencies": {},
+          "max_datastore_windows": null,
+          "method": "shared",
+          "phase": "data/validation",
+          "retrieval_context_length": 504,
+          "split": "validation",
+          "task": {
+            "dataset": "Coastal_T_S/20T",
+            "prediction_length": 72,
+            "seasonality": 72,
+            "term": "medium",
+            "test_length": 1080
+          },
+          "validation_length": 1080,
+          "validation_schedule": "walk_backward_from_first_test_origin_at_stride_H",
+          "validation_stride": 72
+        }
+      }
+    }
+  ]
+}

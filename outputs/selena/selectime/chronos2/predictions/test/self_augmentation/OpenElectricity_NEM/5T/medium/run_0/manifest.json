@@ -1,0 +1,342 @@
+{
+  "completed_at": "2026-09-17T22:39:07.095089+00:00",
+  "experiment": "selectime",
+  "experiment_config": {
+    "seed": 0
+  },
+  "identity": {
+    "dataset": "OpenElectricity_NEM",
+    "frequency": "5T",
+    "method": "self_augmentation",
+    "model": "chronos2",
+    "target_mode": "univariate",
+    "term": "medium"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3458550",
+        "launched_at": "2026-09-17T21:10:24.050022+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3458550"
+      }
+    ],
+    "launch_id": "selena_3458550",
+    "launched_at": "2026-09-17T21:10:24.050022+00:00",
+    "slurm_job_id": "3458550"
+  },
+  "model_config": {
+    "backbone": "chronos2",
+    "checkpoint": "chronos2",
+    "context_length": 8192,
+    "cross_learning": false,
+    "method": "self_augmentation",
+    "point_forecast": "median"
+  },
+  "pipeline_config": {
+    "candidate_methods": [
+      "vanilla_univariate",
+      "vanilla_multivariate",
+      "self_augmentation",
+      "top_k_1",
+      "top_k_5",
+      "top_k_10",
+      "top_k_15",
+      "top_k_20"
+    ],
+    "control_candidates": {
+      "scope_mix": "vanilla_multivariate",
+      "scope_selector": "vanilla_multivariate",
+      "top1-horizon-mix": "top1_horizon",
+      "top5_mix": "top_k_5"
+    },
+    "datastore_policy": "validation_before_validation_start_test_before_test_start",
+    "dependencies": {
+      "data": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "identity": {
+          "dataset": "OpenElectricity_NEM",
+          "frequency": "5T",
+          "method": "shared",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "medium"
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "shared",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "candidate_methods": [
+            "vanilla_univariate",
+            "vanilla_multivariate",
+            "self_augmentation",
+            "top_k_1",
+            "top_k_5",
+            "top_k_10",
+            "top_k_15",
+            "top_k_20"
+          ],
+          "control_candidates": {
+            "scope_mix": "vanilla_multivariate",
+            "scope_selector": "vanilla_multivariate",
+            "top1-horizon-mix": "top1_horizon",
+            "top5_mix": "top_k_5"
+          },
+          "datastore_policy": "validation_before_validation_start_test_before_test_start",
+          "dependencies": {},
+          "distance": "euclidean",
+          "horizon_support": "one_neighbor_independent_of_maximum_k",
+          "k_values": [
+            1,
+            5,
+            10,
+            15,
+            20
+          ],
+          "maximum_k_support": true,
+          "minimum_overlap_fraction": 0.8,
+          "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "representation": "instance",
+          "self_covariates": [
+            "sqrt_abs_past_only",
+            "sign_past_only"
+          ],
+          "task": {
+            "alignment_period": 2016,
+            "dataset": "OpenElectricity_NEM/5T",
+            "datastore_scope": "all",
+            "datastore_stride": 2016,
+            "max_datastore_windows": null,
+            "prediction_length": 96,
+            "retrieval_context_length": 2016,
+            "seasonality": 288,
+            "term": "medium",
+            "test_length": 4032,
+            "validation_length": 5303,
+            "validation_stride": 127
+          }
+        },
+        "schema_version": 1
+      },
+      "vanilla": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "identity": {
+          "dataset": "OpenElectricity_NEM",
+          "frequency": "5T",
+          "method": "vanilla_univariate",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "medium"
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "vanilla_univariate",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "candidate_methods": [
+            "vanilla_univariate",
+            "vanilla_multivariate",
+            "self_augmentation",
+            "top_k_1",
+            "top_k_5",
+            "top_k_10",
+            "top_k_15",
+            "top_k_20"
+          ],
+          "control_candidates": {
+            "scope_mix": "vanilla_multivariate",
+            "scope_selector": "vanilla_multivariate",
+            "top1-horizon-mix": "top1_horizon",
+            "top5_mix": "top_k_5"
+          },
+          "datastore_policy": "validation_before_validation_start_test_before_test_start",
+          "dependencies": {
+            "data": {
+              "experiment_config": {
+                "seed": 0
+              },
+              "identity": {
+                "dataset": "OpenElectricity_NEM",
+                "frequency": "5T",
+                "method": "shared",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "medium"
+              },
+              "model_config": {
+                "backbone": "chronos2",
+                "checkpoint": "chronos2",
+                "context_length": 8192,
+                "cross_learning": false,
+                "method": "shared",
+                "point_forecast": "median"
+              },
+              "pipeline_config": {
+                "candidate_methods": [
+                  "vanilla_univariate",
+                  "vanilla_multivariate",
+                  "self_augmentation",
+                  "top_k_1",
+                  "top_k_5",
+                  "top_k_10",
+                  "top_k_15",
+                  "top_k_20"
+                ],
+                "control_candidates": {
+                  "scope_mix": "vanilla_multivariate",
+                  "scope_selector": "vanilla_multivariate",
+                  "top1-horizon-mix": "top1_horizon",
+                  "top5_mix": "top_k_5"
+                },
+                "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                "dependencies": {},
+                "distance": "euclidean",
+                "horizon_support": "one_neighbor_independent_of_maximum_k",
+                "k_values": [
+                  1,
+                  5,
+                  10,
+                  15,
+                  20
+                ],
+                "maximum_k_support": true,
+                "minimum_overlap_fraction": 0.8,
+                "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+                "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                "representation": "instance",
+                "self_covariates": [
+                  "sqrt_abs_past_only",
+                  "sign_past_only"
+                ],
+                "task": {
+                  "alignment_period": 2016,
+                  "dataset": "OpenElectricity_NEM/5T",
+                  "datastore_scope": "all",
+                  "datastore_stride": 2016,
+                  "max_datastore_windows": null,
+                  "prediction_length": 96,
+                  "retrieval_context_length": 2016,
+                  "seasonality": 288,
+                  "term": "medium",
+                  "test_length": 4032,
+                  "validation_length": 5303,
+                  "validation_stride": 127
+                }
+              },
+              "schema_version": 1
+            }
+          },
+          "distance": "euclidean",
+          "horizon_support": "one_neighbor_independent_of_maximum_k",
+          "k_values": [
+            1,
+            5,
+            10,
+            15,
+            20
+          ],
+          "maximum_k_support": true,
+          "minimum_overlap_fraction": 0.8,
+          "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "representation": "instance",
+          "self_covariates": [
+            "sqrt_abs_past_only",
+            "sign_past_only"
+          ],
+          "task": {
+            "alignment_period": 2016,
+            "dataset": "OpenElectricity_NEM/5T",
+            "datastore_scope": "all",
+            "datastore_stride": 2016,
+            "max_datastore_windows": null,
+            "prediction_length": 96,
+            "retrieval_context_length": 2016,
+            "seasonality": 288,
+            "term": "medium",
+            "test_length": 4032,
+            "validation_length": 5303,
+            "validation_stride": 127
+          }
+        },
+        "schema_version": 1
+      }
+    },
+    "distance": "euclidean",
+    "horizon_support": "one_neighbor_independent_of_maximum_k",
+    "k_values": [
+      1,
+      5,
+      10,
+      15,
+      20
+    ],
+    "maximum_k_support": true,
+    "minimum_overlap_fraction": 0.8,
+    "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+    "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+    "representation": "instance",
+    "self_covariates": [
+      "sqrt_abs_past_only",
+      "sign_past_only"
+    ],
+    "task": {
+      "alignment_period": 2016,
+      "dataset": "OpenElectricity_NEM/5T",
+      "datastore_scope": "all",
+      "datastore_stride": 2016,
+      "max_datastore_windows": null,
+      "prediction_length": 96,
+      "retrieval_context_length": 2016,
+      "seasonality": 288,
+      "term": "medium",
+      "test_length": 4032,
+      "validation_length": 5303,
+      "validation_stride": 127
+    }
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/OpenElectricity_NEM/5T",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "upstream_manifests": {
+      "data": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos2/data/shared/OpenElectricity_NEM/5T/medium/run_0/manifest.json",
+      "vanilla": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos2/predictions/test/vanilla_univariate/OpenElectricity_NEM/5T/medium/run_0/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "prediction.npy",
+    "fallback.npy",
+    "prediction.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-17T21:10:24.050022+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-17T22:39:07.095089+00:00"
+}

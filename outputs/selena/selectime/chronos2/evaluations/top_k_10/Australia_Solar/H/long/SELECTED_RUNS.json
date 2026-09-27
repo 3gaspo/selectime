@@ -1,0 +1,523 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "top_k_10",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "candidate_methods": [
+            "vanilla_univariate",
+            "vanilla_multivariate",
+            "self_augmentation",
+            "top_k_1",
+            "top_k_5",
+            "top_k_10",
+            "top_k_15",
+            "top_k_20"
+          ],
+          "control_candidates": {
+            "scope_mix": "vanilla_multivariate",
+            "scope_selector": "vanilla_multivariate",
+            "top1-horizon-mix": "top1_horizon",
+            "top5_mix": "top_k_5"
+          },
+          "datastore_policy": "validation_before_validation_start_test_before_test_start",
+          "dependencies": {
+            "prediction": {
+              "experiment_config": {
+                "seed": 0
+              },
+              "identity": {
+                "dataset": "Australia_Solar",
+                "frequency": "H",
+                "method": "top_k_10",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "model_config": {
+                "backbone": "chronos2",
+                "checkpoint": "chronos2",
+                "context_length": 8192,
+                "cross_learning": false,
+                "method": "top_k_10",
+                "point_forecast": "median"
+              },
+              "pipeline_config": {
+                "candidate_methods": [
+                  "vanilla_univariate",
+                  "vanilla_multivariate",
+                  "self_augmentation",
+                  "top_k_1",
+                  "top_k_5",
+                  "top_k_10",
+                  "top_k_15",
+                  "top_k_20"
+                ],
+                "control_candidates": {
+                  "scope_mix": "vanilla_multivariate",
+                  "scope_selector": "vanilla_multivariate",
+                  "top1-horizon-mix": "top1_horizon",
+                  "top5_mix": "top_k_5"
+                },
+                "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                "dependencies": {
+                  "data": {
+                    "experiment_config": {
+                      "seed": 0
+                    },
+                    "identity": {
+                      "dataset": "Australia_Solar",
+                      "frequency": "H",
+                      "method": "shared",
+                      "model": "chronos2",
+                      "target_mode": "univariate",
+                      "term": "long"
+                    },
+                    "model_config": {
+                      "backbone": "chronos2",
+                      "checkpoint": "chronos2",
+                      "context_length": 8192,
+                      "cross_learning": false,
+                      "method": "shared",
+                      "point_forecast": "median"
+                    },
+                    "pipeline_config": {
+                      "candidate_methods": [
+                        "vanilla_univariate",
+                        "vanilla_multivariate",
+                        "self_augmentation",
+                        "top_k_1",
+                        "top_k_5",
+                        "top_k_10",
+                        "top_k_15",
+                        "top_k_20"
+                      ],
+                      "control_candidates": {
+                        "scope_mix": "vanilla_multivariate",
+                        "scope_selector": "vanilla_multivariate",
+                        "top1-horizon-mix": "top1_horizon",
+                        "top5_mix": "top_k_5"
+                      },
+                      "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                      "dependencies": {},
+                      "distance": "euclidean",
+                      "horizon_support": "one_neighbor_independent_of_maximum_k",
+                      "k_values": [
+                        1,
+                        5,
+                        10,
+                        15,
+                        20
+                      ],
+                      "maximum_k_support": true,
+                      "minimum_overlap_fraction": 0.8,
+                      "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+                      "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                      "representation": "instance",
+                      "self_covariates": [
+                        "sqrt_abs_past_only",
+                        "sign_past_only"
+                      ],
+                      "task": {
+                        "alignment_period": 24,
+                        "dataset": "Australia_Solar/H",
+                        "datastore_scope": "all",
+                        "datastore_stride": 24,
+                        "max_datastore_windows": null,
+                        "prediction_length": 168,
+                        "retrieval_context_length": 168,
+                        "seasonality": 24,
+                        "term": "long",
+                        "test_length": 2520,
+                        "validation_length": 1946,
+                        "validation_stride": 127
+                      }
+                    },
+                    "schema_version": 1
+                  },
+                  "retrieval": {
+                    "experiment_config": {
+                      "seed": 0
+                    },
+                    "identity": {
+                      "dataset": "Australia_Solar",
+                      "frequency": "H",
+                      "method": "test",
+                      "model": "chronos2",
+                      "target_mode": "univariate",
+                      "term": "long"
+                    },
+                    "model_config": {
+                      "backbone": "chronos2",
+                      "checkpoint": "chronos2",
+                      "context_length": 8192,
+                      "cross_learning": false,
+                      "method": "test",
+                      "point_forecast": "median"
+                    },
+                    "pipeline_config": {
+                      "candidate_methods": [
+                        "vanilla_univariate",
+                        "vanilla_multivariate",
+                        "self_augmentation",
+                        "top_k_1",
+                        "top_k_5",
+                        "top_k_10",
+                        "top_k_15",
+                        "top_k_20"
+                      ],
+                      "control_candidates": {
+                        "scope_mix": "vanilla_multivariate",
+                        "scope_selector": "vanilla_multivariate",
+                        "top1-horizon-mix": "top1_horizon",
+                        "top5_mix": "top_k_5"
+                      },
+                      "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                      "dependencies": {
+                        "data": {
+                          "experiment_config": {
+                            "seed": 0
+                          },
+                          "identity": {
+                            "dataset": "Australia_Solar",
+                            "frequency": "H",
+                            "method": "shared",
+                            "model": "chronos2",
+                            "target_mode": "univariate",
+                            "term": "long"
+                          },
+                          "model_config": {
+                            "backbone": "chronos2",
+                            "checkpoint": "chronos2",
+                            "context_length": 8192,
+                            "cross_learning": false,
+                            "method": "shared",
+                            "point_forecast": "median"
+                          },
+                          "pipeline_config": {
+                            "candidate_methods": [
+                              "vanilla_univariate",
+                              "vanilla_multivariate",
+                              "self_augmentation",
+                              "top_k_1",
+                              "top_k_5",
+                              "top_k_10",
+                              "top_k_15",
+                              "top_k_20"
+                            ],
+                            "control_candidates": {
+                              "scope_mix": "vanilla_multivariate",
+                              "scope_selector": "vanilla_multivariate",
+                              "top1-horizon-mix": "top1_horizon",
+                              "top5_mix": "top_k_5"
+                            },
+                            "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                            "dependencies": {},
+                            "distance": "euclidean",
+                            "horizon_support": "one_neighbor_independent_of_maximum_k",
+                            "k_values": [
+                              1,
+                              5,
+                              10,
+                              15,
+                              20
+                            ],
+                            "maximum_k_support": true,
+                            "minimum_overlap_fraction": 0.8,
+                            "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+                            "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                            "representation": "instance",
+                            "self_covariates": [
+                              "sqrt_abs_past_only",
+                              "sign_past_only"
+                            ],
+                            "task": {
+                              "alignment_period": 24,
+                              "dataset": "Australia_Solar/H",
+                              "datastore_scope": "all",
+                              "datastore_stride": 24,
+                              "max_datastore_windows": null,
+                              "prediction_length": 168,
+                              "retrieval_context_length": 168,
+                              "seasonality": 24,
+                              "term": "long",
+                              "test_length": 2520,
+                              "validation_length": 1946,
+                              "validation_stride": 127
+                            }
+                          },
+                          "schema_version": 1
+                        }
+                      },
+                      "distance": "euclidean",
+                      "horizon_support": "one_neighbor_independent_of_maximum_k",
+                      "k_values": [
+                        1,
+                        5,
+                        10,
+                        15,
+                        20
+                      ],
+                      "maximum_k_support": true,
+                      "minimum_overlap_fraction": 0.8,
+                      "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+                      "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                      "representation": "instance",
+                      "self_covariates": [
+                        "sqrt_abs_past_only",
+                        "sign_past_only"
+                      ],
+                      "task": {
+                        "alignment_period": 24,
+                        "dataset": "Australia_Solar/H",
+                        "datastore_scope": "all",
+                        "datastore_stride": 24,
+                        "max_datastore_windows": null,
+                        "prediction_length": 168,
+                        "retrieval_context_length": 168,
+                        "seasonality": 24,
+                        "term": "long",
+                        "test_length": 2520,
+                        "validation_length": 1946,
+                        "validation_stride": 127
+                      }
+                    },
+                    "schema_version": 1
+                  },
+                  "vanilla": {
+                    "experiment_config": {
+                      "seed": 0
+                    },
+                    "identity": {
+                      "dataset": "Australia_Solar",
+                      "frequency": "H",
+                      "method": "vanilla_univariate",
+                      "model": "chronos2",
+                      "target_mode": "univariate",
+                      "term": "long"
+                    },
+                    "model_config": {
+                      "backbone": "chronos2",
+                      "checkpoint": "chronos2",
+                      "context_length": 8192,
+                      "cross_learning": false,
+                      "method": "vanilla_univariate",
+                      "point_forecast": "median"
+                    },
+                    "pipeline_config": {
+                      "candidate_methods": [
+                        "vanilla_univariate",
+                        "vanilla_multivariate",
+                        "self_augmentation",
+                        "top_k_1",
+                        "top_k_5",
+                        "top_k_10",
+                        "top_k_15",
+                        "top_k_20"
+                      ],
+                      "control_candidates": {
+                        "scope_mix": "vanilla_multivariate",
+                        "scope_selector": "vanilla_multivariate",
+                        "top1-horizon-mix": "top1_horizon",
+                        "top5_mix": "top_k_5"
+                      },
+                      "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                      "dependencies": {
+                        "data": {
+                          "experiment_config": {
+                            "seed": 0
+                          },
+                          "identity": {
+                            "dataset": "Australia_Solar",
+                            "frequency": "H",
+                            "method": "shared",
+                            "model": "chronos2",
+                            "target_mode": "univariate",
+                            "term": "long"
+                          },
+                          "model_config": {
+                            "backbone": "chronos2",
+                            "checkpoint": "chronos2",
+                            "context_length": 8192,
+                            "cross_learning": false,
+                            "method": "shared",
+                            "point_forecast": "median"
+                          },
+                          "pipeline_config": {
+                            "candidate_methods": [
+                              "vanilla_univariate",
+                              "vanilla_multivariate",
+                              "self_augmentation",
+                              "top_k_1",
+                              "top_k_5",
+                              "top_k_10",
+                              "top_k_15",
+                              "top_k_20"
+                            ],
+                            "control_candidates": {
+                              "scope_mix": "vanilla_multivariate",
+                              "scope_selector": "vanilla_multivariate",
+                              "top1-horizon-mix": "top1_horizon",
+                              "top5_mix": "top_k_5"
+                            },
+                            "datastore_policy": "validation_before_validation_start_test_before_test_start",
+                            "dependencies": {},
+                            "distance": "euclidean",
+                            "horizon_support": "one_neighbor_independent_of_maximum_k",
+                            "k_values": [
+                              1,
+                              5,
+                              10,
+                              15,
+                              20
+                            ],
+                            "maximum_k_support": true,
+                            "minimum_overlap_fraction": 0.8,
+                            "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+                            "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                            "representation": "instance",
+                            "self_covariates": [
+                              "sqrt_abs_past_only",
+                              "sign_past_only"
+                            ],
+                            "task": {
+                              "alignment_period": 24,
+                              "dataset": "Australia_Solar/H",
+                              "datastore_scope": "all",
+                              "datastore_stride": 24,
+                              "max_datastore_windows": null,
+                              "prediction_length": 168,
+                              "retrieval_context_length": 168,
+                              "seasonality": 24,
+                              "term": "long",
+                              "test_length": 2520,
+                              "validation_length": 1946,
+                              "validation_stride": 127
+                            }
+                          },
+                          "schema_version": 1
+                        }
+                      },
+                      "distance": "euclidean",
+                      "horizon_support": "one_neighbor_independent_of_maximum_k",
+                      "k_values": [
+                        1,
+                        5,
+                        10,
+                        15,
+                        20
+                      ],
+                      "maximum_k_support": true,
+                      "minimum_overlap_fraction": 0.8,
+                      "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+                      "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                      "representation": "instance",
+                      "self_covariates": [
+                        "sqrt_abs_past_only",
+                        "sign_past_only"
+                      ],
+                      "task": {
+                        "alignment_period": 24,
+                        "dataset": "Australia_Solar/H",
+                        "datastore_scope": "all",
+                        "datastore_stride": 24,
+                        "max_datastore_windows": null,
+                        "prediction_length": 168,
+                        "retrieval_context_length": 168,
+                        "seasonality": 24,
+                        "term": "long",
+                        "test_length": 2520,
+                        "validation_length": 1946,
+                        "validation_stride": 127
+                      }
+                    },
+                    "schema_version": 1
+                  }
+                },
+                "distance": "euclidean",
+                "horizon_support": "one_neighbor_independent_of_maximum_k",
+                "k_values": [
+                  1,
+                  5,
+                  10,
+                  15,
+                  20
+                ],
+                "maximum_k_support": true,
+                "minimum_overlap_fraction": 0.8,
+                "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+                "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+                "representation": "instance",
+                "self_covariates": [
+                  "sqrt_abs_past_only",
+                  "sign_past_only"
+                ],
+                "task": {
+                  "alignment_period": 24,
+                  "dataset": "Australia_Solar/H",
+                  "datastore_scope": "all",
+                  "datastore_stride": 24,
+                  "max_datastore_windows": null,
+                  "prediction_length": 168,
+                  "retrieval_context_length": 168,
+                  "seasonality": 24,
+                  "term": "long",
+                  "test_length": 2520,
+                  "validation_length": 1946,
+                  "validation_stride": 127
+                }
+              },
+              "schema_version": 1
+            }
+          },
+          "distance": "euclidean",
+          "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+          "horizon_support": "one_neighbor_independent_of_maximum_k",
+          "k_values": [
+            1,
+            5,
+            10,
+            15,
+            20
+          ],
+          "maximum_k_support": true,
+          "minimum_overlap_fraction": 0.8,
+          "mixture_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "representation": "instance",
+          "self_covariates": [
+            "sqrt_abs_past_only",
+            "sign_past_only"
+          ],
+          "task": {
+            "alignment_period": 24,
+            "dataset": "Australia_Solar/H",
+            "datastore_scope": "all",
+            "datastore_stride": 24,
+            "max_datastore_windows": null,
+            "prediction_length": 168,
+            "retrieval_context_length": 168,
+            "seasonality": 24,
+            "term": "long",
+            "test_length": 2520,
+            "validation_length": 1946,
+            "validation_stride": 127
+          }
+        }
+      }
+    }
+  ]
+}

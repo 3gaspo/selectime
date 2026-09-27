@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "granularity": "task",
+  "selections": [
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "vanilla_univariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 36,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 1.1328074256339378,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 2.4441123588408393,
+          "validation_difference_from_best": 1.3113049332069011,
+          "bootstrap_standard_error": 1.3398843302112415,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        470553,
+        470680,
+        470807,
+        470934,
+        471199,
+        471217,
+        471326,
+        471344,
+        471414,
+        471453,
+        471461,
+        471471,
+        471510,
+        471541,
+        471555,
+        471580,
+        471588,
+        471598,
+        471607,
+        471637,
+        471668,
+        471682,
+        471715,
+        471734,
+        471764,
+        471795,
+        471809,
+        471842,
+        471861,
+        471891,
+        471936,
+        471988,
+        472155,
+        472282,
+        472409,
+        472536
+      ]
+    }
+  ]
+}

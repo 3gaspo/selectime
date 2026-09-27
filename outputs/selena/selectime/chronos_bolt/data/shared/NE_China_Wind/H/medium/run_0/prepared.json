@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "NE_China_Wind/H",
+    "term": "medium",
+    "prediction_length": 72,
+    "test_length": 720,
+    "validation_length": 1215,
+    "seasonality": 24,
+    "retrieval_context_length": 168,
+    "alignment_period": 24,
+    "datastore_stride": 24,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 40,
+      "datastore": 10984
+    },
+    "test": {
+      "queries": 40,
+      "datastore": 1304
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/NE_China_Wind/H",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

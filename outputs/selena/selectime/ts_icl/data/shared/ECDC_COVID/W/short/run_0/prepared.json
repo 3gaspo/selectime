@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "ECDC_COVID/W",
+    "term": "short",
+    "prediction_length": 13,
+    "test_length": 52,
+    "validation_length": 46,
+    "seasonality": 1,
+    "retrieval_context_length": 13,
+    "alignment_period": 1,
+    "datastore_stride": 1,
+    "validation_stride": 11,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 64,
+      "datastore": 688
+    },
+    "test": {
+      "queries": 64,
+      "datastore": 1415
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/ECDC_COVID/W",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

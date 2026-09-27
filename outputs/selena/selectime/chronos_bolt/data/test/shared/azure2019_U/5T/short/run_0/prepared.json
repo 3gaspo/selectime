@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "azure2019_U/5T",
+    "term": "short",
+    "prediction_length": 48,
+    "test_length": 288,
+    "validation_length": 288,
+    "seasonality": 288,
+    "retrieval_context_length": 2016,
+    "alignment_period": 2016,
+    "datastore_stride": 2016,
+    "validation_stride": 48,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "split": "test",
+  "counts": {
+    "requested_dates": 468,
+    "requested_rows": 1404,
+    "available_dates": 468,
+    "available_rows": 1404,
+    "datastore_rows": 0
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/azure2019_U/5T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "validation_schedule": "walk_backward_from_first_test_origin_at_stride_H",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

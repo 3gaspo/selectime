@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "method": "vanilla_univariate",
+  "split": "validation",
+  "context_length": 2048,
+  "inference_seconds": 1.9951676819473505,
+  "query_retrieval_seconds": 0,
+  "datastore_preprocessing_seconds": 0,
+  "fallback_count": 0,
+  "grid_rows": 225,
+  "validation_counts": {
+    "requested_dates": 75,
+    "requested_rows": 225,
+    "available_dates": 75,
+    "available_rows": 225,
+    "datastore_rows": 5382,
+    "usable_rows": 225,
+    "usable_dates": 30
+  },
+  "reused_rows": 15,
+  "newly_inferred_rows": 210,
+  "reuse_sources": [
+    {
+      "manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/validation/vanilla_univariate/Coastal_T_S/15T/medium/run_0/manifest.json",
+      "rows": 15
+    }
+  ],
+  "external_vanilla": null,
+  "prediction_nan_values": 0,
+  "produced_nan_values": 0,
+  "prediction_values": 21600,
+  "prediction_nan_rate": 0.0,
+  "retrieval_provenance": null,
+  "invalid_validation_context_count": 0,
+  "insufficient_retrieval_count": 0,
+  "nonfinite_fallback_count": 0,
+  "timing_policy": "measured_candidate_query_loop_precomputed_vanilla_fallback_separate_retrieval"
+}

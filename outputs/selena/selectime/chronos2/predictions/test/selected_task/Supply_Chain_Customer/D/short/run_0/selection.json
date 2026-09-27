@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "granularity": "task",
+  "selections": [
+    {
+      "selected_method": "vanilla_multivariate",
+      "observed_best": "vanilla_multivariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 12,
+      "replications": 1000,
+      "block_length": 2,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate_then_self_augmentation_then_smallest_k",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.3905675040952896,
+          "validation_difference_from_best": 0.008983105540510744,
+          "bootstrap_standard_error": 0.006879622068622283,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.3815843985547788,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "self_augmentation",
+          "validation_msse": 0.39095896385452195,
+          "validation_difference_from_best": 0.009374565299743147,
+          "bootstrap_standard_error": 0.003858518257545999,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_1",
+          "validation_msse": 0.3917493112624067,
+          "validation_difference_from_best": 0.010164912707627838,
+          "bootstrap_standard_error": 0.0039037354645519154,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_5",
+          "validation_msse": 0.393186787658839,
+          "validation_difference_from_best": 0.011602389104060161,
+          "bootstrap_standard_error": 0.004548528159494157,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_10",
+          "validation_msse": 0.39192434109732877,
+          "validation_difference_from_best": 0.010339942542549862,
+          "bootstrap_standard_error": 0.005308788038687363,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_15",
+          "validation_msse": 0.3908540943643588,
+          "validation_difference_from_best": 0.009269695809579976,
+          "bootstrap_standard_error": 0.005419368579122493,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "top_k_20",
+          "validation_msse": 0.3903087680640786,
+          "validation_difference_from_best": 0.008724369509299735,
+          "bootstrap_standard_error": 0.005485466008390692,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        19578,
+        19605,
+        19632,
+        19659,
+        19686,
+        19713,
+        19740,
+        19767,
+        19794,
+        19821,
+        19848,
+        19875
+      ]
+    }
+  ]
+}

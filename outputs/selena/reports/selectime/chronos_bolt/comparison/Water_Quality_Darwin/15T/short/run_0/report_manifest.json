@@ -1,0 +1,4444 @@
+{
+  "schema_version": 1,
+  "experiment": "selectime",
+  "performance_artifacts": [
+    "performance/performance_tasks.csv",
+    "performance/performance_summary.csv",
+    "performance/performance_summary.md",
+    "performance/performance_summary.tex",
+    "performance/relative_improvement.csv",
+    "performance/relative_improvement.md",
+    "performance/relative_improvement.tex",
+    "performance/domain_performance.csv",
+    "performance/domain_performance.md",
+    "performance/domain_performance.tex",
+    "performance/domain_average_loss.csv",
+    "performance/domain_average_loss.md",
+    "performance/domain_average_loss.tex",
+    "performance/domain_average_scaled_MASE.csv",
+    "performance/domain_average_scaled_MASE.md",
+    "performance/domain_average_scaled_MASE.tex",
+    "performance/time_totals.csv",
+    "performance/time_totals.md",
+    "performance/time_totals.tex",
+    "performance/domain_relative_improvement.csv",
+    "performance/domain_relative_improvement.md",
+    "performance/domain_relative_improvement.tex",
+    "performance/horizon_frequency.csv",
+    "performance/best_model_cells.csv",
+    "performance/horizon_frequency_scaled_MASE.csv",
+    "performance/best_model_cells_scaled_MASE.csv",
+    "performance/horizon_frequency_relative_loss.csv",
+    "performance/best_model_cells_relative_loss.csv",
+    "performance/accuracy_time.png",
+    "performance/accuracy_time.pdf",
+    "performance/task_mean_std.png",
+    "performance/task_dispersion.png",
+    "performance/loss_horizon_frequency.png",
+    "performance/best_model_horizon_frequency.png",
+    "performance/scaled_MASE_horizon_frequency.png",
+    "performance/best_model_scaled_MASE_horizon_frequency.png",
+    "performance/relative_loss_horizon_frequency.png",
+    "performance/best_model_relative_loss_horizon_frequency.png",
+    "performance/domain_loss.png",
+    "performance/domain_scaled_MASE.png",
+    "performance/domain_relative_loss.png",
+    "performance/task_mean_std.pdf",
+    "performance/task_dispersion.pdf",
+    "performance/loss_horizon_frequency.pdf",
+    "performance/best_model_horizon_frequency.pdf",
+    "performance/scaled_MASE_horizon_frequency.pdf",
+    "performance/best_model_scaled_MASE_horizon_frequency.pdf",
+    "performance/relative_loss_horizon_frequency.pdf",
+    "performance/best_model_relative_loss_horizon_frequency.pdf",
+    "performance/domain_loss.pdf",
+    "performance/domain_scaled_MASE.pdf",
+    "performance/domain_relative_loss.pdf",
+    "performance/performance_report_manifest.json"
+  ],
+  "requested_config": {
+    "stage": "report",
+    "prediction_group": "all",
+    "experiment_mode": "full",
+    "model": "chronos_bolt",
+    "datasets": [
+      "all"
+    ],
+    "terms": [
+      "short",
+      "medium",
+      "long"
+    ],
+    "excluded_datasets": [
+      "Coastal_T_S/5T",
+      "current_velocity/20T",
+      "azure2019_D/5T",
+      "azure2019_I/5T"
+    ],
+    "dataset_config": null,
+    "vanilla_predictions_path": "/scratch/users/h61084/codes/evaluating_tsfms/outputs/foundation_models/inference",
+    "seed": 0,
+    "device": "cuda",
+    "context_length": null,
+    "batch_size": 32,
+    "k_values": [
+      1,
+      5,
+      10,
+      15,
+      20
+    ],
+    "datastore_scope": "all",
+    "max_datastore_windows": null,
+    "datastore_stride": null,
+    "retrieval_context_length": null,
+    "validation_length": null,
+    "minimum_overlap_fraction": 0.8,
+    "query_block_size": 256,
+    "datastore_block_size": 4096,
+    "bootstrap_replications": 1000,
+    "bootstrap_block_length": null,
+    "scope_ridge_alpha": 1.0,
+    "report_current_config": true,
+    "report_config_filters": {},
+    "report_config_policy": "error",
+    "report_repeat_policy": "selected"
+  },
+  "inputs": [
+    {
+      "dataset": "Water_Quality_Darwin/15T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Water_Quality_Darwin/15T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Water_Quality_Darwin/15T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Water_Quality_Darwin/15T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.222509+00:00",
+                "identity": {
+                  "dataset": "Water_Quality_Darwin",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Water_Quality_Darwin/15T",
+              "prediction_length": 16,
+              "seasonality": 96,
+              "term": "short",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Water_Quality_Darwin/15T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Water_Quality_Darwin/15T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Water_Quality_Darwin/15T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Water_Quality_Darwin/15T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.209181+00:00",
+                "identity": {
+                  "dataset": "Water_Quality_Darwin",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Water_Quality_Darwin/15T",
+              "prediction_length": 96,
+              "seasonality": 96,
+              "term": "medium",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Water_Quality_Darwin/15T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Water_Quality_Darwin/15T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Water_Quality_Darwin/15T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Water_Quality_Darwin/15T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.215692+00:00",
+                "identity": {
+                  "dataset": "Water_Quality_Darwin",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Water_Quality_Darwin/15T",
+              "prediction_length": 288,
+              "seasonality": 96,
+              "term": "long",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/5T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/5T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/5T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/5T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.497043+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/5T",
+              "prediction_length": 36,
+              "seasonality": 288,
+              "term": "short",
+              "test_length": 4320
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/5T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/5T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/5T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/5T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.483982+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/5T",
+              "prediction_length": 288,
+              "seasonality": 288,
+              "term": "medium",
+              "test_length": 4320
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/5T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/5T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/5T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/5T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.490565+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/5T",
+              "prediction_length": 864,
+              "seasonality": 288,
+              "term": "long",
+              "test_length": 4320
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/10T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/10T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/10T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/10T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.454637+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "10T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/10T",
+              "prediction_length": 18,
+              "seasonality": 144,
+              "term": "short",
+              "test_length": 2160
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/10T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/10T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/10T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/10T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.441217+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "10T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/10T",
+              "prediction_length": 144,
+              "seasonality": 144,
+              "term": "medium",
+              "test_length": 2160
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/10T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/10T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/10T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/10T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.447949+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "10T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/10T",
+              "prediction_length": 432,
+              "seasonality": 144,
+              "term": "long",
+              "test_length": 2160
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/15T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/15T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/15T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/15T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.475620+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/15T",
+              "prediction_length": 12,
+              "seasonality": 96,
+              "term": "short",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/15T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/15T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/15T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/15T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.462831+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/15T",
+              "prediction_length": 96,
+              "seasonality": 96,
+              "term": "medium",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/15T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/15T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/15T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/15T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.469315+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/15T",
+              "prediction_length": 288,
+              "seasonality": 96,
+              "term": "long",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/H",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/H/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/H/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/H/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.518575+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/H",
+              "prediction_length": 24,
+              "seasonality": 24,
+              "term": "short",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/H",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/H/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/H/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/H/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.505462+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/H",
+              "prediction_length": 168,
+              "seasonality": 24,
+              "term": "medium",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "current_velocity/H",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/current_velocity/H/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/current_velocity/H/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/current_velocity/H/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.512024+00:00",
+                "identity": {
+                  "dataset": "current_velocity",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "current_velocity/H",
+              "prediction_length": 336,
+              "seasonality": 24,
+              "term": "long",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "CPHL/15T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/CPHL/15T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/CPHL/15T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/CPHL/15T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.253099+00:00",
+                "identity": {
+                  "dataset": "CPHL",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "CPHL/15T",
+              "prediction_length": 12,
+              "seasonality": 96,
+              "term": "short",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "CPHL/15T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/CPHL/15T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/CPHL/15T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/CPHL/15T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.239523+00:00",
+                "identity": {
+                  "dataset": "CPHL",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "CPHL/15T",
+              "prediction_length": 96,
+              "seasonality": 96,
+              "term": "medium",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "CPHL/15T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/CPHL/15T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/CPHL/15T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/CPHL/15T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.246243+00:00",
+                "identity": {
+                  "dataset": "CPHL",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "CPHL/15T",
+              "prediction_length": 288,
+              "seasonality": 96,
+              "term": "long",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "CPHL/30T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/CPHL/30T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/CPHL/30T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/CPHL/30T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.275060+00:00",
+                "identity": {
+                  "dataset": "CPHL",
+                  "frequency": "30T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "CPHL/30T",
+              "prediction_length": 12,
+              "seasonality": 48,
+              "term": "short",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "CPHL/30T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/CPHL/30T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/CPHL/30T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/CPHL/30T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.261637+00:00",
+                "identity": {
+                  "dataset": "CPHL",
+                  "frequency": "30T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "CPHL/30T",
+              "prediction_length": 48,
+              "seasonality": 48,
+              "term": "medium",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "CPHL/30T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/CPHL/30T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/CPHL/30T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/CPHL/30T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.268356+00:00",
+                "identity": {
+                  "dataset": "CPHL",
+                  "frequency": "30T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "CPHL/30T",
+              "prediction_length": 144,
+              "seasonality": 48,
+              "term": "long",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "CPHL/H",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/CPHL/H/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/CPHL/H/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/CPHL/H/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.296953+00:00",
+                "identity": {
+                  "dataset": "CPHL",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "CPHL/H",
+              "prediction_length": 24,
+              "seasonality": 24,
+              "term": "short",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "CPHL/H",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/CPHL/H/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/CPHL/H/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/CPHL/H/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.283590+00:00",
+                "identity": {
+                  "dataset": "CPHL",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "CPHL/H",
+              "prediction_length": 168,
+              "seasonality": 24,
+              "term": "medium",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "CPHL/H",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/CPHL/H/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/CPHL/H/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/CPHL/H/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.290250+00:00",
+                "identity": {
+                  "dataset": "CPHL",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "CPHL/H",
+              "prediction_length": 336,
+              "seasonality": 24,
+              "term": "long",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Coastal_T_S/15T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Coastal_T_S/15T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Coastal_T_S/15T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Coastal_T_S/15T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.694154+00:00",
+                "identity": {
+                  "dataset": "Coastal_T_S",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Coastal_T_S/15T",
+              "prediction_length": 12,
+              "seasonality": 96,
+              "term": "short",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Coastal_T_S/15T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Coastal_T_S/15T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Coastal_T_S/15T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Coastal_T_S/15T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.681001+00:00",
+                "identity": {
+                  "dataset": "Coastal_T_S",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Coastal_T_S/15T",
+              "prediction_length": 96,
+              "seasonality": 96,
+              "term": "medium",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Coastal_T_S/15T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Coastal_T_S/15T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Coastal_T_S/15T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Coastal_T_S/15T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.687627+00:00",
+                "identity": {
+                  "dataset": "Coastal_T_S",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Coastal_T_S/15T",
+              "prediction_length": 288,
+              "seasonality": 96,
+              "term": "long",
+              "test_length": 1440
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Coastal_T_S/20T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Coastal_T_S/20T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Coastal_T_S/20T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Coastal_T_S/20T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.672404+00:00",
+                "identity": {
+                  "dataset": "Coastal_T_S",
+                  "frequency": "20T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Coastal_T_S/20T",
+              "prediction_length": 9,
+              "seasonality": 72,
+              "term": "short",
+              "test_length": 1080
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Coastal_T_S/20T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Coastal_T_S/20T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Coastal_T_S/20T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Coastal_T_S/20T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.658991+00:00",
+                "identity": {
+                  "dataset": "Coastal_T_S",
+                  "frequency": "20T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Coastal_T_S/20T",
+              "prediction_length": 72,
+              "seasonality": 72,
+              "term": "medium",
+              "test_length": 1080
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Coastal_T_S/20T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Coastal_T_S/20T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Coastal_T_S/20T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Coastal_T_S/20T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.665696+00:00",
+                "identity": {
+                  "dataset": "Coastal_T_S",
+                  "frequency": "20T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Coastal_T_S/20T",
+              "prediction_length": 216,
+              "seasonality": 72,
+              "term": "long",
+              "test_length": 1080
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Coastal_T_S/H",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Coastal_T_S/H/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Coastal_T_S/H/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Coastal_T_S/H/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.715884+00:00",
+                "identity": {
+                  "dataset": "Coastal_T_S",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Coastal_T_S/H",
+              "prediction_length": 24,
+              "seasonality": 24,
+              "term": "short",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Coastal_T_S/H",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Coastal_T_S/H/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Coastal_T_S/H/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Coastal_T_S/H/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.702409+00:00",
+                "identity": {
+                  "dataset": "Coastal_T_S",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Coastal_T_S/H",
+              "prediction_length": 168,
+              "seasonality": 24,
+              "term": "medium",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Coastal_T_S/H",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Coastal_T_S/H/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Coastal_T_S/H/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Coastal_T_S/H/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.709210+00:00",
+                "identity": {
+                  "dataset": "Coastal_T_S",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Coastal_T_S/H",
+              "prediction_length": 336,
+              "seasonality": 24,
+              "term": "long",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "SG_Weather/D",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/SG_Weather/D/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/SG_Weather/D/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/SG_Weather/D/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.123186+00:00",
+                "identity": {
+                  "dataset": "SG_Weather",
+                  "frequency": "D",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "SG_Weather/D",
+              "prediction_length": 3,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 366
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "SG_Weather/D",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/SG_Weather/D/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/SG_Weather/D/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/SG_Weather/D/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.109329+00:00",
+                "identity": {
+                  "dataset": "SG_Weather",
+                  "frequency": "D",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "SG_Weather/D",
+              "prediction_length": 7,
+              "seasonality": 1,
+              "term": "medium",
+              "test_length": 366
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "SG_Weather/D",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/SG_Weather/D/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/SG_Weather/D/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/SG_Weather/D/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.116315+00:00",
+                "identity": {
+                  "dataset": "SG_Weather",
+                  "frequency": "D",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "SG_Weather/D",
+              "prediction_length": 14,
+              "seasonality": 1,
+              "term": "long",
+              "test_length": 366
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "SG_PM25/H",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/SG_PM25/H/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/SG_PM25/H/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/SG_PM25/H/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.357593+00:00",
+                "identity": {
+                  "dataset": "SG_PM25",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "SG_PM25/H",
+              "prediction_length": 24,
+              "seasonality": 24,
+              "term": "short",
+              "test_length": 2208
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "SG_PM25/H",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/SG_PM25/H/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/SG_PM25/H/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/SG_PM25/H/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.344473+00:00",
+                "identity": {
+                  "dataset": "SG_PM25",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "SG_PM25/H",
+              "prediction_length": 72,
+              "seasonality": 24,
+              "term": "medium",
+              "test_length": 2208
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "SG_PM25/H",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/SG_PM25/H/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/SG_PM25/H/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/SG_PM25/H/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.351046+00:00",
+                "identity": {
+                  "dataset": "SG_PM25",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "SG_PM25/H",
+              "prediction_length": 168,
+              "seasonality": 24,
+              "term": "long",
+              "test_length": 2208
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "NE_China_Wind/H",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/NE_China_Wind/H/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/NE_China_Wind/H/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/NE_China_Wind/H/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.642168+00:00",
+                "identity": {
+                  "dataset": "NE_China_Wind",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "NE_China_Wind/H",
+              "prediction_length": 24,
+              "seasonality": 24,
+              "term": "short",
+              "test_length": 720
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "NE_China_Wind/H",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/NE_China_Wind/H/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/NE_China_Wind/H/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/NE_China_Wind/H/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.629073+00:00",
+                "identity": {
+                  "dataset": "NE_China_Wind",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "NE_China_Wind/H",
+              "prediction_length": 72,
+              "seasonality": 24,
+              "term": "medium",
+              "test_length": 720
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "NE_China_Wind/H",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/NE_China_Wind/H/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/NE_China_Wind/H/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/NE_China_Wind/H/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.635662+00:00",
+                "identity": {
+                  "dataset": "NE_China_Wind",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "NE_China_Wind/H",
+              "prediction_length": 168,
+              "seasonality": 24,
+              "term": "long",
+              "test_length": 720
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Australia_Solar/H",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Australia_Solar/H/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Australia_Solar/H/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Australia_Solar/H/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.200493+00:00",
+                "identity": {
+                  "dataset": "Australia_Solar",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Australia_Solar/H",
+              "prediction_length": 24,
+              "seasonality": 24,
+              "term": "short",
+              "test_length": 2520
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Australia_Solar/H",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Australia_Solar/H/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Australia_Solar/H/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Australia_Solar/H/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.187382+00:00",
+                "identity": {
+                  "dataset": "Australia_Solar",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Australia_Solar/H",
+              "prediction_length": 72,
+              "seasonality": 24,
+              "term": "medium",
+              "test_length": 2520
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Australia_Solar/H",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Australia_Solar/H/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Australia_Solar/H/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Australia_Solar/H/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.193946+00:00",
+                "identity": {
+                  "dataset": "Australia_Solar",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Australia_Solar/H",
+              "prediction_length": 168,
+              "seasonality": 24,
+              "term": "long",
+              "test_length": 2520
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "epf_electricity_price/H",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/epf_electricity_price/H/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/epf_electricity_price/H/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/epf_electricity_price/H/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.401984+00:00",
+                "identity": {
+                  "dataset": "epf_electricity_price",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "epf_electricity_price/H",
+              "prediction_length": 24,
+              "seasonality": 24,
+              "term": "short",
+              "test_length": 2520
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "epf_electricity_price/H",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/epf_electricity_price/H/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/epf_electricity_price/H/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/epf_electricity_price/H/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.388555+00:00",
+                "identity": {
+                  "dataset": "epf_electricity_price",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "epf_electricity_price/H",
+              "prediction_length": 72,
+              "seasonality": 24,
+              "term": "medium",
+              "test_length": 2520
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "epf_electricity_price/H",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/epf_electricity_price/H/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/epf_electricity_price/H/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/epf_electricity_price/H/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.395369+00:00",
+                "identity": {
+                  "dataset": "epf_electricity_price",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "epf_electricity_price/H",
+              "prediction_length": 168,
+              "seasonality": 24,
+              "term": "long",
+              "test_length": 2520
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "OpenElectricity_NEM/5T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/OpenElectricity_NEM/5T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/OpenElectricity_NEM/5T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/OpenElectricity_NEM/5T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.602721+00:00",
+                "identity": {
+                  "dataset": "OpenElectricity_NEM",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "OpenElectricity_NEM/5T",
+              "prediction_length": 24,
+              "seasonality": 288,
+              "term": "short",
+              "test_length": 4032
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "OpenElectricity_NEM/5T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/OpenElectricity_NEM/5T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/OpenElectricity_NEM/5T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/OpenElectricity_NEM/5T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.589107+00:00",
+                "identity": {
+                  "dataset": "OpenElectricity_NEM",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "OpenElectricity_NEM/5T",
+              "prediction_length": 96,
+              "seasonality": 288,
+              "term": "medium",
+              "test_length": 4032
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "OpenElectricity_NEM/5T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/OpenElectricity_NEM/5T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/OpenElectricity_NEM/5T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/OpenElectricity_NEM/5T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.595940+00:00",
+                "identity": {
+                  "dataset": "OpenElectricity_NEM",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "OpenElectricity_NEM/5T",
+              "prediction_length": 288,
+              "seasonality": 288,
+              "term": "long",
+              "test_length": 4032
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "EWELD_Load/15T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/EWELD_Load/15T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/EWELD_Load/15T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/EWELD_Load/15T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.431721+00:00",
+                "identity": {
+                  "dataset": "EWELD_Load",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "EWELD_Load/15T",
+              "prediction_length": 24,
+              "seasonality": 96,
+              "term": "short",
+              "test_length": 1344
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "EWELD_Load/15T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/EWELD_Load/15T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/EWELD_Load/15T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/EWELD_Load/15T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.418398+00:00",
+                "identity": {
+                  "dataset": "EWELD_Load",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "EWELD_Load/15T",
+              "prediction_length": 96,
+              "seasonality": 96,
+              "term": "medium",
+              "test_length": 1344
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "EWELD_Load/15T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/EWELD_Load/15T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/EWELD_Load/15T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/EWELD_Load/15T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.425107+00:00",
+                "identity": {
+                  "dataset": "EWELD_Load",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "EWELD_Load/15T",
+              "prediction_length": 672,
+              "seasonality": 96,
+              "term": "long",
+              "test_length": 1344
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "SG_Carpark/15T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/SG_Carpark/15T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/SG_Carpark/15T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/SG_Carpark/15T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.084160+00:00",
+                "identity": {
+                  "dataset": "SG_Carpark",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "SG_Carpark/15T",
+              "prediction_length": 16,
+              "seasonality": 96,
+              "term": "short",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "SG_Carpark/15T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/SG_Carpark/15T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/SG_Carpark/15T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/SG_Carpark/15T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.069560+00:00",
+                "identity": {
+                  "dataset": "SG_Carpark",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "SG_Carpark/15T",
+              "prediction_length": 96,
+              "seasonality": 96,
+              "term": "medium",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "SG_Carpark/15T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/SG_Carpark/15T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/SG_Carpark/15T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/SG_Carpark/15T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.077053+00:00",
+                "identity": {
+                  "dataset": "SG_Carpark",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "SG_Carpark/15T",
+              "prediction_length": 672,
+              "seasonality": 96,
+              "term": "long",
+              "test_length": 672
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Finland_Traffic/15T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Finland_Traffic/15T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Finland_Traffic/15T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Finland_Traffic/15T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.327841+00:00",
+                "identity": {
+                  "dataset": "Finland_Traffic",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Finland_Traffic/15T",
+              "prediction_length": 16,
+              "seasonality": 96,
+              "term": "short",
+              "test_length": 2976
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Finland_Traffic/15T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Finland_Traffic/15T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Finland_Traffic/15T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Finland_Traffic/15T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.314105+00:00",
+                "identity": {
+                  "dataset": "Finland_Traffic",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Finland_Traffic/15T",
+              "prediction_length": 96,
+              "seasonality": 96,
+              "term": "medium",
+              "test_length": 2976
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Finland_Traffic/15T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Finland_Traffic/15T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Finland_Traffic/15T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Finland_Traffic/15T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.321220+00:00",
+                "identity": {
+                  "dataset": "Finland_Traffic",
+                  "frequency": "15T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Finland_Traffic/15T",
+              "prediction_length": 672,
+              "seasonality": 96,
+              "term": "long",
+              "test_length": 2976
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Port_Activity/D",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Port_Activity/D/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Port_Activity/D/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Port_Activity/D/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.100174+00:00",
+                "identity": {
+                  "dataset": "Port_Activity",
+                  "frequency": "D",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Port_Activity/D",
+              "prediction_length": 30,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 365
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Port_Activity/W",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Port_Activity/W/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Port_Activity/W/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Port_Activity/W/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.092554+00:00",
+                "identity": {
+                  "dataset": "Port_Activity",
+                  "frequency": "W",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Port_Activity/W",
+              "prediction_length": 13,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 52
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "ECDC_COVID/D",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/ECDC_COVID/D/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/ECDC_COVID/D/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/ECDC_COVID/D/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.738881+00:00",
+                "identity": {
+                  "dataset": "ECDC_COVID",
+                  "frequency": "D",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "ECDC_COVID/D",
+              "prediction_length": 30,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 150
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "ECDC_COVID/W",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/ECDC_COVID/W/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/ECDC_COVID/W/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/ECDC_COVID/W/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.731586+00:00",
+                "identity": {
+                  "dataset": "ECDC_COVID",
+                  "frequency": "W",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "ECDC_COVID/W",
+              "prediction_length": 13,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 52
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Global_Influenza/W",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Global_Influenza/W/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Global_Influenza/W/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Global_Influenza/W/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.649786+00:00",
+                "identity": {
+                  "dataset": "Global_Influenza",
+                  "frequency": "W",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Global_Influenza/W",
+              "prediction_length": 13,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 52
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Crypto/D",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Crypto/D/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Crypto/D/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Crypto/D/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.723519+00:00",
+                "identity": {
+                  "dataset": "Crypto",
+                  "frequency": "D",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Crypto/D",
+              "prediction_length": 30,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 273
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "US_Term_Structure/B",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/US_Term_Structure/B/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/US_Term_Structure/B/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/US_Term_Structure/B/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.148446+00:00",
+                "identity": {
+                  "dataset": "US_Term_Structure",
+                  "frequency": "B",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "US_Term_Structure/B",
+              "prediction_length": 20,
+              "seasonality": 5,
+              "term": "short",
+              "test_length": 717
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Oil_Price/B",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Oil_Price/B/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Oil_Price/B/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Oil_Price/B/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.409627+00:00",
+                "identity": {
+                  "dataset": "Oil_Price",
+                  "frequency": "B",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Oil_Price/B",
+              "prediction_length": 20,
+              "seasonality": 5,
+              "term": "short",
+              "test_length": 717
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Job_Claims/W",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Job_Claims/W/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Job_Claims/W/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Job_Claims/W/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.140343+00:00",
+                "identity": {
+                  "dataset": "Job_Claims",
+                  "frequency": "W",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Job_Claims/W",
+              "prediction_length": 13,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 52
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Uncertainty_1M/M",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Uncertainty_1M/M/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Uncertainty_1M/M/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Uncertainty_1M/M/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.610698+00:00",
+                "identity": {
+                  "dataset": "Uncertainty_1M",
+                  "frequency": "M",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Uncertainty_1M/M",
+              "prediction_length": 6,
+              "seasonality": 12,
+              "term": "short",
+              "test_length": 42
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Housing_Inventory/M",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Housing_Inventory/M/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Housing_Inventory/M/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Housing_Inventory/M/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.131224+00:00",
+                "identity": {
+                  "dataset": "Housing_Inventory",
+                  "frequency": "M",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Housing_Inventory/M",
+              "prediction_length": 12,
+              "seasonality": 12,
+              "term": "short",
+              "test_length": 36
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "JOLTS/M",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/JOLTS/M/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/JOLTS/M/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/JOLTS/M/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.335741+00:00",
+                "identity": {
+                  "dataset": "JOLTS",
+                  "frequency": "M",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "JOLTS/M",
+              "prediction_length": 12,
+              "seasonality": 12,
+              "term": "short",
+              "test_length": 60
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "US_Labor/M",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/US_Labor/M/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/US_Labor/M/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/US_Labor/M/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.620063+00:00",
+                "identity": {
+                  "dataset": "US_Labor",
+                  "frequency": "M",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "US_Labor/M",
+              "prediction_length": 12,
+              "seasonality": 12,
+              "term": "short",
+              "test_length": 60
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Vehicle_Supply/M",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Vehicle_Supply/M/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Vehicle_Supply/M/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Vehicle_Supply/M/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.572400+00:00",
+                "identity": {
+                  "dataset": "Vehicle_Supply",
+                  "frequency": "M",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Vehicle_Supply/M",
+              "prediction_length": 12,
+              "seasonality": 12,
+              "term": "short",
+              "test_length": 60
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Auto_Production_SF/M",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Auto_Production_SF/M/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Auto_Production_SF/M/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Auto_Production_SF/M/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.549170+00:00",
+                "identity": {
+                  "dataset": "Auto_Production_SF",
+                  "frequency": "M",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Auto_Production_SF/M",
+              "prediction_length": 12,
+              "seasonality": 12,
+              "term": "short",
+              "test_length": 60
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Commodity_Production/M",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Commodity_Production/M/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Commodity_Production/M/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Commodity_Production/M/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.526211+00:00",
+                "identity": {
+                  "dataset": "Commodity_Production",
+                  "frequency": "M",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Commodity_Production/M",
+              "prediction_length": 12,
+              "seasonality": 12,
+              "term": "short",
+              "test_length": 60
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Commodity_Import/M",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Commodity_Import/M/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Commodity_Import/M/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Commodity_Import/M/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.564693+00:00",
+                "identity": {
+                  "dataset": "Commodity_Import",
+                  "frequency": "M",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Commodity_Import/M",
+              "prediction_length": 12,
+              "seasonality": 12,
+              "term": "short",
+              "test_length": 60
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "WUI_Global/Q",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/WUI_Global/Q/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/WUI_Global/Q/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/WUI_Global/Q/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.580322+00:00",
+                "identity": {
+                  "dataset": "WUI_Global",
+                  "frequency": "Q",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "WUI_Global/Q",
+              "prediction_length": 4,
+              "seasonality": 4,
+              "term": "short",
+              "test_length": 20
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Global_Price/Q",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Global_Price/Q/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Global_Price/Q/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Global_Price/Q/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.533823+00:00",
+                "identity": {
+                  "dataset": "Global_Price",
+                  "frequency": "Q",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Global_Price/Q",
+              "prediction_length": 4,
+              "seasonality": 4,
+              "term": "short",
+              "test_length": 20
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Vehicle_Sales/M",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Vehicle_Sales/M/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Vehicle_Sales/M/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Vehicle_Sales/M/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.541584+00:00",
+                "identity": {
+                  "dataset": "Vehicle_Sales",
+                  "frequency": "M",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Vehicle_Sales/M",
+              "prediction_length": 12,
+              "seasonality": 12,
+              "term": "short",
+              "test_length": 60
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Online_Retail_2_UCI/D",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Online_Retail_2_UCI/D/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Online_Retail_2_UCI/D/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Online_Retail_2_UCI/D/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.556789+00:00",
+                "identity": {
+                  "dataset": "Online_Retail_2_UCI",
+                  "frequency": "D",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Online_Retail_2_UCI/D",
+              "prediction_length": 30,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 180
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Supply_Chain_Customer/D",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Supply_Chain_Customer/D/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Supply_Chain_Customer/D/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Supply_Chain_Customer/D/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.230338+00:00",
+                "identity": {
+                  "dataset": "Supply_Chain_Customer",
+                  "frequency": "D",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Supply_Chain_Customer/D",
+              "prediction_length": 30,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 365
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Supply_Chain_Location/D",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Supply_Chain_Location/D/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Supply_Chain_Location/D/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Supply_Chain_Location/D/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.156430+00:00",
+                "identity": {
+                  "dataset": "Supply_Chain_Location",
+                  "frequency": "D",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Supply_Chain_Location/D",
+              "prediction_length": 30,
+              "seasonality": 1,
+              "term": "short",
+              "test_length": 365
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "azure2019_U/5T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/azure2019_U/5T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/azure2019_U/5T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/azure2019_U/5T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.304991+00:00",
+                "identity": {
+                  "dataset": "azure2019_U",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "azure2019_U/5T",
+              "prediction_length": 48,
+              "seasonality": 288,
+              "term": "short",
+              "test_length": 288
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Smart_Manufacturing/H",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Smart_Manufacturing/H/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Smart_Manufacturing/H/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Smart_Manufacturing/H/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.178497+00:00",
+                "identity": {
+                  "dataset": "Smart_Manufacturing",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Smart_Manufacturing/H",
+              "prediction_length": 24,
+              "seasonality": 24,
+              "term": "short",
+              "test_length": 336
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Smart_Manufacturing/H",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Smart_Manufacturing/H/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Smart_Manufacturing/H/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Smart_Manufacturing/H/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.165248+00:00",
+                "identity": {
+                  "dataset": "Smart_Manufacturing",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Smart_Manufacturing/H",
+              "prediction_length": 168,
+              "seasonality": 24,
+              "term": "medium",
+              "test_length": 336
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "Smart_Manufacturing/H",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/Smart_Manufacturing/H/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/Smart_Manufacturing/H/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/Smart_Manufacturing/H/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.171977+00:00",
+                "identity": {
+                  "dataset": "Smart_Manufacturing",
+                  "frequency": "H",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "Smart_Manufacturing/H",
+              "prediction_length": 336,
+              "seasonality": 24,
+              "term": "long",
+              "test_length": 336
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "MetroPT-3/5T",
+      "term": "short",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/MetroPT-3/5T/short/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/MetroPT-3/5T/short/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/MetroPT-3/5T/short/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.379711+00:00",
+                "identity": {
+                  "dataset": "MetroPT-3",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "short"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "MetroPT-3/5T",
+              "prediction_length": 48,
+              "seasonality": 288,
+              "term": "short",
+              "test_length": 1728
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "MetroPT-3/5T",
+      "term": "medium",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/MetroPT-3/5T/medium/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/MetroPT-3/5T/medium/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/MetroPT-3/5T/medium/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.366354+00:00",
+                "identity": {
+                  "dataset": "MetroPT-3",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "medium"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "MetroPT-3/5T",
+              "prediction_length": 288,
+              "seasonality": 288,
+              "term": "medium",
+              "test_length": 1728
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    },
+    {
+      "dataset": "MetroPT-3/5T",
+      "term": "long",
+      "method": "vanilla_univariate",
+      "evaluation_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/evaluations/vanilla_univariate/MetroPT-3/5T/long/run_1/manifest.json",
+      "prediction_manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/test/vanilla_univariate/MetroPT-3/5T/long/run_1/manifest.json",
+      "seasonal_manifest": "/fslarge/scratch/users/h61084/codes/seasonal/foundation_models/tasks/seasonal_naive/univariate/MetroPT-3/5T/long/run_0/manifest.json",
+      "selection": {
+        "config_policy": "error",
+        "repeat_policy": "selected",
+        "scientific_config": {
+          "model_config": {
+            "component": "evaluations",
+            "method": "vanilla_univariate"
+          },
+          "pipeline_config": {
+            "dependencies": {
+              "prediction": {
+                "completed_at": "2026-09-27T14:53:53.373099+00:00",
+                "identity": {
+                  "dataset": "MetroPT-3",
+                  "frequency": "5T",
+                  "method": "vanilla_univariate",
+                  "model": "chronos_bolt",
+                  "target_mode": "univariate",
+                  "term": "long"
+                },
+                "run": "run_1"
+              }
+            },
+            "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+            "method": "vanilla_univariate",
+            "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+            "phase": "evaluations",
+            "task": {
+              "dataset": "MetroPT-3/5T",
+              "prediction_length": 576,
+              "seasonality": 288,
+              "term": "long",
+              "test_length": 1728
+            }
+          },
+          "experiment_config": {}
+        },
+        "model_label": "chronos_bolt",
+        "run": "run_1"
+      }
+    }
+  ],
+  "selection": {
+    "report_current_config": true,
+    "report_config_filters": {},
+    "report_config_policy": "error",
+    "report_repeat_policy": "selected"
+  },
+  "aggregation": "average_exact_repeat_statistics_then_average_configuration_statistics",
+  "selection_frequencies": "observed_choices_in_selected_input_manifests",
+  "retrieval_provenance": {
+    "same_user": "same dataset item/user as the query",
+    "normalized_time_distance": "(query_tick-neighbor_tick)/(query_tick-earliest_datastore_tick)",
+    "extraction_unit": "one query retrieval"
+  },
+  "task_dispersion": "population_variance_over_finite_series_window_variate_cells",
+  "selected_method_timing": "unmeasured_not_sum_of_all_candidate_search_costs"
+}

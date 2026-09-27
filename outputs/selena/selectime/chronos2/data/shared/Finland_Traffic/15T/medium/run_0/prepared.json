@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "Finland_Traffic/15T",
+    "term": "medium",
+    "prediction_length": 96,
+    "test_length": 2976,
+    "validation_length": 3906,
+    "seasonality": 96,
+    "retrieval_context_length": 672,
+    "alignment_period": 672,
+    "datastore_stride": 672,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 31,
+      "datastore": 1268
+    },
+    "test": {
+      "queries": 31,
+      "datastore": 328
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Finland_Traffic/15T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}
