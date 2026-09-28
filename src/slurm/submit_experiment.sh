@@ -15,5 +15,5 @@ esac
 shift || true
 dependency=()
 [ -z "${SBATCH_DEPENDENCY:-}" ] || dependency=(--dependency="$SBATCH_DEPENDENCY")
-mkdir -p "$TIME_LOGS"
+mkdir -p "$TIME_LOGS/scope_selection/slurm"
 sbatch "${dependency[@]}" "$front" "$@"

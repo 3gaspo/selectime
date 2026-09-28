@@ -11,10 +11,7 @@ def main():
     parser.add_argument('launch')
     parser.add_argument('--interrupt', action='store_true')
     args = parser.parse_args()
-    roots = [args.root]
-    if args.root.name == 'selectime':
-        roots.append(args.root.parent / 'reports' / 'selectime')
-    for root in roots:
+    for root in [args.root]:
         if args.interrupt:
             interrupt_launch(root, args.launch)
             continue
@@ -22,7 +19,10 @@ def main():
             manifest = load_manifest(path.parent)
             if manifest['status'] == 'computed' and manifest['launch']['launch_id'] == args.launch:
                 ready = json.loads(path.read_text(encoding='utf-8'))
-                RunHandle(path.parent, manifest, 'finalize').complete(ready['required_artifacts'])
+                RunHandle(path.parent, manifest, 'finalize').complete(
+                    ready['required_artifacts'],
+                    artifact_metadata=ready.get('artifact_metadata'),
+                )
                 path.unlink()
 
 

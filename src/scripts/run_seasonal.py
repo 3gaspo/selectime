@@ -47,12 +47,16 @@ def main(config):
                                                                task.seasonality) for entry in dataset.test_data.input])
             seconds = timer.stop()
             levels = run.manifest['model_config']['quantile_levels']
-            save_window_predictions(dataset, np.repeat(forecasts[:, None, :], len(levels), axis=1),
+            evaluation_metadata = save_window_predictions(dataset, np.repeat(forecasts[:, None, :], len(levels), axis=1),
                 f'{task.dataset}/{task.term}', str(tasks_root), seasonality=task.seasonality,
                 quantile_levels=levels, task_output_dir=str(run.run_dir), create_evaluation_grid=True,
                 inference_seconds=seconds, model_hyperparams={'model': 'seasonal_naive', 'experiment': 'foundation_models',
                     'target_mode': 'univariate', 'season_length': task.seasonality, 'covariate_mode': 'none', 'covariate_channels': 0})
-            workflow.finish(run, ['predictions.npz', 'metrics.npz', 'metrics_summary.json', 'config.json', EVALUATION_GRID_FILE])
+            workflow.finish(
+                run,
+                ['predictions.npz', 'metrics.npz', 'metrics_summary.json', EVALUATION_GRID_FILE],
+                {'evaluation': evaluation_metadata},
+            )
 
 
 if __name__ == '__main__':

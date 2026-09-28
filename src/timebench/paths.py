@@ -26,10 +26,16 @@ def artifact_project_root():
 
 
 def outputs_root():
-    """Project-owned runtime output root; copied environment files cannot redirect it."""
-    return artifact_project_root() / 'outputs'
+    """Project-owned runtime output root for the current execution surface."""
+    fallback = artifact_project_root() / 'outputs'
+    if not os.getenv('SELENA_NNI'):
+        fallback /= 'dgx'
+    return configured_path('TIME_OUTPUTS', fallback)
 
 
 def logs_root():
     """Project-owned runtime log root paired with :func:`outputs_root`."""
-    return artifact_project_root() / 'logs'
+    fallback = artifact_project_root() / 'logs'
+    if not os.getenv('SELENA_NNI'):
+        fallback /= 'dgx'
+    return configured_path('TIME_LOGS', fallback)

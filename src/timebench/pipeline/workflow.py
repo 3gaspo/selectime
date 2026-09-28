@@ -74,7 +74,7 @@ class Workflow:
         from timebench.pipeline.runs import CONFIG_POLICIES, REPEAT_POLICIES
         if config['report_config_policy'] not in CONFIG_POLICIES or config['report_repeat_policy'] not in REPEAT_POLICIES:
             raise ValueError('Invalid report configuration or repeat policy')
-        self.root, self.storage, self.weights = outputs_root() / 'selectime', dataset_storage_root(), weights_root()
+        self.root, self.storage, self.weights = outputs_root() / 'scope_selection', dataset_storage_root(), weights_root()
         self.vanilla_predictions_path = (
             Path(config['vanilla_predictions_path']).expanduser().resolve()
             if config.get('vanilla_predictions_path') else None
@@ -139,7 +139,7 @@ class Workflow:
 
     def path(self, task, phase, method):
         if phase == 'reports':
-            return self.root.parent / 'reports' / 'selectime' / self.model / method / task.dataset / task.term
+            return self.root / 'reports' / self.model / method
         return self.root / self.model / phase / method / task.dataset / task.term
 
     def dependency_reference(self, path):
@@ -263,7 +263,7 @@ class Workflow:
 
     def allocate(self, task, phase, method, dependencies=None):
         dependencies = dependencies or {}
-        return allocate_run(self.path(task, phase, method), experiment='selectime', identity=self.identity(task, method),
+        return allocate_run(self.path(task, phase, method), experiment='scope_selection', identity=self.identity(task, method),
                             **self.science(task, phase, method, dependencies),
                             runtime_config={'device': self.device, 'batch_size': self.batch_size,
                                             'query_block_size': self.config['query_block_size'],
@@ -275,19 +275,22 @@ class Workflow:
 
     def resolve(self, task, phase, method, dependencies=None):
         expected = self.science(task, phase, method, dependencies or {})
-        selected = select_completed_runs(self.path(task, phase, method), config_policy='distinct', repeat_policy='selected')
+        selected = select_completed_runs(self.path(task, phase, method), config_policy='distinct', repeat_policy='latest')
         matches = [path for path, manifest in selected if manifest['identity'] == self.identity(task, method)
                    and all(manifest[key] == value for key, value in expected.items())]
         if len(matches) != 1:
             raise ValueError(f'Expected one exact completed {phase}/{method}: {task.dataset}/{task.term}; found {len(matches)}')
         return matches[0]
 
-    def finish(self, run, files):
+    def finish(self, run, files, artifact_metadata=None):
         if os.getenv('SELECTIME_DEFER_COMPLETION') == '1':
-            write_json(run.run_dir / 'stage_ready.json', {'required_artifacts': files})
-            run.compute(files)
+            write_json(run.run_dir / 'stage_ready.json', {
+                'required_artifacts': files,
+                'artifact_metadata': artifact_metadata,
+            })
+            run.compute(files, artifact_metadata=artifact_metadata)
         else:
-            run.complete(files)
+            run.complete(files, artifact_metadata=artifact_metadata)
 
     def prepared(self, task, split):
         return self.resolve(task, f'data/{split}', 'shared')
@@ -835,15 +838,19 @@ class Workflow:
                         continue
                     log(f'evaluate {method} {task.dataset}/{task.term}')
                     metadata = json.loads((prediction / 'prediction.json').read_text())
-                    save_window_predictions(dataset, self.array(prediction, 'prediction')[:, None, :],
+                    evaluation_metadata = save_window_predictions(dataset, self.array(prediction, 'prediction')[:, None, :],
                         f'{task.dataset}/{task.term}', str(self.root), seasonality=task.seasonality, quantile_levels=[0.5],
                         task_output_dir=str(run.run_dir), inference_seconds=metadata['inference_seconds'],
-                        model_hyperparams={'model': self.model, 'method': method, 'experiment': 'selectime',
+                        model_hyperparams={'model': self.model, 'method': method, 'experiment': 'scope_selection',
                             'target_mode': 'univariate', 'forecast_input_mode': self.identity(task, method)['target_mode'],
                             'context_length': self.context_length, 'prediction_manifest': str(prediction / 'manifest.json'),
                             'fallback_count': metadata['fallback_count'], 'timing_policy': metadata['timing_policy']},
                         evaluation_grid_path=str(resolve_shared_evaluation_grid(task.dataset, task.term, 'univariate')))
-                    self.finish(run, ['predictions.npz', 'metrics.npz', 'metrics_summary.json', 'config.json'])
+                    self.finish(
+                        run,
+                        ['predictions.npz', 'metrics.npz', 'metrics_summary.json'],
+                        {'evaluation': evaluation_metadata},
+                    )
 
     def report(self):
         from timebench.results.comparison import build_report

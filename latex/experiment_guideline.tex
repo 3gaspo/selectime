@@ -88,8 +88,13 @@ predicts test windows, assembles the controlled forecasts, evaluates them, and
 builds the report.
 Forecast stages finalize canonical vanilla before dependent candidates.
 
-Products live under \path{outputs/selectime/<backbone>/}. Every stage allocates
-a schema-1 configuration-addressed manifest before work. Fully written tasks
+Products live under \path{outputs/<surface>/scope_selection/<backbone>/};
+reports remain below that experiment's \path{reports/} directory, and logs use
+the matching \path{logs/<surface>/scope_selection/} hierarchy. Timestamps and
+launch identifiers remain in manifests and logs rather than directory names.
+Every stage allocates an authoritative schema-1 scientific configuration and
+lifecycle manifest before work; run directories do not duplicate it in a
+\path{config.json}. Fully written tasks
 become \texttt{computed}; a successful scheduler step finalizes them as
 \texttt{completed}. Exact completed work is reused and interrupted tasks restart
 from their beginning. Reports retain consumed manifests, metric coverage,

@@ -10,7 +10,8 @@ vanilla_overrides=()
 if [ -n "${TIME_VANILLA_PREDICTIONS_PATH:-}" ]; then
     vanilla_overrides+=("vanilla_predictions_path=$TIME_VANILLA_PREDICTIONS_PATH")
 fi
-trap 'uv run --no-sync python -m timebench.scripts.finalize_stage "$TIME_OUTPUTS/selectime" "$TIME_LAUNCH_ID" --interrupt' EXIT
+export TIME_EXPERIMENT=scope_selection
+trap 'uv run --no-sync python -m timebench.scripts.finalize_stage "$TIME_OUTPUTS/scope_selection" "$TIME_LAUNCH_ID" --interrupt' EXIT
 IFS=',' read -r -a selected_stages <<< "$stages"
 for stage in "${selected_stages[@]}"; do
     case "$stage" in
@@ -22,7 +23,7 @@ for stage in "${selected_stages[@]}"; do
     for group in "${groups[@]}"; do
         echo "[$(date -u '+%Y-%m-%d %H:%M:%S UTC')] Slurm=$SLURM_JOB_ID launch=$TIME_LAUNCH_ID stage=$stage prediction_group=$group"
         srun --ntasks=1 uv run --no-sync python "$entry" "${vanilla_overrides[@]}" "$@" "experiment_mode=$mode" "stage=$stage" "prediction_group=$group"
-        uv run --no-sync python -m timebench.scripts.finalize_stage "$TIME_OUTPUTS/selectime" "$TIME_LAUNCH_ID"
+        uv run --no-sync python -m timebench.scripts.finalize_stage "$TIME_OUTPUTS/scope_selection" "$TIME_LAUNCH_ID"
     done
 done
 trap - EXIT

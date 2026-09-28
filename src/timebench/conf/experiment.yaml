@@ -28,10 +28,11 @@ scope_ridge_alpha: 1.0
 # Producer dependencies remain exact; these controls apply only to reports.
 report_current_config: true
 report_config_filters: {}
-report_config_policy: error
-report_repeat_policy: selected
+report_config_policy: latest
+report_repeat_policy: latest
 hydra:
   run:
-    dir: ${oc.env:TIME_LOGS,logs}/hydra/${now:%Y%m%d_%H%M%S}_${stage}
+    dir: ${oc.env:TIME_LOGS,logs/dgx}/${oc.env:TIME_EXPERIMENT,scope_selection}/hydra/${stage}/${model}/${prediction_group}
   job:
     chdir: false
+  output_subdir: null

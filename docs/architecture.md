@@ -33,7 +33,7 @@ Datastore and query representations are memory-mapped. Trajectories remain in
 Arrow until needed for a forecast; there are no datastore backbone forecasts.
 Validation calibrations store hard scope choices, frozen win-frequency weights,
 or the fixed-alpha closed-form scope-ridge coefficient. All current paths include the backbone
-under `outputs/selectime/<backbone>/`, preventing cross-backbone report or
+under `<O>/scope_selection/<backbone>/`, preventing cross-backbone report or
 manifest selection. Prior flat-layout results remain historical evidence.
 
 The shared `runs.py` lifecycle retains exact plain-configuration reuse,

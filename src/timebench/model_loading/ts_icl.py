@@ -6,6 +6,8 @@ tsicl 0.2.1's native past-only/fully observed covars and median quantiles.
 from pathlib import Path
 import numpy as np
 
+from timebench.model_loading.ts_icl_compat import patch_tsicl_covariate_rollout
+
 
 class Forecaster:
     alias = 'ts_icl'
@@ -19,6 +21,7 @@ class Forecaster:
         self.context_length, self.device = context_length, device
         self.pipeline = TSICL(model_path=str(Path(weights) / 'tsicl/tsicl-v1.ckpt'),
                               allow_auto_download=False)
+        patch_tsicl_covariate_rollout(self.pipeline)
 
     def forecast(self, histories, horizon, *, past_covariates=None, future_covariates=None):
         import torch

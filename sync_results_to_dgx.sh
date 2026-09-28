@@ -69,8 +69,8 @@ if [ -n "$JOB_ID" ]; then
         '--include=*/' \
         "--include=*_${JOB_ID}_*.out" "--include=*_${JOB_ID}_*.err" \
         "--include=*_${JOB_ID}.out" "--include=*_${JOB_ID}.err" \
-        "--include=/dataset_metadata/$JOB_ID/***" \
-        '--exclude=/workflow_status/***' '--exclude=*' \
+        "--include=*/dataset_metadata/${JOB_ID}__*" \
+        '--exclude=*/workflow_status/***' '--exclude=*' \
         "$SOURCE_ROOT/logs/" \
         "$DGX_LOG_ROOT/"
 
@@ -80,13 +80,13 @@ if [ -n "$JOB_ID" ]; then
         source_host="${SOURCE_ROOT%%:*}"
         source_path="${SOURCE_ROOT#*:}"
         ssh "$source_host" \
-            "find '$source_path/logs/workflow_status' -type f -name '*.status' -exec grep -qxF 'slurm_job_id=$JOB_ID' {} \; -printf 'workflow_status/%P\0'" \
+            "find '$source_path/logs' -type f -path '*/workflow_status/*' -name '*.status' -exec grep -qxF 'slurm_job_id=$JOB_ID' {} \; -printf '%P\0'" \
             > "$status_file_list"
     else
-        find "$SOURCE_ROOT/logs/workflow_status" \
-            -type f -name '*.status' \
+        find "$SOURCE_ROOT/logs" \
+            -type f -path '*/workflow_status/*' -name '*.status' \
             -exec grep -qxF "slurm_job_id=$JOB_ID" {} \; \
-            -printf 'workflow_status/%P\0' \
+            -printf '%P\0' \
             > "$status_file_list"
     fi
     if [ -s "$status_file_list" ]; then

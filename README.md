@@ -149,7 +149,7 @@ interrupted tasks restart from their beginning. A task whose artifacts were
 fully written before a later scheduler failure remains `computed`; a recovery
 launch finalizes that same task without recomputing it. Reports and downstream
 stages still accept only `completed` producers. Conflict controls are
-`TIME_RUN_CONFLICT_POLICY=overwrite_exact|overwrite_path|new`,
+`TIME_RUN_CONFLICT_POLICY=skip|replace|new` (default `skip`),
 `TIME_SKIP_COMPLETED`, and `TIME_FORCE_RERUN`.
 
 Each forecasting stage runs canonical univariate predictions first, finalizes
@@ -157,7 +157,7 @@ their manifests after a successful scheduler step, then runs the remaining
 candidates. Direct forecasting defaults to `prediction_group=all`; the scheduler
 uses `vanilla` and `remaining` groups to respect producer completion.
 
-Reports default to the current exact scientific configuration and its selected
+Reports default to the latest matching scientific configuration and latest
 repeat. `report_config_policy=error|distinct|latest|average` and
 `report_repeat_policy=selected|latest|distinct|average` expose the inherited
 selection controls. Set `report_current_config=false` to include other completed
@@ -173,7 +173,7 @@ Run-pinning and interruption recovery remain available:
 
 ```bash
 PYTHONPATH=src uv run --no-sync python src/scripts/select_result_run.py /path/to/run_n
-PYTHONPATH=src uv run --no-sync python src/scripts/interrupt_result_launch.py outputs/selectime --launch-id <launch-id>
+PYTHONPATH=src uv run --no-sync python src/scripts/interrupt_result_launch.py outputs/dgx/scope_selection --launch-id <launch-id>
 ```
 
 ## Source and artifacts
@@ -194,10 +194,10 @@ scripts/                     concise experiment and Seasonal submission launcher
 *.slurm                      root-level scheduler fronts
 ```
 
-Artifacts live exclusively in the owning project's `outputs/selectime/<backbone>/` on
-each execution surface. Selena uses
-`/scratch/users/<nni>/codes/selectime/outputs/`; DGX/local execution uses the
-checkout's `outputs/`. Those are defaults; explicit `OUTPUTS_ROOT` and
+Artifacts live below `<O>/scope_selection/<backbone>/`, where `<O>` is
+`/scratch/users/<nni>/codes/selectime/outputs` on Selena and `outputs/dgx` for
+DGX or local execution. Synchronized Selena artifacts retain the same hierarchy
+below `outputs/selena/`. Those are defaults; explicit `OUTPUTS_ROOT` and
 `LOGS_ROOT` values take precedence. The shared Seasonal producer deliberately
 uses the common Seasonal artifact root and its `logs/` child, while Selectime
 consumes that grid through `TIME_SEASONAL_TASKS_ROOT`.
@@ -206,14 +206,20 @@ The layout is:
 `retrieval/{validation,test}/covariate/`,
 `predictions/{validation,test}/<candidate>/`, `selections/<control>/`,
 and `evaluations/<method>/`, each followed by
-`<dataset>/<frequency>/<term>/run_n/`. Every stage uses schema-1 plain-configuration
-manifests. Raw predictions are float32 `.npy` files; evaluations retain standard
+`<dataset>/<frequency>/<term>/run_n/`. Every `run_n/manifest.json` is the
+authoritative schema-1 scientific configuration and lifecycle record, including
+all result-changing settings omitted from the path. Runtime-only settings do not
+affect run identity, and run directories contain no redundant `config.json`.
+Raw predictions are float32 `.npy` files; evaluations retain standard
 TIME files with mean, population variance, standard deviation and finite/grid
-counts. Reports live separately under `outputs/reports/selectime/`. Validation
+counts. Reports live under `<O>/scope_selection/reports/`. Validation
 and test caches have independent stage identities; unchanged univariate rows
 are copied by `(item, channel, origin)` from equivalent completed runs, and
 manifests record reused versus newly inferred rows. Reports include matched Seasonal scaling, fallback rates, validation
-choices and their selection frequencies. Runtime logs belong in `logs/`.
+choices and their selection frequencies. Runtime records are grouped below
+`logs/<surface>/scope_selection/{slurm,hydra,stage_logs,workflow_status}/` as
+applicable. Launch IDs and timestamps remain in manifests and experiment logs,
+never directory names.
 
 Candidate forecasting, retrieval and datastore preprocessing timings are
 reported separately. Assembled selector and mixture outputs reuse candidate
