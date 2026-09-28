@@ -23,13 +23,13 @@ def main(config):
     log_selected_device('cpu', stage='forecast', model='seasonal_naive')
     workflow = Workflow(OmegaConf.to_container(config, resolve=True))
     settings = load_dataset_config(workflow.config_path)
-    tasks_root = Path(os.environ['TIME_SEASONAL_TASKS_ROOT'])
+    evaluations_root = Path(os.environ['TIME_SEASONAL_EVALUATIONS_ROOT'])
     for task in workflow.tasks:
         dataset = Dataset(task.dataset, term=task.term, prediction_length=task.prediction_length,
                           test_length=task.test_length, storage_path=workflow.storage)
         val_length = settings['datasets'][task.dataset].get('val_length')
-        with allocate_run(tasks_root / 'seasonal_naive/univariate' / task.dataset / task.term,
-            experiment='foundation_models',
+        with allocate_run(evaluations_root / 'univariate' / task.dataset / task.term,
+            experiment='seasonal_naive',
             identity={'model': 'seasonal_naive', 'target_mode': 'univariate',
                       'dataset': task.dataset.rpartition('/')[0], 'frequency': dataset.freq, 'term': task.term},
             model_config={'quantile_levels': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]},
@@ -48,9 +48,9 @@ def main(config):
             seconds = timer.stop()
             levels = run.manifest['model_config']['quantile_levels']
             evaluation_metadata = save_window_predictions(dataset, np.repeat(forecasts[:, None, :], len(levels), axis=1),
-                f'{task.dataset}/{task.term}', str(tasks_root), seasonality=task.seasonality,
+                f'{task.dataset}/{task.term}', str(evaluations_root), seasonality=task.seasonality,
                 quantile_levels=levels, task_output_dir=str(run.run_dir), create_evaluation_grid=True,
-                inference_seconds=seconds, model_hyperparams={'model': 'seasonal_naive', 'experiment': 'foundation_models',
+                inference_seconds=seconds, model_hyperparams={'model': 'seasonal_naive', 'experiment': 'seasonal_naive',
                     'target_mode': 'univariate', 'season_length': task.seasonality, 'covariate_mode': 'none', 'covariate_channels': 0})
             workflow.finish(
                 run,

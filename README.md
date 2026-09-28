@@ -198,9 +198,10 @@ Artifacts live below `<O>/scope_selection/<backbone>/`, where `<O>` is
 `/scratch/users/<nni>/codes/selectime/outputs` on Selena and `outputs/dgx` for
 DGX or local execution. Synchronized Selena artifacts retain the same hierarchy
 below `outputs/selena/`. Those are defaults; explicit `OUTPUTS_ROOT` and
-`LOGS_ROOT` values take precedence. The shared Seasonal producer deliberately
-uses the common Seasonal artifact root and its `logs/` child, while Selectime
-consumes that grid through `TIME_SEASONAL_TASKS_ROOT`.
+`LOGS_ROOT` values take precedence. The independent shared Seasonal checkout
+stores artifacts below `outputs/seasonal_naive/` and logs below
+`logs/seasonal_naive/`; Selectime consumes its completed grid through
+`TIME_SEASONAL_EVALUATIONS_ROOT`.
 The layout is:
 `data/{validation,test}/shared/`,
 `retrieval/{validation,test}/covariate/`,

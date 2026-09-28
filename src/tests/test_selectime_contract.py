@@ -188,8 +188,11 @@ class SourceContracts(unittest.TestCase):
             self.assertTrue(directives['--job-name'].startswith('s'))
             self.assertIn('#SBATCH --exclusive', text)
             self.assertNotIn('--no-requeue', text)
+            log_owner = 'seasonal' if name == 'seasonal_naive_selena.slurm' else 'selectime'
             for key in ('--output', '--error'):
-                self.assertTrue(directives[key].startswith('/scratch/users/%u/codes/selectime/logs/'))
+                self.assertTrue(
+                    directives[key].startswith(f'/scratch/users/%u/codes/{log_owner}/logs/')
+                )
             self.assertIn('PROJECT_ROOT="${SLURM_SUBMIT_DIR:-$(pwd)}"', text)
             self.assertIn('selena_', text)
         for name in ('submit_experiment.sh', 'submit_seasonal_naive.sh', 'submit_chronos_bolt.sh', 'submit_ts_icl.sh'):
@@ -213,7 +216,9 @@ class SourceContracts(unittest.TestCase):
         seasonal_submit = (ROOT / 'src/slurm/submit_seasonal.sh').read_text()
         self.assertIn('OUTPUTS_ROOT="${OUTPUTS_ROOT:-${TIME_OUTPUTS:-$default_outputs_root}}"', runtime)
         self.assertIn('OUTPUTS_ROOT="${OUTPUTS_ROOT:-$TIME_SCRATCH_ROOT/outputs}"', selena_runtime)
+        self.assertIn('OUTPUTS_ROOT=$TIME_SEASONAL_OUTPUTS_ROOT', seasonal_submit)
         self.assertIn('LOGS_ROOT=$TIME_SEASONAL_LOGS_ROOT', seasonal_submit)
+        self.assertIn('TIME_EXPERIMENT=seasonal_naive', seasonal_submit)
         self.assertNotIn('export OUTPUTS_ROOT=', workflow)
 
     def test_grid_and_excluded_implementation(self):
