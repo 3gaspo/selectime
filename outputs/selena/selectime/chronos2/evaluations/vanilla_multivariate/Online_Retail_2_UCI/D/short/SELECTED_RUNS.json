@@ -369,6 +369,44 @@
           }
         }
       }
+    },
+    {
+      "mode": "auto",
+      "run": "run_1",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "evaluations",
+          "method": "vanilla_multivariate"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "prediction": {
+              "completed_at": "2026-09-27T22:11:11.691777+00:00",
+              "identity": {
+                "dataset": "Online_Retail_2_UCI",
+                "frequency": "D",
+                "method": "vanilla_multivariate",
+                "model": "chronos2",
+                "target_mode": "multivariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            }
+          },
+          "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+          "method": "vanilla_multivariate",
+          "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+          "phase": "evaluations",
+          "task": {
+            "dataset": "Online_Retail_2_UCI/D",
+            "prediction_length": 30,
+            "seasonality": 1,
+            "term": "short",
+            "test_length": 180
+          }
+        }
+      }
     }
   ]
 }

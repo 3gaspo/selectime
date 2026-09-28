@@ -1191,6 +1191,87 @@
           }
         }
       }
+    },
+    {
+      "mode": "auto",
+      "run": "run_1",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "scope_selector",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-27T22:11:11.240837+00:00",
+              "identity": {
+                "dataset": "Supply_Chain_Customer",
+                "frequency": "D",
+                "method": "vanilla_multivariate",
+                "model": "chronos2",
+                "target_mode": "multivariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "calibration": {
+              "completed_at": "2026-09-27T18:12:08.534025+00:00",
+              "identity": {
+                "dataset": "Supply_Chain_Customer",
+                "frequency": "D",
+                "method": "scope_selector",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "data": {
+              "completed_at": "2026-09-27T14:14:47.465020+00:00",
+              "identity": {
+                "dataset": "Supply_Chain_Customer",
+                "frequency": "D",
+                "method": "shared",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-27T18:20:06.911328+00:00",
+              "identity": {
+                "dataset": "Supply_Chain_Customer",
+                "frequency": "D",
+                "method": "vanilla_univariate",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            }
+          },
+          "method": "scope_selector",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "Supply_Chain_Customer/D",
+            "prediction_length": 30,
+            "seasonality": 1,
+            "term": "short",
+            "test_length": 365
+          },
+          "validation_support": null
+        }
+      }
     }
   ]
 }

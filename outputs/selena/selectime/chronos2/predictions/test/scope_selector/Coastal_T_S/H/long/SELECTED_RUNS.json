@@ -1191,6 +1191,87 @@
           }
         }
       }
+    },
+    {
+      "mode": "auto",
+      "run": "run_1",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "scope_selector",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-27T22:11:11.898064+00:00",
+              "identity": {
+                "dataset": "Coastal_T_S",
+                "frequency": "H",
+                "method": "vanilla_multivariate",
+                "model": "chronos2",
+                "target_mode": "multivariate",
+                "term": "long"
+              },
+              "run": "run_1"
+            },
+            "calibration": {
+              "completed_at": "2026-09-27T18:12:09.047602+00:00",
+              "identity": {
+                "dataset": "Coastal_T_S",
+                "frequency": "H",
+                "method": "scope_selector",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_1"
+            },
+            "data": {
+              "completed_at": "2026-09-27T14:14:47.877459+00:00",
+              "identity": {
+                "dataset": "Coastal_T_S",
+                "frequency": "H",
+                "method": "shared",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-27T18:20:07.401937+00:00",
+              "identity": {
+                "dataset": "Coastal_T_S",
+                "frequency": "H",
+                "method": "vanilla_univariate",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_1"
+            }
+          },
+          "method": "scope_selector",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "Coastal_T_S/H",
+            "prediction_length": 336,
+            "seasonality": 24,
+            "term": "long",
+            "test_length": 672
+          },
+          "validation_support": null
+        }
+      }
     }
   ]
 }

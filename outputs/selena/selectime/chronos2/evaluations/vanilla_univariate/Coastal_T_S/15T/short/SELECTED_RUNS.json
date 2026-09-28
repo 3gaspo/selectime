@@ -220,6 +220,44 @@
           }
         }
       }
+    },
+    {
+      "mode": "auto",
+      "run": "run_1",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "evaluations",
+          "method": "vanilla_univariate"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "prediction": {
+              "completed_at": "2026-09-27T18:20:07.384189+00:00",
+              "identity": {
+                "dataset": "Coastal_T_S",
+                "frequency": "15T",
+                "method": "vanilla_univariate",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            }
+          },
+          "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+          "method": "vanilla_univariate",
+          "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+          "phase": "evaluations",
+          "task": {
+            "dataset": "Coastal_T_S/15T",
+            "prediction_length": 12,
+            "seasonality": 96,
+            "term": "short",
+            "test_length": 1440
+          }
+        }
+      }
     }
   ]
 }

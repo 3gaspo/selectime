@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "evaluations",
+          "method": "scope_ridge"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "prediction": {
+              "completed_at": "2026-09-27T22:12:49.435563+00:00",
+              "identity": {
+                "dataset": "Coastal_T_S",
+                "frequency": "20T",
+                "method": "scope_ridge",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            }
+          },
+          "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+          "method": "scope_ridge",
+          "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+          "phase": "evaluations",
+          "task": {
+            "dataset": "Coastal_T_S/20T",
+            "prediction_length": 216,
+            "seasonality": 72,
+            "term": "long",
+            "test_length": 1080
+          }
+        }
+      }
+    }
+  ]
+}

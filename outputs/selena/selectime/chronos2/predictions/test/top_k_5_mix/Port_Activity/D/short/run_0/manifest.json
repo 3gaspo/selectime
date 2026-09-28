@@ -1,0 +1,153 @@
+{
+  "completed_at": "2026-09-27T22:12:53.414589+00:00",
+  "computed_at": "2026-09-27T22:12:18.788418+00:00",
+  "experiment": "selectime",
+  "experiment_config": {
+    "seed": 0
+  },
+  "identity": {
+    "dataset": "Port_Activity",
+    "frequency": "D",
+    "method": "top_k_5_mix",
+    "model": "chronos2",
+    "target_mode": "univariate",
+    "term": "short"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3584837",
+        "launched_at": "2026-09-27T22:12:18.764823+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3584837"
+      }
+    ],
+    "launch_id": "selena_3584837",
+    "launched_at": "2026-09-27T22:12:18.764823+00:00",
+    "slurm_job_id": "3584837"
+  },
+  "model_config": {
+    "backbone": "chronos2",
+    "checkpoint": "chronos2",
+    "context_length": 8192,
+    "cross_learning": false,
+    "method": "top_k_5_mix",
+    "point_forecast": "median"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "alternative": {
+        "completed_at": "2026-09-27T22:11:13.705552+00:00",
+        "identity": {
+          "dataset": "Port_Activity",
+          "frequency": "D",
+          "method": "top_k_5",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      },
+      "calibration": {
+        "completed_at": "2026-09-27T18:12:10.306941+00:00",
+        "identity": {
+          "dataset": "Port_Activity",
+          "frequency": "D",
+          "method": "top_k_5_mix",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_0"
+      },
+      "data": {
+        "completed_at": "2026-09-27T14:14:47.351159+00:00",
+        "identity": {
+          "dataset": "Port_Activity",
+          "frequency": "D",
+          "method": "shared",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_0"
+      },
+      "vanilla": {
+        "completed_at": "2026-09-27T18:20:06.780068+00:00",
+        "identity": {
+          "dataset": "Port_Activity",
+          "frequency": "D",
+          "method": "vanilla_univariate",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      }
+    },
+    "k": 5,
+    "method": "top_k_5_mix",
+    "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+    "phase": "predictions/test",
+    "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+    "split": "test",
+    "task": {
+      "dataset": "Port_Activity/D",
+      "prediction_length": 30,
+      "seasonality": 1,
+      "term": "short",
+      "test_length": 365
+    },
+    "validation_support": null
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Port_Activity/D",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 7,
+      "dataset": "Port_Activity/D",
+      "datastore_scope": "all",
+      "datastore_stride": 7,
+      "max_datastore_windows": null,
+      "prediction_length": 30,
+      "retrieval_context_length": 35,
+      "seasonality": 1,
+      "term": "short",
+      "test_length": 365,
+      "validation_length": 365,
+      "validation_stride": 30
+    },
+    "upstream_manifests": {
+      "alternative": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos2/predictions/test/top_k_5/Port_Activity/D/short/run_1/manifest.json",
+      "calibration": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos2/selections/top_k_5_mix/Port_Activity/D/short/run_0/manifest.json",
+      "data": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos2/data/test/shared/Port_Activity/D/short/run_0/manifest.json",
+      "vanilla": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos2/predictions/test/vanilla_univariate/Port_Activity/D/short/run_1/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "prediction.npy",
+    "fallback.npy",
+    "alternative_weight.npy",
+    "retrieval_provenance.npy",
+    "produced_nan_counts.npy",
+    "selection.json",
+    "prediction.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-27T22:12:18.764823+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-27T22:12:53.414589+00:00"
+}

@@ -1,0 +1,102 @@
+{
+  "completed_at": "2026-09-27T22:16:58.407004+00:00",
+  "computed_at": "2026-09-27T22:16:50.642060+00:00",
+  "experiment": "selectime",
+  "experiment_config": {},
+  "identity": {
+    "dataset": "MetroPT-3",
+    "frequency": "5T",
+    "method": "top_k_5_mix",
+    "model": "chronos2",
+    "target_mode": "univariate",
+    "term": "short"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3584837",
+        "launched_at": "2026-09-27T22:16:50.586288+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3584837"
+      }
+    ],
+    "launch_id": "selena_3584837",
+    "launched_at": "2026-09-27T22:16:50.586288+00:00",
+    "slurm_job_id": "3584837"
+  },
+  "model_config": {
+    "component": "evaluations",
+    "method": "top_k_5_mix"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "prediction": {
+        "completed_at": "2026-09-27T22:12:53.663183+00:00",
+        "identity": {
+          "dataset": "MetroPT-3",
+          "frequency": "5T",
+          "method": "top_k_5_mix",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_0"
+      }
+    },
+    "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+    "method": "top_k_5_mix",
+    "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+    "phase": "evaluations",
+    "task": {
+      "dataset": "MetroPT-3/5T",
+      "prediction_length": 48,
+      "seasonality": 288,
+      "term": "short",
+      "test_length": 1728
+    }
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/MetroPT-3/5T",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 288,
+      "dataset": "MetroPT-3/5T",
+      "datastore_scope": "all",
+      "datastore_stride": 288,
+      "max_datastore_windows": null,
+      "prediction_length": 48,
+      "retrieval_context_length": 2016,
+      "seasonality": 288,
+      "term": "short",
+      "test_length": 1728,
+      "validation_length": 1728,
+      "validation_stride": 48
+    },
+    "upstream_manifests": {
+      "prediction": "/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/chronos2/predictions/test/top_k_5_mix/MetroPT-3/5T/short/run_0/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "predictions.npz",
+    "metrics.npz",
+    "metrics_summary.json",
+    "config.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-27T22:16:50.586288+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-27T22:16:58.407004+00:00"
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "method": "top_k_10_mix",
+  "split": "test",
+  "context_length": 8192,
+  "inference_seconds": null,
+  "timing_policy": "assembled_from_candidate_artifacts_no_independent_selected_method_latency",
+  "alternative": "top_k_10",
+  "alternative_weight": 0.4336283185840708,
+  "weight_granularity": "task",
+  "weight_min": 0.4336283185840708,
+  "weight_max": 0.4336283185840708,
+  "produced_nan_values": 0,
+  "retrieval_provenance": {
+    "retrieval_extractions": 450,
+    "retrieved_neighbors": 4500,
+    "same_user_neighbors": 1778,
+    "same_user_retrieval_percentage": 39.51111111111111,
+    "normalized_time_distance_sum": 2186.5192237126557,
+    "average_normalized_time_distance_to_query": 0.4858931608250346,
+    "same_user_definition": "same dataset item/user as the query",
+    "normalized_time_distance_definition": "(query_tick-neighbor_tick)/(query_tick-earliest_datastore_tick)"
+  },
+  "fallback_count": 0,
+  "grid_rows": 450
+}

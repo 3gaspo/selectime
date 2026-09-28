@@ -1191,6 +1191,87 @@
           }
         }
       }
+    },
+    {
+      "mode": "auto",
+      "run": "run_1",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "scope_mix",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-27T22:11:11.105127+00:00",
+              "identity": {
+                "dataset": "SG_Weather",
+                "frequency": "D",
+                "method": "vanilla_multivariate",
+                "model": "chronos2",
+                "target_mode": "multivariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "calibration": {
+              "completed_at": "2026-09-27T18:12:06.935822+00:00",
+              "identity": {
+                "dataset": "SG_Weather",
+                "frequency": "D",
+                "method": "scope_mix",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "data": {
+              "completed_at": "2026-09-27T14:14:47.370889+00:00",
+              "identity": {
+                "dataset": "SG_Weather",
+                "frequency": "D",
+                "method": "shared",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-27T18:20:06.802985+00:00",
+              "identity": {
+                "dataset": "SG_Weather",
+                "frequency": "D",
+                "method": "vanilla_univariate",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            }
+          },
+          "method": "scope_mix",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "SG_Weather/D",
+            "prediction_length": 3,
+            "seasonality": 1,
+            "term": "short",
+            "test_length": 366
+          },
+          "validation_support": null
+        }
+      }
     }
   ]
 }

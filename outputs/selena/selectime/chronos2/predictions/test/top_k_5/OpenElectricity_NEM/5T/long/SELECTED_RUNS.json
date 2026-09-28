@@ -442,6 +442,77 @@
           }
         }
       }
+    },
+    {
+      "mode": "auto",
+      "run": "run_1",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "top_k_5",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "data": {
+              "completed_at": "2026-09-27T14:14:47.780813+00:00",
+              "identity": {
+                "dataset": "OpenElectricity_NEM",
+                "frequency": "5T",
+                "method": "shared",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            },
+            "retrieval": {
+              "completed_at": "2026-09-27T18:19:31.241939+00:00",
+              "identity": {
+                "dataset": "OpenElectricity_NEM",
+                "frequency": "5T",
+                "method": "covariate",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-27T18:20:07.281467+00:00",
+              "identity": {
+                "dataset": "OpenElectricity_NEM",
+                "frequency": "5T",
+                "method": "vanilla_univariate",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_1"
+            }
+          },
+          "k": 5,
+          "method": "top_k_5",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "OpenElectricity_NEM/5T",
+            "prediction_length": 288,
+            "seasonality": 288,
+            "term": "long",
+            "test_length": 4032
+          },
+          "validation_support": null
+        }
+      }
     }
   ]
 }
