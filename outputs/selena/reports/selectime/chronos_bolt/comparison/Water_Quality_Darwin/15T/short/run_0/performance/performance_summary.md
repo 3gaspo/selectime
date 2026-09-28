@@ -1,3 +1,0 @@
-| model | tasks | mean task MASE | scaled MASE | total inference seconds | prediction nan values | prediction values | prediction nan rate | relative improvement percent | relative scaled improvement percent | mean paired improvement percent |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| vanilla_univariate | 90 | 1.1679 | 0.776717 | 0.00424333 | 0 | 2650515 | 0 | 0 | 0 | 0 |
