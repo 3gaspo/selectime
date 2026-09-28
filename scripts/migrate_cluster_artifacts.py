@@ -41,13 +41,15 @@ class Migration:
             path.mkdir(parents=True, exist_ok=True)
 
     def move(self, source: Path, target: Path) -> None:
-        if not source.exists():
-            return
         source = source.resolve()
         target = target.resolve()
         if source == target:
             return
-        self.moves.append((str(source), str(target)))
+        move = (str(source), str(target))
+        if move not in self.moves:
+            self.moves.append(move)
+        if not source.exists():
+            return
         self.note(f"move {source} -> {target}")
         if self.dry_run:
             return
@@ -365,7 +367,7 @@ def flatten_hydra(migration: Migration, experiment: str) -> None:
                     if not value or value in {".", ".."} or Path(value).name != value:
                         raise ValueError(f"Invalid {key} in Hydra run {run_dir}: {value!r}")
                     values[key] = value
-                destination /= values["model"] / values["prediction_group"]
+                destination = destination / values["model"] / values["prediction_group"]
             for artifact in sorted(path for path in run_dir.rglob("*") if path.is_file()):
                 suffix = "__".join(part.lstrip(".") for part in artifact.relative_to(run_dir).parts)
                 migration.move(artifact, destination / f"{run_dir.name}__{suffix}")
