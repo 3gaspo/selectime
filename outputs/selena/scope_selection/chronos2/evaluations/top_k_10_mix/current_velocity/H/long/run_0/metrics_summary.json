@@ -1,0 +1,95 @@
+{
+  "aggregation": "mean over the shared Seasonal Naive MASE evaluation grid",
+  "dataset_config": "current_velocity/H/long",
+  "evaluation_grid": {
+    "definition": "finite_ground_truth_and_seasonal_naive_mase",
+    "source": "/fslarge/scratch/users/h61084/codes/seasonal/outputs/seasonal_naive/evaluations/univariate/current_velocity/H/long/run_0/evaluation_grid.npz",
+    "total_values": 252,
+    "valid_values": 252
+  },
+  "metrics": {
+    "CRPS": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 252,
+      "finite_values": 252,
+      "mean": 0.42208389141716846,
+      "std": 0.42786764554102524,
+      "total_values": 252,
+      "variance": 0.1830707221008204
+    },
+    "MAE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 252,
+      "finite_values": 252,
+      "mean": 1.1945213605113172,
+      "std": 2.4940214966505367,
+      "total_values": 252,
+      "variance": 6.220143225754984
+    },
+    "MAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 252,
+      "finite_values": 252,
+      "mean": 2163542445674.4233,
+      "std": 10075556649960.072,
+      "total_values": 252,
+      "variance": 1.0151684180655463e+26
+    },
+    "MASE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 252,
+      "finite_values": 252,
+      "mean": 1.3242649616813165,
+      "std": 1.3486463933074326,
+      "total_values": 252,
+      "variance": 1.818847094181146
+    },
+    "MSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 252,
+      "finite_values": 252,
+      "mean": 11.878405365948707,
+      "std": 31.204839615209682,
+      "total_values": 252,
+      "variance": 973.7420154109595
+    },
+    "ND": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 252,
+      "finite_values": 252,
+      "mean": 0.42208389141716846,
+      "std": 0.42786764554102524,
+      "total_values": 252,
+      "variance": 0.1830707221008204
+    },
+    "RMSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 252,
+      "finite_values": 252,
+      "mean": 1.4966095976988072,
+      "std": 3.1046038520275854,
+      "total_values": 252,
+      "variance": 9.638565078024522
+    },
+    "sMAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 252,
+      "finite_values": 252,
+      "mean": 0.5909302377259662,
+      "std": 0.6023162883831674,
+      "total_values": 252,
+      "variance": 0.36278491125167495
+    }
+  },
+  "model": "chronos2",
+  "prediction_outputs": {
+    "cells_with_nan": 0,
+    "evaluation_nan_rate": 0.0,
+    "evaluation_nan_values": 0,
+    "evaluation_values": 84672,
+    "nan_rate": 0.0,
+    "nan_values": 0,
+    "total_cells": 252,
+    "total_values": 84672
+  }
+}

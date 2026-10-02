@@ -1,0 +1,95 @@
+{
+  "dataset_config": "Job_Claims/W/short",
+  "aggregation": "mean over the shared Seasonal Naive MASE evaluation grid",
+  "evaluation_grid": {
+    "definition": "finite_ground_truth_and_seasonal_naive_mase",
+    "source": "/fslarge/scratch/users/h61084/codes/seasonal/outputs/seasonal_naive/evaluations/univariate/Job_Claims/W/short/run_0/evaluation_grid.npz",
+    "valid_values": 8,
+    "total_values": 8
+  },
+  "prediction_outputs": {
+    "total_values": 104,
+    "nan_values": 0,
+    "nan_rate": 0.0,
+    "cells_with_nan": 0,
+    "total_cells": 8,
+    "evaluation_values": 104,
+    "evaluation_nan_values": 0,
+    "evaluation_nan_rate": 0.0
+  },
+  "metrics": {
+    "MSE": {
+      "mean": 631055127.2401944,
+      "std": 655714944.0712218,
+      "variance": 4.2996208787832557e+17,
+      "dispersion_ddof": 0,
+      "finite_values": 8,
+      "evaluation_values": 8,
+      "total_values": 8
+    },
+    "MAE": {
+      "mean": 17126.725811298078,
+      "std": 10215.79426051456,
+      "variance": 104362452.37316224,
+      "dispersion_ddof": 0,
+      "finite_values": 8,
+      "evaluation_values": 8,
+      "total_values": 8
+    },
+    "RMSE": {
+      "mean": 21193.165900501153,
+      "std": 13487.210473408859,
+      "variance": 181904846.3540296,
+      "dispersion_ddof": 0,
+      "finite_values": 8,
+      "evaluation_values": 8,
+      "total_values": 8
+    },
+    "MAPE": {
+      "mean": 0.02273072384707025,
+      "std": 0.010999492951966042,
+      "variance": 0.00012098884520035064,
+      "dispersion_ddof": 0,
+      "finite_values": 8,
+      "evaluation_values": 8,
+      "total_values": 8
+    },
+    "sMAPE": {
+      "mean": 0.02305239940753028,
+      "std": 0.011555539705711448,
+      "variance": 0.00013353049789027383,
+      "dispersion_ddof": 0,
+      "finite_values": 8,
+      "evaluation_values": 8,
+      "total_values": 8
+    },
+    "MASE": {
+      "mean": 2.975382364814389,
+      "std": 0.7971896944606882,
+      "variance": 0.6355114089543253,
+      "dispersion_ddof": 0,
+      "finite_values": 8,
+      "evaluation_values": 8,
+      "total_values": 8
+    },
+    "ND": {
+      "mean": 0.022970141794515994,
+      "std": 0.01139181834213492,
+      "variance": 0.0001297735251402016,
+      "dispersion_ddof": 0,
+      "finite_values": 8,
+      "evaluation_values": 8,
+      "total_values": 8
+    },
+    "CRPS": {
+      "mean": 0.022970141794515994,
+      "std": 0.01139181834213492,
+      "variance": 0.0001297735251402016,
+      "dispersion_ddof": 0,
+      "finite_values": 8,
+      "evaluation_values": 8,
+      "total_values": 8
+    }
+  },
+  "model": "ts_icl"
+}

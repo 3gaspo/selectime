@@ -1,0 +1,138 @@
+{
+  "completed_at": "2026-09-29T12:00:29.902058+00:00",
+  "computed_at": "2026-09-29T11:58:55.595705+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {
+    "seed": 0
+  },
+  "identity": {
+    "dataset": "Global_Price",
+    "frequency": "Q",
+    "method": "top_k_10",
+    "model": "ts_icl",
+    "target_mode": "univariate",
+    "term": "short"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3606203",
+        "launched_at": "2026-09-29T11:58:54.742079+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3606203"
+      }
+    ],
+    "launch_id": "selena_3606203",
+    "launched_at": "2026-09-29T11:58:54.742079+00:00",
+    "slurm_job_id": "3606203"
+  },
+  "model_config": {
+    "backbone": "ts_icl",
+    "checkpoint": "tsicl/tsicl-v1.ckpt",
+    "context_length": 4096,
+    "cross_learning": false,
+    "method": "top_k_10",
+    "point_forecast": "median"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "data": {
+        "completed_at": "2026-09-28T23:22:05.742271+00:00",
+        "identity": {
+          "dataset": "Global_Price",
+          "frequency": "Q",
+          "method": "shared",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      },
+      "retrieval": {
+        "completed_at": "2026-09-28T23:29:09.433481+00:00",
+        "identity": {
+          "dataset": "Global_Price",
+          "frequency": "Q",
+          "method": "covariate",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      },
+      "vanilla": {
+        "completed_at": "2026-09-28T23:29:43.632111+00:00",
+        "identity": {
+          "dataset": "Global_Price",
+          "frequency": "Q",
+          "method": "vanilla_univariate",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      }
+    },
+    "k": 10,
+    "method": "top_k_10",
+    "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+    "phase": "predictions/validation",
+    "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+    "split": "validation",
+    "task": {
+      "dataset": "Global_Price/Q",
+      "prediction_length": 4,
+      "seasonality": 4,
+      "term": "short",
+      "test_length": 20
+    },
+    "validation_support": "finite_context_and_future"
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Global_Price/Q",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 4,
+      "dataset": "Global_Price/Q",
+      "datastore_scope": "all",
+      "datastore_stride": 4,
+      "max_datastore_windows": null,
+      "prediction_length": 4,
+      "retrieval_context_length": 4,
+      "seasonality": 4,
+      "term": "short",
+      "test_length": 20,
+      "validation_length": 20,
+      "validation_stride": 4
+    },
+    "upstream_manifests": {
+      "data": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/data/validation/shared/Global_Price/Q/short/run_1/manifest.json",
+      "retrieval": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/retrieval/validation/covariate/Global_Price/Q/short/run_1/manifest.json",
+      "vanilla": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/predictions/validation/vanilla_univariate/Global_Price/Q/short/run_1/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "prediction.npy",
+    "fallback.npy",
+    "produced_nan_counts.npy",
+    "prediction.json",
+    "retrieval_provenance.npy"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-29T11:58:54.742079+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-29T12:00:29.902058+00:00"
+}

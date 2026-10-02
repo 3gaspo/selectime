@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "MetroPT-3/5T",
+    "term": "short",
+    "prediction_length": 48,
+    "test_length": 1728,
+    "validation_length": 1728,
+    "seasonality": 288,
+    "retrieval_context_length": 2016,
+    "alignment_period": 288,
+    "datastore_stride": 288,
+    "validation_stride": 48,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "split": "validation",
+  "counts": {
+    "requested_dates": 36,
+    "requested_rows": 216,
+    "available_dates": 36,
+    "available_rows": 216,
+    "datastore_rows": 1542
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/MetroPT-3/5T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "validation_schedule": "walk_backward_from_first_test_origin_at_stride_H",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "component": "selections",
+          "method": "top_k_5_mix"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-29T12:00:30.895129+00:00",
+              "identity": {
+                "dataset": "ECDC_COVID",
+                "frequency": "D",
+                "method": "top_k_5",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "data": {
+              "completed_at": "2026-09-28T23:22:05.961323+00:00",
+              "identity": {
+                "dataset": "ECDC_COVID",
+                "frequency": "D",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-28T23:29:43.831118+00:00",
+              "identity": {
+                "dataset": "ECDC_COVID",
+                "frequency": "D",
+                "method": "vanilla_univariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            }
+          },
+          "granularity": "task",
+          "method": "top_k_5_mix",
+          "no_validation_fallback": "univariate",
+          "phase": "selections",
+          "selection_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+          "task": {
+            "dataset": "ECDC_COVID/D",
+            "prediction_length": 30,
+            "seasonality": 1,
+            "term": "short",
+            "test_length": 150
+          },
+          "validation_support": "finite_context_and_future"
+        }
+      }
+    }
+  ]
+}

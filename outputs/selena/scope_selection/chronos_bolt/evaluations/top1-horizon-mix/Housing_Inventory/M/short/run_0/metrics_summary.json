@@ -1,0 +1,85 @@
+{
+  "aggregation": "mean over the shared Seasonal Naive MASE evaluation grid",
+  "dataset_config": "Housing_Inventory/M/short",
+  "evaluation_grid": {
+    "definition": "finite_ground_truth_and_seasonal_naive_mase",
+    "source": "/fslarge/scratch/users/h61084/codes/seasonal/outputs/seasonal_naive/evaluations/univariate/Housing_Inventory/M/short/run_0/evaluation_grid.npz",
+    "total_values": 12,
+    "valid_values": 12
+  },
+  "metrics": {
+    "CRPS": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 12,
+      "finite_values": 12,
+      "mean": 0.06123402486702268,
+      "std": 0.05077702217645055,
+      "total_values": 12,
+      "variance": 0.002578305981107751
+    },
+    "MAE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 12,
+      "finite_values": 12,
+      "mean": 29129.9961268372,
+      "std": 50779.91376571899,
+      "total_values": 12,
+      "variance": 2578599642.0538573
+    },
+    "MAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 12,
+      "finite_values": 12,
+      "mean": 0.06110885608083286,
+      "std": 0.05025336156908573,
+      "total_values": 12,
+      "variance": 0.0025254003489932632
+    },
+    "MASE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 12,
+      "finite_values": 12,
+      "mean": 0.5636707661782571,
+      "std": 0.248452895134459,
+      "total_values": 12,
+      "variance": 0.06172884110069448
+    },
+    "MSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 12,
+      "finite_values": 12,
+      "mean": 3973682229.7260346,
+      "std": 8244896916.892837,
+      "total_values": 12,
+      "variance": 6.7978325170189e+19
+    },
+    "ND": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 12,
+      "finite_values": 12,
+      "mean": 0.06123402486702268,
+      "std": 0.05077702217645055,
+      "total_values": 12,
+      "variance": 0.002578305981107751
+    },
+    "RMSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 12,
+      "finite_values": 12,
+      "mean": 31757.664809970767,
+      "std": 54453.03440161604,
+      "total_values": 12,
+      "variance": 2965132955.5435796
+    },
+    "sMAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 12,
+      "finite_values": 12,
+      "mean": 0.06333531561425441,
+      "std": 0.05300752932437991,
+      "total_values": 12,
+      "variance": 0.002809798165074996
+    }
+  },
+  "model": "chronos_bolt"
+}

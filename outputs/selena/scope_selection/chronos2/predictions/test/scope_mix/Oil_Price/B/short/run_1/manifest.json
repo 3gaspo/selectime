@@ -1,0 +1,151 @@
+{
+  "completed_at": "2026-09-27T22:12:49.910198+00:00",
+  "computed_at": "2026-09-27T22:12:24.321026+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {
+    "seed": 0
+  },
+  "identity": {
+    "dataset": "Oil_Price",
+    "frequency": "B",
+    "method": "scope_mix",
+    "model": "chronos2",
+    "target_mode": "univariate",
+    "term": "short"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3584837",
+        "launched_at": "2026-09-27T22:12:24.303702+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3584837"
+      }
+    ],
+    "launch_id": "selena_3584837",
+    "launched_at": "2026-09-27T22:12:24.303702+00:00",
+    "slurm_job_id": "3584837"
+  },
+  "model_config": {
+    "backbone": "chronos2",
+    "checkpoint": "chronos2",
+    "context_length": 8192,
+    "cross_learning": false,
+    "method": "scope_mix",
+    "point_forecast": "median"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "alternative": {
+        "completed_at": "2026-09-27T22:11:11.478881+00:00",
+        "identity": {
+          "dataset": "Oil_Price",
+          "frequency": "B",
+          "method": "vanilla_multivariate",
+          "model": "chronos2",
+          "target_mode": "multivariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      },
+      "calibration": {
+        "completed_at": "2026-09-27T18:12:07.249808+00:00",
+        "identity": {
+          "dataset": "Oil_Price",
+          "frequency": "B",
+          "method": "scope_mix",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      },
+      "data": {
+        "completed_at": "2026-09-27T14:14:47.617999+00:00",
+        "identity": {
+          "dataset": "Oil_Price",
+          "frequency": "B",
+          "method": "shared",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_0"
+      },
+      "vanilla": {
+        "completed_at": "2026-09-27T18:20:07.091095+00:00",
+        "identity": {
+          "dataset": "Oil_Price",
+          "frequency": "B",
+          "method": "vanilla_univariate",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      }
+    },
+    "method": "scope_mix",
+    "phase": "predictions/test",
+    "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+    "split": "test",
+    "task": {
+      "dataset": "Oil_Price/B",
+      "prediction_length": 20,
+      "seasonality": 5,
+      "term": "short",
+      "test_length": 717
+    },
+    "validation_support": null
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Oil_Price/B",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 1,
+      "dataset": "Oil_Price/B",
+      "datastore_scope": "all",
+      "datastore_stride": 1,
+      "max_datastore_windows": null,
+      "prediction_length": 20,
+      "retrieval_context_length": 20,
+      "seasonality": 5,
+      "term": "short",
+      "test_length": 717,
+      "validation_length": 717,
+      "validation_stride": 20
+    },
+    "upstream_manifests": {
+      "alternative": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/chronos2/predictions/test/vanilla_multivariate/Oil_Price/B/short/run_1/manifest.json",
+      "calibration": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/chronos2/selections/scope_mix/Oil_Price/B/short/run_1/manifest.json",
+      "data": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/chronos2/data/test/shared/Oil_Price/B/short/run_0/manifest.json",
+      "vanilla": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/chronos2/predictions/test/vanilla_univariate/Oil_Price/B/short/run_1/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "prediction.npy",
+    "fallback.npy",
+    "alternative_weight.npy",
+    "retrieval_provenance.npy",
+    "produced_nan_counts.npy",
+    "selection.json",
+    "prediction.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-27T22:12:24.303702+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-27T22:12:49.910198+00:00"
+}

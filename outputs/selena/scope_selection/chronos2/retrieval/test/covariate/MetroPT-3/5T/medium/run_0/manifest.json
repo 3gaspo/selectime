@@ -1,0 +1,112 @@
+{
+  "completed_at": "2026-09-27T18:19:31.027679+00:00",
+  "computed_at": "2026-09-27T18:19:22.656429+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {},
+  "identity": {
+    "dataset": "MetroPT-3",
+    "frequency": "5T",
+    "method": "covariate",
+    "model": "chronos2",
+    "target_mode": "univariate",
+    "term": "medium"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3584837",
+        "launched_at": "2026-09-27T18:19:22.532818+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3584837"
+      }
+    ],
+    "launch_id": "selena_3584837",
+    "launched_at": "2026-09-27T18:19:22.532818+00:00",
+    "slurm_job_id": "3584837"
+  },
+  "model_config": {
+    "component": "retrieval/test",
+    "method": "covariate"
+  },
+  "pipeline_config": {
+    "alignment_period": 288,
+    "datastore_scope": "all",
+    "datastore_stride": 288,
+    "dependencies": {
+      "data": {
+        "completed_at": "2026-09-27T14:14:47.581581+00:00",
+        "identity": {
+          "dataset": "MetroPT-3",
+          "frequency": "5T",
+          "method": "shared",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "medium"
+        },
+        "run": "run_0"
+      }
+    },
+    "distance": "euclidean",
+    "method": "covariate",
+    "minimum_overlap_fraction": 0.8,
+    "neighbor_count": 20,
+    "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+    "phase": "retrieval/test",
+    "representation": "instance_normalized_lookback",
+    "retrieval_context_length": 2016,
+    "split": "test",
+    "task": {
+      "dataset": "MetroPT-3/5T",
+      "prediction_length": 288,
+      "seasonality": 288,
+      "term": "medium",
+      "test_length": 1728
+    }
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/MetroPT-3/5T",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 288,
+      "dataset": "MetroPT-3/5T",
+      "datastore_scope": "all",
+      "datastore_stride": 288,
+      "max_datastore_windows": null,
+      "prediction_length": 288,
+      "retrieval_context_length": 2016,
+      "seasonality": 288,
+      "term": "medium",
+      "test_length": 1728,
+      "validation_length": 1728,
+      "validation_stride": 288
+    },
+    "upstream_manifests": {
+      "data": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/chronos2/data/test/shared/MetroPT-3/5T/medium/run_0/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "datastore_representation.npy",
+    "query_representation.npy",
+    "neighbor_ids.npy",
+    "neighbor_distances.npy",
+    "eligible.npy",
+    "retrieval.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-27T18:19:22.532818+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-27T18:19:31.027679+00:00"
+}

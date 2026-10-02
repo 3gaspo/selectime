@@ -1,0 +1,8 @@
+| model | tasks | mean task MASE | scaled MASE | total inference seconds | prediction nan values | prediction values | prediction nan rate | relative improvement percent | relative scaled improvement percent | mean paired improvement percent |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| vanilla_univariate | 90 | 1.09869 | 0.734169 | 0.00428044 | 0 | 2650515 | 0 | 0 | 0 | 0 |
+| top_k_1_mix | 90 | 1.10444 | 0.735558 | NA | 0 | 2650515 | 0 | -0.523348 | -0.18929 | -0.228646 |
+| top_k_5_mix | 90 | 1.10686 | 0.736791 | NA | 0 | 2650515 | 0 | -0.74367 | -0.357131 | -0.340385 |
+| top_k_10_mix | 90 | 1.14154 | 0.752023 | NA | 0 | 2650515 | 0 | -3.90018 | -2.43183 | -2.08116 |
+| top_k_15_mix | 90 | 1.15971 | 0.760653 | NA | 0 | 2650515 | 0 | -5.55444 | -3.60734 | -3.18899 |
+| top_k_20_mix | 90 | 1.17333 | 0.766684 | NA | 0 | 2650515 | 0 | -6.79337 | -4.42888 | -4.01234 |

@@ -1,0 +1,85 @@
+{
+  "aggregation": "mean over the shared Seasonal Naive MASE evaluation grid",
+  "dataset_config": "ECDC_COVID/W/short",
+  "evaluation_grid": {
+    "definition": "finite_ground_truth_and_seasonal_naive_mase",
+    "source": "/fslarge/scratch/users/h61084/codes/seasonal/outputs/seasonal_naive/evaluations/univariate/ECDC_COVID/W/short/run_0/evaluation_grid.npz",
+    "total_values": 64,
+    "valid_values": 64
+  },
+  "metrics": {
+    "CRPS": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 64,
+      "finite_values": 64,
+      "mean": 0.7404333095588035,
+      "std": 0.840453621991545,
+      "total_values": 64,
+      "variance": 0.7063622907187068
+    },
+    "MAE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 64,
+      "finite_values": 64,
+      "mean": 570.438997198424,
+      "std": 1385.2933827187233,
+      "total_values": 64,
+      "variance": 1919037.7562042829
+    },
+    "MAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 64,
+      "finite_values": 64,
+      "mean": 1.3491445540130456,
+      "std": 3.3996528390634575,
+      "total_values": 64,
+      "variance": 11.557639426152228
+    },
+    "MASE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 64,
+      "finite_values": 64,
+      "mean": 1.6131038623751697,
+      "std": 1.611086574707126,
+      "total_values": 64,
+      "variance": 2.5955999512015393
+    },
+    "MSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 64,
+      "finite_values": 64,
+      "mean": 3486364.113871566,
+      "std": 14731034.586581577,
+      "total_values": 64,
+      "variance": 217003379991062.62
+    },
+    "ND": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 64,
+      "finite_values": 64,
+      "mean": 0.7404333095588035,
+      "std": 0.840453621991545,
+      "total_values": 64,
+      "variance": 0.7063622907187068
+    },
+    "RMSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 64,
+      "finite_values": 64,
+      "mean": 710.6352636847917,
+      "std": 1726.6619923653886,
+      "total_values": 64,
+      "variance": 2981361.6358792135
+    },
+    "sMAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 64,
+      "finite_values": 64,
+      "mean": 0.5885313961500089,
+      "std": 0.40644615594127803,
+      "total_values": 64,
+      "variance": 0.16519847767944168
+    }
+  },
+  "model": "chronos_bolt"
+}

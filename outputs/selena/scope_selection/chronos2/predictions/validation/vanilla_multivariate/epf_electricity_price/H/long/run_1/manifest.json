@@ -1,0 +1,122 @@
+{
+  "completed_at": "2026-09-27T18:10:34.577792+00:00",
+  "computed_at": "2026-09-27T16:40:41.966270+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {
+    "seed": 0
+  },
+  "identity": {
+    "dataset": "epf_electricity_price",
+    "frequency": "H",
+    "method": "vanilla_multivariate",
+    "model": "chronos2",
+    "target_mode": "multivariate",
+    "term": "long"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3584837",
+        "launched_at": "2026-09-27T16:40:41.569243+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3584837"
+      }
+    ],
+    "launch_id": "selena_3584837",
+    "launched_at": "2026-09-27T16:40:41.569243+00:00",
+    "slurm_job_id": "3584837"
+  },
+  "model_config": {
+    "backbone": "chronos2",
+    "checkpoint": "chronos2",
+    "context_length": 8192,
+    "cross_learning": false,
+    "method": "vanilla_multivariate",
+    "point_forecast": "median"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "data": {
+        "completed_at": "2026-09-27T14:14:46.727298+00:00",
+        "identity": {
+          "dataset": "epf_electricity_price",
+          "frequency": "H",
+          "method": "shared",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "long"
+        },
+        "run": "run_0"
+      },
+      "vanilla": {
+        "completed_at": "2026-09-27T14:25:58.118449+00:00",
+        "identity": {
+          "dataset": "epf_electricity_price",
+          "frequency": "H",
+          "method": "vanilla_univariate",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "long"
+        },
+        "run": "run_1"
+      }
+    },
+    "method": "vanilla_multivariate",
+    "phase": "predictions/validation",
+    "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+    "split": "validation",
+    "task": {
+      "dataset": "epf_electricity_price/H",
+      "prediction_length": 168,
+      "seasonality": 24,
+      "term": "long",
+      "test_length": 2520
+    },
+    "validation_support": "finite_context_and_future"
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/epf_electricity_price/H",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 168,
+      "dataset": "epf_electricity_price/H",
+      "datastore_scope": "all",
+      "datastore_stride": 168,
+      "max_datastore_windows": null,
+      "prediction_length": 168,
+      "retrieval_context_length": 168,
+      "seasonality": 24,
+      "term": "long",
+      "test_length": 2520,
+      "validation_length": 2520,
+      "validation_stride": 168
+    },
+    "upstream_manifests": {
+      "data": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/chronos2/data/validation/shared/epf_electricity_price/H/long/run_0/manifest.json",
+      "vanilla": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/chronos2/predictions/validation/vanilla_univariate/epf_electricity_price/H/long/run_1/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "prediction.npy",
+    "fallback.npy",
+    "produced_nan_counts.npy",
+    "prediction.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-27T16:40:41.569243+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-27T18:10:34.577792+00:00"
+}

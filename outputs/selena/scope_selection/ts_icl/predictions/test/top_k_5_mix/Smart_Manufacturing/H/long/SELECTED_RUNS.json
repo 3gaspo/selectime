@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "ts_icl",
+          "checkpoint": "tsicl/tsicl-v1.ckpt",
+          "context_length": 4096,
+          "cross_learning": false,
+          "method": "top_k_5_mix",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-29T14:47:11.281035+00:00",
+              "identity": {
+                "dataset": "Smart_Manufacturing",
+                "frequency": "H",
+                "method": "top_k_5",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            },
+            "calibration": {
+              "completed_at": "2026-09-29T12:01:26.723890+00:00",
+              "identity": {
+                "dataset": "Smart_Manufacturing",
+                "frequency": "H",
+                "method": "top_k_5_mix",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            },
+            "data": {
+              "completed_at": "2026-09-28T23:22:06.371142+00:00",
+              "identity": {
+                "dataset": "Smart_Manufacturing",
+                "frequency": "H",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_1"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-29T12:09:36.498553+00:00",
+              "identity": {
+                "dataset": "Smart_Manufacturing",
+                "frequency": "H",
+                "method": "vanilla_univariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            }
+          },
+          "k": 5,
+          "method": "top_k_5_mix",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "Smart_Manufacturing/H",
+            "prediction_length": 336,
+            "seasonality": 24,
+            "term": "long",
+            "test_length": 336
+          },
+          "validation_support": null
+        }
+      }
+    }
+  ]
+}

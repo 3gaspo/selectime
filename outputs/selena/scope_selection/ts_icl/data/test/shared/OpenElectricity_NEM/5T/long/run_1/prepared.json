@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "OpenElectricity_NEM/5T",
+    "term": "long",
+    "prediction_length": 288,
+    "test_length": 4032,
+    "validation_length": 4032,
+    "seasonality": 288,
+    "retrieval_context_length": 2016,
+    "alignment_period": 2016,
+    "datastore_stride": 2016,
+    "validation_stride": 288,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "split": "test",
+  "counts": {
+    "requested_dates": 14,
+    "requested_rows": 140,
+    "available_dates": 14,
+    "available_rows": 140,
+    "datastore_rows": 1300
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/OpenElectricity_NEM/5T",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "validation_schedule": "walk_backward_from_first_test_origin_at_stride_H",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

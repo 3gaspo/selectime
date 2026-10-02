@@ -1,0 +1,155 @@
+{
+  "artifact_metadata": {
+    "evaluation": {
+      "context_length": 4096,
+      "dataset_config": "Global_Influenza/W/short",
+      "evaluation_grid": {
+        "definition": "finite_ground_truth_and_seasonal_naive_mase",
+        "source": "/fslarge/scratch/users/h61084/codes/seasonal/outputs/seasonal_naive/evaluations/univariate/Global_Influenza/W/short/run_0/evaluation_grid.npz",
+        "total_values": 240,
+        "valid_values": 237
+      },
+      "experiment": "scope_selection",
+      "fallback_count": 0,
+      "forecast_input_mode": "univariate",
+      "freq": "W",
+      "inference_seconds": 2.3711472749710083e-05,
+      "method": "vanilla_univariate",
+      "metric_names": [
+        "MSE",
+        "MAE",
+        "RMSE",
+        "MAPE",
+        "sMAPE",
+        "MASE",
+        "ND",
+        "CRPS"
+      ],
+      "metrics_summary_file": "metrics_summary.json",
+      "model": "ts_icl",
+      "num_model_inputs": 240,
+      "num_quantiles": 1,
+      "num_series": 15,
+      "num_variates": 4,
+      "num_windows": 4,
+      "prediction_length": 13,
+      "prediction_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/predictions/test/vanilla_univariate/Global_Influenza/W/short/run_0/manifest.json",
+      "prediction_outputs": {
+        "cells_with_nan": 0,
+        "evaluation_nan_rate": 0.0,
+        "evaluation_nan_values": 0,
+        "evaluation_values": 3060,
+        "nan_rate": 0.0,
+        "nan_values": 0,
+        "total_cells": 240,
+        "total_values": 3120
+      },
+      "prediction_scale_factor": 10.0,
+      "quantile_levels": [
+        0.5
+      ],
+      "seasonality": 1,
+      "target_mode": "univariate",
+      "timing_policy": "measured_candidate_query_loop_precomputed_vanilla_fallback_separate_retrieval"
+    }
+  },
+  "completed_at": "2026-09-29T14:50:33.162993+00:00",
+  "computed_at": "2026-09-29T14:50:03.354219+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {},
+  "identity": {
+    "dataset": "Global_Influenza",
+    "frequency": "W",
+    "method": "vanilla_univariate",
+    "model": "ts_icl",
+    "target_mode": "univariate",
+    "term": "short"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3606203",
+        "launched_at": "2026-09-29T14:50:03.312088+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3606203"
+      }
+    ],
+    "launch_id": "selena_3606203",
+    "launched_at": "2026-09-29T14:50:03.312088+00:00",
+    "slurm_job_id": "3606203"
+  },
+  "model_config": {
+    "component": "evaluations",
+    "method": "vanilla_univariate"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "prediction": {
+        "completed_at": "2026-09-29T12:09:36.937250+00:00",
+        "identity": {
+          "dataset": "Global_Influenza",
+          "frequency": "W",
+          "method": "vanilla_univariate",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_0"
+      }
+    },
+    "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+    "method": "vanilla_univariate",
+    "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+    "phase": "evaluations",
+    "task": {
+      "dataset": "Global_Influenza/W",
+      "prediction_length": 13,
+      "seasonality": 1,
+      "term": "short",
+      "test_length": 52
+    }
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Global_Influenza/W",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 1,
+      "dataset": "Global_Influenza/W",
+      "datastore_scope": "all",
+      "datastore_stride": 1,
+      "max_datastore_windows": null,
+      "prediction_length": 13,
+      "retrieval_context_length": 13,
+      "seasonality": 1,
+      "term": "short",
+      "test_length": 52,
+      "validation_length": 52,
+      "validation_stride": 13
+    },
+    "upstream_manifests": {
+      "prediction": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/predictions/test/vanilla_univariate/Global_Influenza/W/short/run_0/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "predictions.npz",
+    "metrics.npz",
+    "metrics_summary.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-29T14:50:03.312088+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-29T14:50:33.162993+00:00"
+}

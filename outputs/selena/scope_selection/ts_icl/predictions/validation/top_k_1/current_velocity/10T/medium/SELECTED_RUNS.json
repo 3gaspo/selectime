@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "ts_icl",
+          "checkpoint": "tsicl/tsicl-v1.ckpt",
+          "context_length": 4096,
+          "cross_learning": false,
+          "method": "top_k_1",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "data": {
+              "completed_at": "2026-09-28T23:22:05.637283+00:00",
+              "identity": {
+                "dataset": "current_velocity",
+                "frequency": "10T",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "medium"
+              },
+              "run": "run_1"
+            },
+            "retrieval": {
+              "completed_at": "2026-09-28T23:29:09.328042+00:00",
+              "identity": {
+                "dataset": "current_velocity",
+                "frequency": "10T",
+                "method": "covariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "medium"
+              },
+              "run": "run_1"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-28T23:29:43.532718+00:00",
+              "identity": {
+                "dataset": "current_velocity",
+                "frequency": "10T",
+                "method": "vanilla_univariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "medium"
+              },
+              "run": "run_2"
+            }
+          },
+          "k": 1,
+          "method": "top_k_1",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "phase": "predictions/validation",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "validation",
+          "task": {
+            "dataset": "current_velocity/10T",
+            "prediction_length": 144,
+            "seasonality": 144,
+            "term": "medium",
+            "test_length": 2160
+          },
+          "validation_support": "finite_context_and_future"
+        }
+      }
+    }
+  ]
+}

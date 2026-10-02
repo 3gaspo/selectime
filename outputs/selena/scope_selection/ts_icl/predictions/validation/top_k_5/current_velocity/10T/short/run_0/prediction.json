@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "method": "top_k_5",
+  "split": "validation",
+  "context_length": 4096,
+  "inference_seconds": 225.20441115647554,
+  "query_retrieval_seconds": 122.1226307079196,
+  "datastore_preprocessing_seconds": 10.268674980849028,
+  "fallback_count": 0,
+  "grid_rows": 7200,
+  "validation_counts": {
+    "requested_dates": 1200,
+    "requested_rows": 7200,
+    "available_dates": 1200,
+    "available_rows": 7200,
+    "datastore_rows": 408630,
+    "usable_rows": 7200,
+    "usable_dates": 1200
+  },
+  "reused_rows": 0,
+  "newly_inferred_rows": 7200,
+  "reuse_sources": [],
+  "external_vanilla": null,
+  "prediction_nan_values": 0,
+  "produced_nan_values": 0,
+  "prediction_values": 129588,
+  "prediction_nan_rate": 0.0,
+  "retrieval_provenance": {
+    "retrieval_extractions": 7200,
+    "retrieved_neighbors": 36000,
+    "same_user_neighbors": 18319,
+    "same_user_retrieval_percentage": 50.88611111111111,
+    "normalized_time_distance_sum": 11429.20693179312,
+    "average_normalized_time_distance_to_query": 0.3174779703275867,
+    "same_user_definition": "same dataset item/user as the query",
+    "normalized_time_distance_definition": "(query_tick-neighbor_tick)/(query_tick-earliest_datastore_tick)"
+  },
+  "invalid_validation_context_count": 0,
+  "insufficient_retrieval_count": 0,
+  "nonfinite_fallback_count": 0,
+  "timing_policy": "measured_candidate_query_loop_precomputed_vanilla_fallback_separate_retrieval"
+}

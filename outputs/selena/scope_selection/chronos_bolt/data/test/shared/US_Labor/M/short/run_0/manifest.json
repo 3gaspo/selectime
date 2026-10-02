@@ -1,0 +1,94 @@
+{
+  "completed_at": "2026-09-27T14:35:08.183957+00:00",
+  "computed_at": "2026-09-27T14:34:52.747696+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {},
+  "identity": {
+    "dataset": "US_Labor",
+    "frequency": "M",
+    "method": "shared",
+    "model": "chronos_bolt",
+    "target_mode": "univariate",
+    "term": "short"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3584839",
+        "launched_at": "2026-09-27T14:34:52.738284+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3584839"
+      }
+    ],
+    "launch_id": "selena_3584839",
+    "launched_at": "2026-09-27T14:34:52.738284+00:00",
+    "slurm_job_id": "3584839"
+  },
+  "model_config": {
+    "component": "data/test",
+    "method": "shared"
+  },
+  "pipeline_config": {
+    "alignment_period": 12,
+    "datastore_policy": "before_first_test_origin",
+    "datastore_scope": "all",
+    "datastore_stride": 12,
+    "dependencies": {},
+    "max_datastore_windows": null,
+    "method": "shared",
+    "phase": "data/test",
+    "retrieval_context_length": 12,
+    "split": "test",
+    "task": {
+      "dataset": "US_Labor/M",
+      "prediction_length": 12,
+      "seasonality": 12,
+      "term": "short",
+      "test_length": 60
+    }
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/US_Labor/M",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 12,
+      "dataset": "US_Labor/M",
+      "datastore_scope": "all",
+      "datastore_stride": 12,
+      "max_datastore_windows": null,
+      "prediction_length": 12,
+      "retrieval_context_length": 12,
+      "seasonality": 12,
+      "term": "short",
+      "test_length": 60,
+      "validation_length": 60,
+      "validation_stride": 12
+    },
+    "upstream_manifests": {}
+  },
+  "required_artifacts": [
+    "test_references.npy",
+    "test_ticks.npy",
+    "test_datastore.npy",
+    "test_datastore_ticks.npy",
+    "test_datastore_ends.npy",
+    "prepared.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-27T14:34:52.738284+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-27T14:35:08.183957+00:00"
+}

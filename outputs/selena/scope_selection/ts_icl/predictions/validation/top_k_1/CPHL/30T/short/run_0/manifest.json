@@ -1,0 +1,138 @@
+{
+  "completed_at": "2026-09-29T12:00:27.010679+00:00",
+  "computed_at": "2026-09-29T10:36:05.518135+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {
+    "seed": 0
+  },
+  "identity": {
+    "dataset": "CPHL",
+    "frequency": "30T",
+    "method": "top_k_1",
+    "model": "ts_icl",
+    "target_mode": "univariate",
+    "term": "short"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3606203",
+        "launched_at": "2026-09-29T10:36:00.538936+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3606203"
+      }
+    ],
+    "launch_id": "selena_3606203",
+    "launched_at": "2026-09-29T10:36:00.538936+00:00",
+    "slurm_job_id": "3606203"
+  },
+  "model_config": {
+    "backbone": "ts_icl",
+    "checkpoint": "tsicl/tsicl-v1.ckpt",
+    "context_length": 4096,
+    "cross_learning": false,
+    "method": "top_k_1",
+    "point_forecast": "median"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "data": {
+        "completed_at": "2026-09-28T23:22:05.459756+00:00",
+        "identity": {
+          "dataset": "CPHL",
+          "frequency": "30T",
+          "method": "shared",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      },
+      "retrieval": {
+        "completed_at": "2026-09-28T23:29:09.157590+00:00",
+        "identity": {
+          "dataset": "CPHL",
+          "frequency": "30T",
+          "method": "covariate",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      },
+      "vanilla": {
+        "completed_at": "2026-09-28T23:29:43.364879+00:00",
+        "identity": {
+          "dataset": "CPHL",
+          "frequency": "30T",
+          "method": "vanilla_univariate",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_2"
+      }
+    },
+    "k": 1,
+    "method": "top_k_1",
+    "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+    "phase": "predictions/validation",
+    "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+    "split": "validation",
+    "task": {
+      "dataset": "CPHL/30T",
+      "prediction_length": 12,
+      "seasonality": 48,
+      "term": "short",
+      "test_length": 1440
+    },
+    "validation_support": "finite_context_and_future"
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/CPHL/30T",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 48,
+      "dataset": "CPHL/30T",
+      "datastore_scope": "all",
+      "datastore_stride": 48,
+      "max_datastore_windows": null,
+      "prediction_length": 12,
+      "retrieval_context_length": 336,
+      "seasonality": 48,
+      "term": "short",
+      "test_length": 1440,
+      "validation_length": 1440,
+      "validation_stride": 12
+    },
+    "upstream_manifests": {
+      "data": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/data/validation/shared/CPHL/30T/short/run_1/manifest.json",
+      "retrieval": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/retrieval/validation/covariate/CPHL/30T/short/run_1/manifest.json",
+      "vanilla": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/predictions/validation/vanilla_univariate/CPHL/30T/short/run_2/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "prediction.npy",
+    "fallback.npy",
+    "produced_nan_counts.npy",
+    "prediction.json",
+    "retrieval_provenance.npy"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-29T10:36:00.538936+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-29T12:00:27.010679+00:00"
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "data/test",
+          "method": "shared"
+        },
+        "pipeline_config": {
+          "alignment_period": 672,
+          "datastore_policy": "before_first_test_origin",
+          "datastore_scope": "all",
+          "datastore_stride": 672,
+          "dependencies": {},
+          "max_datastore_windows": null,
+          "method": "shared",
+          "phase": "data/test",
+          "retrieval_context_length": 672,
+          "split": "test",
+          "task": {
+            "dataset": "EWELD_Load/15T",
+            "prediction_length": 96,
+            "seasonality": 96,
+            "term": "medium",
+            "test_length": 1344
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "component": "selections",
+          "method": "top_k_15_mix"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-29T10:02:19.538037+00:00",
+              "identity": {
+                "dataset": "current_velocity",
+                "frequency": "5T",
+                "method": "top_k_15",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            },
+            "data": {
+              "completed_at": "2026-09-28T23:22:05.689875+00:00",
+              "identity": {
+                "dataset": "current_velocity",
+                "frequency": "5T",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_1"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-28T23:29:43.586168+00:00",
+              "identity": {
+                "dataset": "current_velocity",
+                "frequency": "5T",
+                "method": "vanilla_univariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_2"
+            }
+          },
+          "granularity": "task",
+          "method": "top_k_15_mix",
+          "no_validation_fallback": "univariate",
+          "phase": "selections",
+          "selection_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+          "task": {
+            "dataset": "current_velocity/5T",
+            "prediction_length": 864,
+            "seasonality": 288,
+            "term": "long",
+            "test_length": 4320
+          },
+          "validation_support": "finite_context_and_future"
+        }
+      }
+    }
+  ]
+}

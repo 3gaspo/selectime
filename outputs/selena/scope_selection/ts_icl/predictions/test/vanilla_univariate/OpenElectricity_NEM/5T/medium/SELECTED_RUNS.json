@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "ts_icl",
+          "checkpoint": "tsicl/tsicl-v1.ckpt",
+          "context_length": 4096,
+          "cross_learning": false,
+          "method": "vanilla_univariate",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "data": {
+              "completed_at": "2026-09-28T23:22:06.820642+00:00",
+              "identity": {
+                "dataset": "OpenElectricity_NEM",
+                "frequency": "5T",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "medium"
+              },
+              "run": "run_1"
+            }
+          },
+          "method": "vanilla_univariate",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "OpenElectricity_NEM/5T",
+            "prediction_length": 96,
+            "seasonality": 288,
+            "term": "medium",
+            "test_length": 4032
+          },
+          "validation_support": null
+        }
+      }
+    }
+  ]
+}

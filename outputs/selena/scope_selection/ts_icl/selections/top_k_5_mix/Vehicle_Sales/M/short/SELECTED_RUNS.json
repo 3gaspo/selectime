@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "component": "selections",
+          "method": "top_k_5_mix"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-29T12:00:30.670656+00:00",
+              "identity": {
+                "dataset": "Vehicle_Sales",
+                "frequency": "M",
+                "method": "top_k_5",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "data": {
+              "completed_at": "2026-09-28T23:22:05.751082+00:00",
+              "identity": {
+                "dataset": "Vehicle_Sales",
+                "frequency": "M",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-28T23:29:43.639641+00:00",
+              "identity": {
+                "dataset": "Vehicle_Sales",
+                "frequency": "M",
+                "method": "vanilla_univariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            }
+          },
+          "granularity": "task",
+          "method": "top_k_5_mix",
+          "no_validation_fallback": "univariate",
+          "phase": "selections",
+          "selection_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+          "task": {
+            "dataset": "Vehicle_Sales/M",
+            "prediction_length": 12,
+            "seasonality": 12,
+            "term": "short",
+            "test_length": 60
+          },
+          "validation_support": "finite_context_and_future"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "aggregation": "mean over the shared Seasonal Naive MASE evaluation grid",
+  "dataset_config": "Water_Quality_Darwin/15T/long",
+  "evaluation_grid": {
+    "definition": "finite_ground_truth_and_seasonal_naive_mase",
+    "source": "/fslarge/scratch/users/h61084/codes/seasonal/outputs/seasonal_naive/evaluations/univariate/Water_Quality_Darwin/15T/long/run_0/evaluation_grid.npz",
+    "total_values": 210,
+    "valid_values": 210
+  },
+  "metrics": {
+    "CRPS": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 210,
+      "finite_values": 210,
+      "mean": 0.10328867869640426,
+      "std": 0.17976715567390403,
+      "total_values": 210,
+      "variance": 0.03231623025908564
+    },
+    "MAE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 210,
+      "finite_values": 210,
+      "mean": 0.9210754547005306,
+      "std": 1.9539105358202546,
+      "total_values": 210,
+      "variance": 3.8177663819893946
+    },
+    "MAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 210,
+      "finite_values": 210,
+      "mean": 0.12510796517305847,
+      "std": 0.2542053933424253,
+      "total_values": 210,
+      "variance": 0.06462038200437717
+    },
+    "MASE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 210,
+      "finite_values": 210,
+      "mean": 1.414815839515976,
+      "std": 1.0935851533213643,
+      "total_values": 210,
+      "variance": 1.1959284875649119
+    },
+    "MSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 210,
+      "finite_values": 210,
+      "mean": 7.575390065234452,
+      "std": 37.881419855372215,
+      "total_values": 210,
+      "variance": 1435.0019702589882
+    },
+    "ND": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 210,
+      "finite_values": 210,
+      "mean": 0.10328867869640426,
+      "std": 0.17976715567390403,
+      "total_values": 210,
+      "variance": 0.03231623025908564
+    },
+    "RMSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 210,
+      "finite_values": 210,
+      "mean": 1.1698023351593516,
+      "std": 2.491375636448703,
+      "total_values": 210,
+      "variance": 6.206952561890181
+    },
+    "sMAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 210,
+      "finite_values": 210,
+      "mean": 0.1016448590891846,
+      "std": 0.17128475287522918,
+      "total_values": 210,
+      "variance": 0.029338466567528327
+    }
+  },
+  "model": "chronos_bolt"
+}

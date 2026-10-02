@@ -1,0 +1,154 @@
+{
+  "artifact_metadata": {
+    "evaluation": {
+      "context_length": 8192,
+      "dataset_config": "SG_Carpark/15T/medium",
+      "evaluation_grid": {
+        "definition": "finite_ground_truth_and_seasonal_naive_mase",
+        "source": "/fslarge/scratch/users/h61084/codes/seasonal/outputs/seasonal_naive/evaluations/univariate/SG_Carpark/15T/medium/run_0/evaluation_grid.npz",
+        "total_values": 2478,
+        "valid_values": 2478
+      },
+      "experiment": "selectime",
+      "fallback_count": 0,
+      "forecast_input_mode": "univariate",
+      "freq": "15T",
+      "method": "scope_ridge",
+      "metric_names": [
+        "MSE",
+        "MAE",
+        "RMSE",
+        "MAPE",
+        "sMAPE",
+        "MASE",
+        "ND",
+        "CRPS"
+      ],
+      "metrics_summary_file": "metrics_summary.json",
+      "model": "chronos2",
+      "num_model_inputs": 2478,
+      "num_quantiles": 1,
+      "num_series": 354,
+      "num_variates": 1,
+      "num_windows": 7,
+      "prediction_length": 96,
+      "prediction_manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/chronos2/predictions/test/scope_ridge/SG_Carpark/15T/medium/run_0/manifest.json",
+      "prediction_outputs": {
+        "cells_with_nan": 0,
+        "evaluation_nan_rate": 0.0,
+        "evaluation_nan_values": 0,
+        "evaluation_values": 235056,
+        "nan_rate": 0.0,
+        "nan_values": 0,
+        "total_cells": 2478,
+        "total_values": 237888
+      },
+      "prediction_scale_factor": 1.0,
+      "quantile_levels": [
+        0.5
+      ],
+      "seasonality": 96,
+      "target_mode": "univariate",
+      "timing_policy": "assembled_from_candidate_artifacts_no_independent_selected_method_latency"
+    }
+  },
+  "completed_at": "2026-09-27T22:16:53.734869+00:00",
+  "computed_at": "2026-09-27T22:15:57.220857+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {},
+  "identity": {
+    "dataset": "SG_Carpark",
+    "frequency": "15T",
+    "method": "scope_ridge",
+    "model": "chronos2",
+    "target_mode": "univariate",
+    "term": "medium"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3584837",
+        "launched_at": "2026-09-27T22:15:56.548406+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3584837"
+      }
+    ],
+    "launch_id": "selena_3584837",
+    "launched_at": "2026-09-27T22:15:56.548406+00:00",
+    "slurm_job_id": "3584837"
+  },
+  "model_config": {
+    "component": "evaluations",
+    "method": "scope_ridge"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "prediction": {
+        "completed_at": "2026-09-27T22:12:48.917005+00:00",
+        "identity": {
+          "dataset": "SG_Carpark",
+          "frequency": "15T",
+          "method": "scope_ridge",
+          "model": "chronos2",
+          "target_mode": "univariate",
+          "term": "medium"
+        },
+        "run": "run_0"
+      }
+    },
+    "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+    "method": "scope_ridge",
+    "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+    "phase": "evaluations",
+    "task": {
+      "dataset": "SG_Carpark/15T",
+      "prediction_length": 96,
+      "seasonality": 96,
+      "term": "medium",
+      "test_length": 672
+    }
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/SG_Carpark/15T",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 672,
+      "dataset": "SG_Carpark/15T",
+      "datastore_scope": "all",
+      "datastore_stride": 672,
+      "max_datastore_windows": null,
+      "prediction_length": 96,
+      "retrieval_context_length": 672,
+      "seasonality": 96,
+      "term": "medium",
+      "test_length": 672,
+      "validation_length": 672,
+      "validation_stride": 96
+    },
+    "upstream_manifests": {
+      "prediction": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/chronos2/predictions/test/scope_ridge/SG_Carpark/15T/medium/run_0/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "predictions.npz",
+    "metrics.npz",
+    "metrics_summary.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-27T22:15:56.548406+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-27T22:16:53.734869+00:00"
+}

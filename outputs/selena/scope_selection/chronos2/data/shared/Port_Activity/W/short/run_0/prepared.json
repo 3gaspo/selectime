@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "Port_Activity/W",
+    "term": "short",
+    "prediction_length": 13,
+    "test_length": 52,
+    "validation_length": 46,
+    "seasonality": 1,
+    "retrieval_context_length": 13,
+    "alignment_period": 1,
+    "datastore_stride": 1,
+    "validation_stride": 11,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 792,
+      "datastore": 35838
+    },
+    "test": {
+      "queries": 792,
+      "datastore": 44946
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Port_Activity/W",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

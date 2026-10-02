@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "method": "vanilla_univariate",
+  "split": "validation",
+  "context_length": 2048,
+  "inference_seconds": 5.507278446108103,
+  "query_retrieval_seconds": 0,
+  "datastore_preprocessing_seconds": 0,
+  "fallback_count": 0,
+  "grid_rows": 252,
+  "validation_counts": {
+    "requested_dates": 42,
+    "requested_rows": 252,
+    "available_dates": 42,
+    "available_rows": 252,
+    "datastore_rows": 85920,
+    "usable_rows": 252,
+    "usable_dates": 42
+  },
+  "reused_rows": 126,
+  "newly_inferred_rows": 126,
+  "reuse_sources": [
+    {
+      "manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos_bolt/predictions/validation/vanilla_univariate/current_velocity/H/long/run_0/manifest.json",
+      "rows": 126
+    }
+  ],
+  "external_vanilla": null,
+  "prediction_nan_values": 0,
+  "produced_nan_values": 0,
+  "prediction_values": 84672,
+  "prediction_nan_rate": 0.0,
+  "retrieval_provenance": null,
+  "invalid_validation_context_count": 0,
+  "insufficient_retrieval_count": 0,
+  "nonfinite_fallback_count": 0,
+  "timing_policy": "measured_candidate_query_loop_precomputed_vanilla_fallback_separate_retrieval"
+}

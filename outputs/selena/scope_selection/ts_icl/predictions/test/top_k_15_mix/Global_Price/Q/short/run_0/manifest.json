@@ -1,0 +1,153 @@
+{
+  "completed_at": "2026-09-29T14:48:22.505918+00:00",
+  "computed_at": "2026-09-29T14:48:03.402142+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {
+    "seed": 0
+  },
+  "identity": {
+    "dataset": "Global_Price",
+    "frequency": "Q",
+    "method": "top_k_15_mix",
+    "model": "ts_icl",
+    "target_mode": "univariate",
+    "term": "short"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3606203",
+        "launched_at": "2026-09-29T14:48:03.383132+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3606203"
+      }
+    ],
+    "launch_id": "selena_3606203",
+    "launched_at": "2026-09-29T14:48:03.383132+00:00",
+    "slurm_job_id": "3606203"
+  },
+  "model_config": {
+    "backbone": "ts_icl",
+    "checkpoint": "tsicl/tsicl-v1.ckpt",
+    "context_length": 4096,
+    "cross_learning": false,
+    "method": "top_k_15_mix",
+    "point_forecast": "median"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "alternative": {
+        "completed_at": "2026-09-29T14:47:09.100428+00:00",
+        "identity": {
+          "dataset": "Global_Price",
+          "frequency": "Q",
+          "method": "top_k_15",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_0"
+      },
+      "calibration": {
+        "completed_at": "2026-09-29T12:01:28.241021+00:00",
+        "identity": {
+          "dataset": "Global_Price",
+          "frequency": "Q",
+          "method": "top_k_15_mix",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_0"
+      },
+      "data": {
+        "completed_at": "2026-09-28T23:22:06.758555+00:00",
+        "identity": {
+          "dataset": "Global_Price",
+          "frequency": "Q",
+          "method": "shared",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      },
+      "vanilla": {
+        "completed_at": "2026-09-29T12:09:36.835274+00:00",
+        "identity": {
+          "dataset": "Global_Price",
+          "frequency": "Q",
+          "method": "vanilla_univariate",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_0"
+      }
+    },
+    "k": 15,
+    "method": "top_k_15_mix",
+    "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+    "phase": "predictions/test",
+    "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+    "split": "test",
+    "task": {
+      "dataset": "Global_Price/Q",
+      "prediction_length": 4,
+      "seasonality": 4,
+      "term": "short",
+      "test_length": 20
+    },
+    "validation_support": null
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Global_Price/Q",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 4,
+      "dataset": "Global_Price/Q",
+      "datastore_scope": "all",
+      "datastore_stride": 4,
+      "max_datastore_windows": null,
+      "prediction_length": 4,
+      "retrieval_context_length": 4,
+      "seasonality": 4,
+      "term": "short",
+      "test_length": 20,
+      "validation_length": 20,
+      "validation_stride": 4
+    },
+    "upstream_manifests": {
+      "alternative": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/predictions/test/top_k_15/Global_Price/Q/short/run_0/manifest.json",
+      "calibration": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/selections/top_k_15_mix/Global_Price/Q/short/run_0/manifest.json",
+      "data": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/data/test/shared/Global_Price/Q/short/run_1/manifest.json",
+      "vanilla": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/predictions/test/vanilla_univariate/Global_Price/Q/short/run_0/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "prediction.npy",
+    "fallback.npy",
+    "alternative_weight.npy",
+    "retrieval_provenance.npy",
+    "produced_nan_counts.npy",
+    "selection.json",
+    "prediction.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-29T14:48:03.383132+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-29T14:48:22.505918+00:00"
+}

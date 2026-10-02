@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "scope_ridge",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-27T22:11:11.381994+00:00",
+              "identity": {
+                "dataset": "JOLTS",
+                "frequency": "M",
+                "method": "vanilla_multivariate",
+                "model": "chronos2",
+                "target_mode": "multivariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "calibration": {
+              "completed_at": "2026-09-27T18:12:06.512021+00:00",
+              "identity": {
+                "dataset": "JOLTS",
+                "frequency": "M",
+                "method": "scope_ridge",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "data": {
+              "completed_at": "2026-09-27T14:14:47.554899+00:00",
+              "identity": {
+                "dataset": "JOLTS",
+                "frequency": "M",
+                "method": "shared",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-27T18:20:07.015667+00:00",
+              "identity": {
+                "dataset": "JOLTS",
+                "frequency": "M",
+                "method": "vanilla_univariate",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            }
+          },
+          "method": "scope_ridge",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "JOLTS/M",
+            "prediction_length": 12,
+            "seasonality": 12,
+            "term": "short",
+            "test_length": 60
+          },
+          "validation_support": null
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "evaluations",
+          "method": "top_k_1_mix"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "prediction": {
+              "completed_at": "2026-09-29T14:48:23.149240+00:00",
+              "identity": {
+                "dataset": "CPHL",
+                "frequency": "H",
+                "method": "top_k_1_mix",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            }
+          },
+          "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+          "method": "top_k_1_mix",
+          "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+          "phase": "evaluations",
+          "task": {
+            "dataset": "CPHL/H",
+            "prediction_length": 24,
+            "seasonality": 24,
+            "term": "short",
+            "test_length": 672
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "ts_icl",
+          "checkpoint": "tsicl/tsicl-v1.ckpt",
+          "context_length": 4096,
+          "cross_learning": false,
+          "method": "top_k_1_mix",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-29T14:47:08.149816+00:00",
+              "identity": {
+                "dataset": "epf_electricity_price",
+                "frequency": "H",
+                "method": "top_k_1",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "calibration": {
+              "completed_at": "2026-09-29T12:01:28.719368+00:00",
+              "identity": {
+                "dataset": "epf_electricity_price",
+                "frequency": "H",
+                "method": "top_k_1_mix",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "data": {
+              "completed_at": "2026-09-28T23:22:06.614792+00:00",
+              "identity": {
+                "dataset": "epf_electricity_price",
+                "frequency": "H",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-29T12:09:36.708653+00:00",
+              "identity": {
+                "dataset": "epf_electricity_price",
+                "frequency": "H",
+                "method": "vanilla_univariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            }
+          },
+          "k": 1,
+          "method": "top_k_1_mix",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "epf_electricity_price/H",
+            "prediction_length": 24,
+            "seasonality": 24,
+            "term": "short",
+            "test_length": 2520
+          },
+          "validation_support": null
+        }
+      }
+    }
+  ]
+}

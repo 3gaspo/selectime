@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "ts_icl",
+          "checkpoint": "tsicl/tsicl-v1.ckpt",
+          "context_length": 4096,
+          "cross_learning": false,
+          "method": "top_k_15_mix",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-29T14:47:08.575805+00:00",
+              "identity": {
+                "dataset": "SG_Carpark",
+                "frequency": "15T",
+                "method": "top_k_15",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "medium"
+              },
+              "run": "run_0"
+            },
+            "calibration": {
+              "completed_at": "2026-09-29T12:01:27.840214+00:00",
+              "identity": {
+                "dataset": "SG_Carpark",
+                "frequency": "15T",
+                "method": "top_k_15_mix",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "medium"
+              },
+              "run": "run_0"
+            },
+            "data": {
+              "completed_at": "2026-09-28T23:22:06.266505+00:00",
+              "identity": {
+                "dataset": "SG_Carpark",
+                "frequency": "15T",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "medium"
+              },
+              "run": "run_1"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-29T12:09:36.392755+00:00",
+              "identity": {
+                "dataset": "SG_Carpark",
+                "frequency": "15T",
+                "method": "vanilla_univariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "medium"
+              },
+              "run": "run_0"
+            }
+          },
+          "k": 15,
+          "method": "top_k_15_mix",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "SG_Carpark/15T",
+            "prediction_length": 96,
+            "seasonality": 96,
+            "term": "medium",
+            "test_length": 672
+          },
+          "validation_support": null
+        }
+      }
+    }
+  ]
+}

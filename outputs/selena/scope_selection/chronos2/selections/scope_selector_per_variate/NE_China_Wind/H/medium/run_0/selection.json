@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "granularity": "per_variate",
+  "selections": [
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "vanilla_univariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 10,
+      "replications": 1000,
+      "block_length": 2,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.22751533092057716,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.24303103079086502,
+          "validation_difference_from_best": 0.015515699870287872,
+          "bootstrap_standard_error": 0.018393837012418323,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        463152,
+        463224,
+        463296,
+        463368,
+        463440,
+        463512,
+        463584,
+        463656,
+        463728,
+        463800
+      ],
+      "item": 0,
+      "channel": 0
+    },
+    {
+      "selected_method": "vanilla_univariate",
+      "observed_best": "vanilla_univariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 10,
+      "replications": 1000,
+      "block_length": 2,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 0.6519504989870804,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.7608172673013275,
+          "validation_difference_from_best": 0.1088667683142472,
+          "bootstrap_standard_error": 0.03958544763186397,
+          "within_one_standard_error": false
+        }
+      ],
+      "validation_date_ticks": [
+        463152,
+        463224,
+        463296,
+        463368,
+        463440,
+        463512,
+        463584,
+        463656,
+        463728,
+        463800
+      ],
+      "item": 0,
+      "channel": 1
+    },
+    {
+      "selected_method": "vanilla_multivariate",
+      "observed_best": "vanilla_multivariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 10,
+      "replications": 1000,
+      "block_length": 2,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 1.2452740569856102,
+          "validation_difference_from_best": 0.09665397001792293,
+          "bootstrap_standard_error": 0.06269719025450562,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 1.148620086967687,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        463152,
+        463224,
+        463296,
+        463368,
+        463440,
+        463512,
+        463584,
+        463656,
+        463728,
+        463800
+      ],
+      "item": 0,
+      "channel": 2
+    },
+    {
+      "selected_method": "vanilla_multivariate",
+      "observed_best": "vanilla_multivariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 10,
+      "replications": 1000,
+      "block_length": 2,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 1.5155707581774807,
+          "validation_difference_from_best": 0.5474914155732431,
+          "bootstrap_standard_error": 0.3015292186317487,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 0.9680793426042376,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        463152,
+        463224,
+        463296,
+        463368,
+        463440,
+        463512,
+        463584,
+        463656,
+        463728,
+        463800
+      ],
+      "item": 0,
+      "channel": 3
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "Smart_Manufacturing/H",
+    "term": "medium",
+    "prediction_length": 168,
+    "test_length": 336,
+    "validation_length": 295,
+    "seasonality": 24,
+    "retrieval_context_length": 168,
+    "alignment_period": 168,
+    "datastore_stride": 168,
+    "validation_stride": 127,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "counts": {
+    "validation": {
+      "queries": 340,
+      "datastore": 7540
+    },
+    "test": {
+      "queries": 340,
+      "datastore": 4990
+    }
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Smart_Manufacturing/H",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

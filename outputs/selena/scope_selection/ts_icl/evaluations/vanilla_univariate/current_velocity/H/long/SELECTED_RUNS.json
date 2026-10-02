@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "evaluations",
+          "method": "vanilla_univariate"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "prediction": {
+              "completed_at": "2026-09-29T12:09:36.809583+00:00",
+              "identity": {
+                "dataset": "current_velocity",
+                "frequency": "H",
+                "method": "vanilla_univariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            }
+          },
+          "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+          "method": "vanilla_univariate",
+          "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+          "phase": "evaluations",
+          "task": {
+            "dataset": "current_velocity/H",
+            "prediction_length": 336,
+            "seasonality": 24,
+            "term": "long",
+            "test_length": 672
+          }
+        }
+      }
+    }
+  ]
+}

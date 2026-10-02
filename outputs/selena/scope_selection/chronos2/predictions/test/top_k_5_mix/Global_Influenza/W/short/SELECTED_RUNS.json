@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "chronos2",
+          "checkpoint": "chronos2",
+          "context_length": 8192,
+          "cross_learning": false,
+          "method": "top_k_5_mix",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-27T22:11:14.485269+00:00",
+              "identity": {
+                "dataset": "Global_Influenza",
+                "frequency": "W",
+                "method": "top_k_5",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "calibration": {
+              "completed_at": "2026-09-27T18:12:10.759972+00:00",
+              "identity": {
+                "dataset": "Global_Influenza",
+                "frequency": "W",
+                "method": "top_k_5_mix",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "data": {
+              "completed_at": "2026-09-27T14:14:47.825510+00:00",
+              "identity": {
+                "dataset": "Global_Influenza",
+                "frequency": "W",
+                "method": "shared",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-27T18:20:07.332867+00:00",
+              "identity": {
+                "dataset": "Global_Influenza",
+                "frequency": "W",
+                "method": "vanilla_univariate",
+                "model": "chronos2",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            }
+          },
+          "k": 5,
+          "method": "top_k_5_mix",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "Global_Influenza/W",
+            "prediction_length": 13,
+            "seasonality": 1,
+            "term": "short",
+            "test_length": 52
+          },
+          "validation_support": null
+        }
+      }
+    }
+  ]
+}

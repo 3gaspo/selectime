@@ -1,0 +1,18 @@
+\begin{tabular}{lllllllllll}
+\toprule
+model & tasks & mean task MASE & scaled MASE & total inference seconds & prediction nan values & prediction values & prediction nan rate & relative improvement percent & relative scaled improvement percent & mean paired improvement percent \\
+\midrule
+vanilla\_univariate & 90 & 1.06923 & 0.708652 & 0.00421484 & 0 & 2650515 & 0 & 0 & 0 & 0 \\
+vanilla\_multivariate & 90 & 1.05898 & 0.703148 & 87.0656 & 0 & 2650515 & 0 & 0.958496 & 0.776597 & 0.546411 \\
+scope\_selector & 90 & 1.06558 & 0.70603 & NA & 0 & 2650515 & 0 & 0.340878 & 0.369941 & 0.233557 \\
+scope\_selector\_per\_variate & 90 & 1.06558 & 0.705996 & NA & 0 & 2650515 & 0 & 0.341005 & 0.374708 & 0.240693 \\
+scope\_mix & 90 & 1.05926 & 0.702322 & NA & 0 & 2650515 & 0 & 0.932046 & 0.893184 & 0.785741 \\
+scope\_mix\_per\_variate & 90 & 1.0584 & 0.70208 & NA & 0 & 2650515 & 0 & 1.01332 & 0.927334 & 0.804851 \\
+scope\_ridge & 90 & 1.06801 & 0.706283 & NA & 0 & 2650515 & 0 & 0.113682 & 0.334311 & 0.202759 \\
+top\_k\_1\_mix & 90 & 1.06775 & 0.70657 & NA & 0 & 2650515 & 0 & 0.138353 & 0.293821 & 0.287557 \\
+top\_k\_5\_mix & 90 & 1.06535 & 0.705242 & NA & 0 & 2650515 & 0 & 0.363162 & 0.481117 & 0.471796 \\
+top\_k\_10\_mix & 90 & 1.06804 & 0.705824 & NA & 0 & 2650515 & 0 & 0.110996 & 0.399097 & 0.405796 \\
+top\_k\_15\_mix & 90 & 1.06878 & 0.706151 & NA & 0 & 2650515 & 0 & 0.0419137 & 0.352836 & 0.370881 \\
+top\_k\_20\_mix & 90 & 1.06747 & 0.705734 & NA & 0 & 2650515 & 0 & 0.164173 & 0.411672 & 0.427247 \\
+\bottomrule
+\end{tabular}

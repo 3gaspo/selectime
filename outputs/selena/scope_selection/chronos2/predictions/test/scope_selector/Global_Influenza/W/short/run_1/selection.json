@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "granularity": "task",
+  "selections": [
+    {
+      "selected_method": "vanilla_multivariate",
+      "observed_best": "vanilla_multivariate",
+      "selection_rule": "paired_moving_date_block_bootstrap_one_standard_error",
+      "validation_dates": 20,
+      "replications": 1000,
+      "block_length": 3,
+      "block_length_source": "automatic",
+      "fallback_reason": null,
+      "preference": "univariate_then_multivariate",
+      "candidates": [
+        {
+          "method": "vanilla_univariate",
+          "validation_msse": 5.198707979165561,
+          "validation_difference_from_best": 0.1772515796505197,
+          "bootstrap_standard_error": 0.09316015274384133,
+          "within_one_standard_error": false
+        },
+        {
+          "method": "vanilla_multivariate",
+          "validation_msse": 5.02145639951504,
+          "validation_difference_from_best": 0.0,
+          "bootstrap_standard_error": 0.0,
+          "within_one_standard_error": true
+        }
+      ],
+      "validation_date_ticks": [
+        2817,
+        2818,
+        2819,
+        2820,
+        2821,
+        2830,
+        2831,
+        2832,
+        2833,
+        2834,
+        2843,
+        2844,
+        2845,
+        2846,
+        2847,
+        2856,
+        2857,
+        2858,
+        2859,
+        2860
+      ]
+    }
+  ]
+}

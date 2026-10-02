@@ -1,0 +1,96 @@
+{
+  "aggregation": "mean over the shared Seasonal Naive MASE evaluation grid",
+  "dataset_config": "Water_Quality_Darwin/15T/short",
+  "evaluation_grid": {
+    "definition": "finite_ground_truth_and_seasonal_naive_mase",
+    "source": "/fslarge/scratch/users/h61084/codes/seasonal/outputs/seasonal_naive/evaluations/univariate/Water_Quality_Darwin/15T/short/run_0/evaluation_grid.npz",
+    "total_values": 3780,
+    "valid_values": 3780
+  },
+  "inference_seconds": 0.00027189217507839203,
+  "metrics": {
+    "CRPS": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 3780,
+      "finite_values": 3780,
+      "mean": 0.05833080131135898,
+      "std": 0.1094084049384395,
+      "total_values": 3780,
+      "variance": 0.01197019907117355
+    },
+    "MAE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 3780,
+      "finite_values": 3780,
+      "mean": 0.478744442398594,
+      "std": 1.265656497719739,
+      "total_values": 3780,
+      "variance": 1.6018863702201958
+    },
+    "MAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 3780,
+      "finite_values": 3780,
+      "mean": 0.06043674509594588,
+      "std": 0.12272711413613539,
+      "total_values": 3780,
+      "variance": 0.015061944544184002
+    },
+    "MASE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 3780,
+      "finite_values": 3780,
+      "mean": 0.6716427400325539,
+      "std": 0.8446393818831036,
+      "total_values": 3780,
+      "variance": 0.7134156854278714
+    },
+    "MSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 3780,
+      "finite_values": 3780,
+      "mean": 2.48605297796549,
+      "std": 17.224664820859427,
+      "total_values": 3780,
+      "variance": 296.6890781909524
+    },
+    "ND": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 3780,
+      "finite_values": 3780,
+      "mean": 0.05833080131135898,
+      "std": 0.1094084049384395,
+      "total_values": 3780,
+      "variance": 0.01197019907117355
+    },
+    "RMSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 3780,
+      "finite_values": 3780,
+      "mean": 0.5675718815132128,
+      "std": 1.4710251994038175,
+      "total_values": 3780,
+      "variance": 2.163915137281041
+    },
+    "sMAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 3780,
+      "finite_values": 3780,
+      "mean": 0.057429124519041586,
+      "std": 0.10355870441349056,
+      "total_values": 3780,
+      "variance": 0.01072440525980071
+    }
+  },
+  "model": "chronos_bolt",
+  "prediction_outputs": {
+    "cells_with_nan": 0,
+    "evaluation_nan_rate": 0.0,
+    "evaluation_nan_values": 0,
+    "evaluation_values": 60462,
+    "nan_rate": 0.0,
+    "nan_values": 0,
+    "total_cells": 3780,
+    "total_values": 60480
+  }
+}

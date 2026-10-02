@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "evaluations",
+          "method": "top_k_20_mix"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "prediction": {
+              "completed_at": "2026-09-29T14:48:20.700981+00:00",
+              "identity": {
+                "dataset": "OpenElectricity_NEM",
+                "frequency": "5T",
+                "method": "top_k_20_mix",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "long"
+              },
+              "run": "run_0"
+            }
+          },
+          "evaluation_grid": "finite_ground_truth_and_seasonal_naive_mase",
+          "method": "top_k_20_mix",
+          "nan_policy": "omit_nan_predictions_report_counts_reject_infinity",
+          "phase": "evaluations",
+          "task": {
+            "dataset": "OpenElectricity_NEM/5T",
+            "prediction_length": 288,
+            "seasonality": 288,
+            "term": "long",
+            "test_length": 4032
+          }
+        }
+      }
+    }
+  ]
+}

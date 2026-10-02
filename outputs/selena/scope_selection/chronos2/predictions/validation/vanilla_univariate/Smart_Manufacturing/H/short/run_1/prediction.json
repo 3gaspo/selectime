@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "method": "vanilla_univariate",
+  "split": "validation",
+  "context_length": 8192,
+  "inference_seconds": 1.8781674224883318,
+  "query_retrieval_seconds": 0,
+  "datastore_preprocessing_seconds": 0,
+  "fallback_count": 0,
+  "grid_rows": 2380,
+  "validation_counts": {
+    "requested_dates": 476,
+    "requested_rows": 2380,
+    "available_dates": 476,
+    "available_rows": 2380,
+    "datastore_rows": 28790,
+    "usable_rows": 2380,
+    "usable_dates": 70
+  },
+  "reused_rows": 10,
+  "newly_inferred_rows": 2370,
+  "reuse_sources": [
+    {
+      "manifest": "/scratch/users/h61084/codes/selectime/outputs/selectime/chronos2/predictions/validation/vanilla_univariate/Smart_Manufacturing/H/short/run_0/manifest.json",
+      "rows": 10
+    }
+  ],
+  "external_vanilla": null,
+  "prediction_nan_values": 0,
+  "produced_nan_values": 0,
+  "prediction_values": 40545,
+  "prediction_nan_rate": 0.0,
+  "retrieval_provenance": null,
+  "invalid_validation_context_count": 0,
+  "insufficient_retrieval_count": 0,
+  "nonfinite_fallback_count": 0,
+  "timing_policy": "measured_candidate_query_loop_precomputed_vanilla_fallback_separate_retrieval"
+}

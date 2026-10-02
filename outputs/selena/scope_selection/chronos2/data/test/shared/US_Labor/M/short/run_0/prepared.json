@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "task": {
+    "dataset": "US_Labor/M",
+    "term": "short",
+    "prediction_length": 12,
+    "test_length": 60,
+    "validation_length": 60,
+    "seasonality": 12,
+    "retrieval_context_length": 12,
+    "alignment_period": 12,
+    "datastore_stride": 12,
+    "validation_stride": 12,
+    "datastore_scope": "all",
+    "max_datastore_windows": null
+  },
+  "split": "test",
+  "counts": {
+    "requested_dates": 5,
+    "requested_rows": 70,
+    "available_dates": 5,
+    "available_rows": 70,
+    "datastore_rows": 350
+  },
+  "source_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/US_Labor/M",
+  "datastore_policy": "validation_before_validation_start_test_before_test_start",
+  "validation_schedule": "walk_backward_from_first_test_origin_at_stride_H",
+  "reference_columns": [
+    "item",
+    "channel",
+    "origin"
+  ],
+  "calendar_tick": "pandas Period ordinal"
+}

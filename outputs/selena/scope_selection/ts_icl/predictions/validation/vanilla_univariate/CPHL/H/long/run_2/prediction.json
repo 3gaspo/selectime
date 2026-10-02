@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "method": "vanilla_univariate",
+  "split": "validation",
+  "context_length": 4096,
+  "inference_seconds": 1.6009435057640076e-05,
+  "query_retrieval_seconds": 0,
+  "datastore_preprocessing_seconds": 0,
+  "fallback_count": 0,
+  "grid_rows": 8,
+  "validation_counts": {
+    "requested_dates": 8,
+    "requested_rows": 8,
+    "available_dates": 8,
+    "available_rows": 8,
+    "datastore_rows": 1969,
+    "usable_rows": 8,
+    "usable_dates": 8
+  },
+  "reused_rows": 8,
+  "newly_inferred_rows": 0,
+  "reuse_sources": [
+    {
+      "manifest": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/predictions/validation/vanilla_univariate/CPHL/H/long/run_1/manifest.json",
+      "rows": 8
+    }
+  ],
+  "external_vanilla": null,
+  "prediction_nan_values": 0,
+  "produced_nan_values": 0,
+  "prediction_values": 2686,
+  "prediction_nan_rate": 0.0,
+  "retrieval_provenance": null,
+  "invalid_validation_context_count": 0,
+  "insufficient_retrieval_count": 0,
+  "nonfinite_fallback_count": 0,
+  "timing_policy": "measured_candidate_query_loop_precomputed_vanilla_fallback_separate_retrieval"
+}

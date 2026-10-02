@@ -1,0 +1,799 @@
+[2026-09-27 14:20:03 UTC] resources allocation {"CUDA_VISIBLE_DEVICES": "0", "SLURM_CPUS_PER_TASK": "8", "SLURM_JOB_GPUS": "0,1,2,3", "SLURM_JOB_ID": "3584838", "SLURM_MEM_PER_CPU": "unset", "SLURM_MEM_PER_NODE": "80000", "SLURM_STEP_GPUS": "0", "SLURM_STEP_ID": "0", "TIME_DEVICE": "unset", "cpu_count": 8, "host": "sean0002"}
+[2026-09-27 14:20:03 UTC] resources RAM {"MemAvailable_MiB": 371521.5, "MemTotal_MiB": 386622.87109375, "cgroup_reason": "memory.max is unlimited", "cgroup_status": "unlimited"}
+[2026-09-27 14:20:03 UTC] resources nvidia_inventory {"columns": "index,uuid,name,driver,total_MiB,free_MiB,used_MiB", "devices": ["0, GPU-bba3a23f-18bb-dc1e-ae14-b380837a9165, NVIDIA H100 NVL, 560.35.05, 95830, 95350, 1"]}
+[2026-09-27 14:20:05 UTC] resources torch {"cuda_available": true, "note": "visibility probe; CPU-only stages need not use an allocated GPU", "version": "2.9.1+cu128", "visible_gpu_count": 1}
+[2026-09-27 14:20:05 UTC] resources cuda_device {"capability": "9.0", "free_MiB": 94825.125, "logical_index": 0, "name": "NVIDIA H100 NVL", "total_MiB": 95350.1875}
+[2026-09-27 14:20:05 UTC] Slurm=3584838 launch=selena_3584838 stage=prepare prediction_group=all
+[2026-09-27 14:20:07 UTC] dataset_config=/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml applied_keys=datasets,selectime_tasks tasks=90
+[2026-09-27 14:20:07 UTC] resources selected_device {"component": "selectime", "device": "cpu", "stage": "prepare"}
+[2026-09-27 14:20:07 UTC] stage=prepare tasks=90 seed=0 Slurm=3584838
+[2026-09-27 16:20:08,159][datasets][INFO] - PyTorch version 2.9.1 available.
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Water_Quality_Darwin/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:08.684458+00:00
+[2026-09-27 14:20:08 UTC] prepare_validation Water_Quality_Darwin/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Water_Quality_Darwin/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:08.805721+00:00
+[2026-09-27 14:20:08 UTC] prepare_test Water_Quality_Darwin/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Water_Quality_Darwin/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:08.957184+00:00
+[2026-09-27 14:20:08 UTC] prepare_validation Water_Quality_Darwin/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Water_Quality_Darwin/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:08.982730+00:00
+[2026-09-27 14:20:08 UTC] prepare_test Water_Quality_Darwin/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Water_Quality_Darwin/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.051014+00:00
+[2026-09-27 14:20:09 UTC] prepare_validation Water_Quality_Darwin/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Water_Quality_Darwin/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.075458+00:00
+[2026-09-27 14:20:09 UTC] prepare_test Water_Quality_Darwin/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.123038+00:00
+[2026-09-27 14:20:09 UTC] prepare_validation current_velocity/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.137127+00:00
+[2026-09-27 14:20:09 UTC] prepare_test current_velocity/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.163180+00:00
+[2026-09-27 14:20:09 UTC] prepare_validation current_velocity/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.175199+00:00
+[2026-09-27 14:20:09 UTC] prepare_test current_velocity/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.199491+00:00
+[2026-09-27 14:20:09 UTC] prepare_validation current_velocity/5T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.211793+00:00
+[2026-09-27 14:20:09 UTC] prepare_test current_velocity/5T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/10T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.328885+00:00
+[2026-09-27 14:20:09 UTC] prepare_validation current_velocity/10T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/10T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.486425+00:00
+[2026-09-27 14:20:09 UTC] prepare_test current_velocity/10T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/10T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.743802+00:00
+[2026-09-27 14:20:09 UTC] prepare_validation current_velocity/10T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/10T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.777211+00:00
+[2026-09-27 14:20:09 UTC] prepare_test current_velocity/10T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/10T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.897563+00:00
+[2026-09-27 14:20:09 UTC] prepare_validation current_velocity/10T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/10T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.931044+00:00
+[2026-09-27 14:20:09 UTC] prepare_test current_velocity/10T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:09.999390+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation current_velocity/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.033298+00:00
+[2026-09-27 14:20:10 UTC] prepare_test current_velocity/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.092698+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation current_velocity/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.108099+00:00
+[2026-09-27 14:20:10 UTC] prepare_test current_velocity/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.142450+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation current_velocity/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.157170+00:00
+[2026-09-27 14:20:10 UTC] prepare_test current_velocity/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.219272+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation current_velocity/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.272500+00:00
+[2026-09-27 14:20:10 UTC] prepare_test current_velocity/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.370415+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation current_velocity/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.418574+00:00
+[2026-09-27 14:20:10 UTC] prepare_test current_velocity/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/current_velocity/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.511719+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation current_velocity/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/current_velocity/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.552812+00:00
+[2026-09-27 14:20:10 UTC] prepare_test current_velocity/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/CPHL/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.617594+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation CPHL/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/CPHL/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.630900+00:00
+[2026-09-27 14:20:10 UTC] prepare_test CPHL/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/CPHL/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.648393+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation CPHL/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/CPHL/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.660520+00:00
+[2026-09-27 14:20:10 UTC] prepare_test CPHL/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/CPHL/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.676139+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation CPHL/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/CPHL/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.688007+00:00
+[2026-09-27 14:20:10 UTC] prepare_test CPHL/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/CPHL/30T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.709028+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation CPHL/30T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/CPHL/30T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.722778+00:00
+[2026-09-27 14:20:10 UTC] prepare_test CPHL/30T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/CPHL/30T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.741078+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation CPHL/30T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/CPHL/30T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.753142+00:00
+[2026-09-27 14:20:10 UTC] prepare_test CPHL/30T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/CPHL/30T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.769746+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation CPHL/30T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/CPHL/30T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.782212+00:00
+[2026-09-27 14:20:10 UTC] prepare_test CPHL/30T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/CPHL/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.802651+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation CPHL/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/CPHL/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.815889+00:00
+[2026-09-27 14:20:10 UTC] prepare_test CPHL/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/CPHL/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.832903+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation CPHL/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/CPHL/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.845612+00:00
+[2026-09-27 14:20:10 UTC] prepare_test CPHL/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/CPHL/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.862433+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation CPHL/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/CPHL/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.874853+00:00
+[2026-09-27 14:20:10 UTC] prepare_test CPHL/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Coastal_T_S/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.923907+00:00
+[2026-09-27 14:20:10 UTC] prepare_validation Coastal_T_S/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Coastal_T_S/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:10.952498+00:00
+[2026-09-27 14:20:10 UTC] prepare_test Coastal_T_S/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Coastal_T_S/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.003804+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation Coastal_T_S/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Coastal_T_S/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.018231+00:00
+[2026-09-27 14:20:11 UTC] prepare_test Coastal_T_S/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Coastal_T_S/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.054548+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation Coastal_T_S/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Coastal_T_S/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.068677+00:00
+[2026-09-27 14:20:11 UTC] prepare_test Coastal_T_S/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Coastal_T_S/20T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.090770+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation Coastal_T_S/20T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Coastal_T_S/20T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.103490+00:00
+[2026-09-27 14:20:11 UTC] prepare_test Coastal_T_S/20T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Coastal_T_S/20T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.120357+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation Coastal_T_S/20T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Coastal_T_S/20T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.132400+00:00
+[2026-09-27 14:20:11 UTC] prepare_test Coastal_T_S/20T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Coastal_T_S/20T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.148422+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation Coastal_T_S/20T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Coastal_T_S/20T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.160203+00:00
+[2026-09-27 14:20:11 UTC] prepare_test Coastal_T_S/20T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Coastal_T_S/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.214803+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation Coastal_T_S/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Coastal_T_S/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.252393+00:00
+[2026-09-27 14:20:11 UTC] prepare_test Coastal_T_S/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Coastal_T_S/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.322366+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation Coastal_T_S/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Coastal_T_S/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.358243+00:00
+[2026-09-27 14:20:11 UTC] prepare_test Coastal_T_S/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Coastal_T_S/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.427045+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation Coastal_T_S/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Coastal_T_S/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.460071+00:00
+[2026-09-27 14:20:11 UTC] prepare_test Coastal_T_S/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/SG_Weather/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.511822+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation SG_Weather/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/SG_Weather/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.542928+00:00
+[2026-09-27 14:20:11 UTC] prepare_test SG_Weather/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/SG_Weather/D/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.583645+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation SG_Weather/D/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/SG_Weather/D/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.613107+00:00
+[2026-09-27 14:20:11 UTC] prepare_test SG_Weather/D/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/SG_Weather/D/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.653126+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation SG_Weather/D/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/SG_Weather/D/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.682187+00:00
+[2026-09-27 14:20:11 UTC] prepare_test SG_Weather/D/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/SG_PM25/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.739232+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation SG_PM25/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/SG_PM25/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.755813+00:00
+[2026-09-27 14:20:11 UTC] prepare_test SG_PM25/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/SG_PM25/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.785074+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation SG_PM25/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/SG_PM25/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.800009+00:00
+[2026-09-27 14:20:11 UTC] prepare_test SG_PM25/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/SG_PM25/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.828833+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation SG_PM25/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/SG_PM25/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.843063+00:00
+[2026-09-27 14:20:11 UTC] prepare_test SG_PM25/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/NE_China_Wind/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.867198+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation NE_China_Wind/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/NE_China_Wind/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.880186+00:00
+[2026-09-27 14:20:11 UTC] prepare_test NE_China_Wind/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/NE_China_Wind/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.897558+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation NE_China_Wind/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/NE_China_Wind/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.910400+00:00
+[2026-09-27 14:20:11 UTC] prepare_test NE_China_Wind/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/NE_China_Wind/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.927393+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation NE_China_Wind/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/NE_China_Wind/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.939716+00:00
+[2026-09-27 14:20:11 UTC] prepare_test NE_China_Wind/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Australia_Solar/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.968854+00:00
+[2026-09-27 14:20:11 UTC] prepare_validation Australia_Solar/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Australia_Solar/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:11.982947+00:00
+[2026-09-27 14:20:11 UTC] prepare_test Australia_Solar/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Australia_Solar/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.005708+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation Australia_Solar/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Australia_Solar/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.019224+00:00
+[2026-09-27 14:20:12 UTC] prepare_test Australia_Solar/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Australia_Solar/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.041381+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation Australia_Solar/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Australia_Solar/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.055286+00:00
+[2026-09-27 14:20:12 UTC] prepare_test Australia_Solar/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/epf_electricity_price/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.099161+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation epf_electricity_price/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/epf_electricity_price/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.121520+00:00
+[2026-09-27 14:20:12 UTC] prepare_test epf_electricity_price/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/epf_electricity_price/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.156192+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation epf_electricity_price/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/epf_electricity_price/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.172056+00:00
+[2026-09-27 14:20:12 UTC] prepare_test epf_electricity_price/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/epf_electricity_price/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.206003+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation epf_electricity_price/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/epf_electricity_price/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.219936+00:00
+[2026-09-27 14:20:12 UTC] prepare_test epf_electricity_price/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/OpenElectricity_NEM/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.279952+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation OpenElectricity_NEM/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/OpenElectricity_NEM/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.298308+00:00
+[2026-09-27 14:20:12 UTC] prepare_test OpenElectricity_NEM/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/OpenElectricity_NEM/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.348755+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation OpenElectricity_NEM/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/OpenElectricity_NEM/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.362675+00:00
+[2026-09-27 14:20:12 UTC] prepare_test OpenElectricity_NEM/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/OpenElectricity_NEM/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.407095+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation OpenElectricity_NEM/5T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/OpenElectricity_NEM/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.419890+00:00
+[2026-09-27 14:20:12 UTC] prepare_test OpenElectricity_NEM/5T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/EWELD_Load/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.458749+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation EWELD_Load/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/EWELD_Load/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.474333+00:00
+[2026-09-27 14:20:12 UTC] prepare_test EWELD_Load/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/EWELD_Load/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.504274+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation EWELD_Load/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/EWELD_Load/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.516963+00:00
+[2026-09-27 14:20:12 UTC] prepare_test EWELD_Load/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/EWELD_Load/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.544596+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation EWELD_Load/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/EWELD_Load/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.557077+00:00
+[2026-09-27 14:20:12 UTC] prepare_test EWELD_Load/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/SG_Carpark/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:12.948279+00:00
+[2026-09-27 14:20:12 UTC] prepare_validation SG_Carpark/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/SG_Carpark/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:13.083409+00:00
+[2026-09-27 14:20:13 UTC] prepare_test SG_Carpark/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/SG_Carpark/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:13.548191+00:00
+[2026-09-27 14:20:13 UTC] prepare_validation SG_Carpark/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/SG_Carpark/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:13.584117+00:00
+[2026-09-27 14:20:13 UTC] prepare_test SG_Carpark/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/SG_Carpark/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:13.949337+00:00
+[2026-09-27 14:20:13 UTC] prepare_validation SG_Carpark/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/SG_Carpark/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:13.969729+00:00
+[2026-09-27 14:20:13 UTC] prepare_test SG_Carpark/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Finland_Traffic/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:13.998383+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Finland_Traffic/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Finland_Traffic/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.011640+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Finland_Traffic/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Finland_Traffic/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.028907+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Finland_Traffic/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Finland_Traffic/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.040946+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Finland_Traffic/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Finland_Traffic/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.057166+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Finland_Traffic/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Finland_Traffic/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.068931+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Finland_Traffic/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Port_Activity/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.131286+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Port_Activity/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Port_Activity/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.235729+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Port_Activity/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Port_Activity/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.380767+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Port_Activity/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Port_Activity/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.406811+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Port_Activity/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/ECDC_COVID/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.439783+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation ECDC_COVID/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/ECDC_COVID/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.454533+00:00
+[2026-09-27 14:20:14 UTC] prepare_test ECDC_COVID/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/ECDC_COVID/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.474402+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation ECDC_COVID/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/ECDC_COVID/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.486722+00:00
+[2026-09-27 14:20:14 UTC] prepare_test ECDC_COVID/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Global_Influenza/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.504838+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Global_Influenza/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Global_Influenza/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.518594+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Global_Influenza/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Crypto/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.539586+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Crypto/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Crypto/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.554702+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Crypto/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/US_Term_Structure/B/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.604230+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation US_Term_Structure/B/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/US_Term_Structure/B/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.720384+00:00
+[2026-09-27 14:20:14 UTC] prepare_test US_Term_Structure/B/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Oil_Price/B/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.854104+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Oil_Price/B/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Oil_Price/B/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.881051+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Oil_Price/B/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Job_Claims/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.913724+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Job_Claims/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Job_Claims/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.926184+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Job_Claims/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Uncertainty_1M/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.943369+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Uncertainty_1M/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Uncertainty_1M/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.956000+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Uncertainty_1M/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Housing_Inventory/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.971680+00:00
+[2026-09-27 14:20:14 UTC] prepare_validation Housing_Inventory/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Housing_Inventory/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:14.984208+00:00
+[2026-09-27 14:20:14 UTC] prepare_test Housing_Inventory/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/JOLTS/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.000685+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation JOLTS/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/JOLTS/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.013267+00:00
+[2026-09-27 14:20:15 UTC] prepare_test JOLTS/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/US_Labor/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.030817+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation US_Labor/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/US_Labor/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.043291+00:00
+[2026-09-27 14:20:15 UTC] prepare_test US_Labor/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Vehicle_Supply/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.058914+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Vehicle_Supply/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Vehicle_Supply/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.071162+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Vehicle_Supply/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Auto_Production_SF/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.086945+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Auto_Production_SF/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Auto_Production_SF/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.099407+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Auto_Production_SF/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Commodity_Production/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.117566+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Commodity_Production/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Commodity_Production/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.132272+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Commodity_Production/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Commodity_Import/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.151277+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Commodity_Import/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Commodity_Import/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.164324+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Commodity_Import/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/WUI_Global/Q/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.180976+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation WUI_Global/Q/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/WUI_Global/Q/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.193597+00:00
+[2026-09-27 14:20:15 UTC] prepare_test WUI_Global/Q/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Global_Price/Q/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.209435+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Global_Price/Q/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Global_Price/Q/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.222088+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Global_Price/Q/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Vehicle_Sales/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.238857+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Vehicle_Sales/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Vehicle_Sales/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.251342+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Vehicle_Sales/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Online_Retail_2_UCI/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.266701+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Online_Retail_2_UCI/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Online_Retail_2_UCI/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.279176+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Online_Retail_2_UCI/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Supply_Chain_Customer/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.299032+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Supply_Chain_Customer/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Supply_Chain_Customer/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.325792+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Supply_Chain_Customer/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Supply_Chain_Location/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.365785+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Supply_Chain_Location/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Supply_Chain_Location/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.397808+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Supply_Chain_Location/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/azure2019_U/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.466716+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation azure2019_U/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/azure2019_U/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.507722+00:00
+[2026-09-27 14:20:15 UTC] prepare_test azure2019_U/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Smart_Manufacturing/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.572368+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Smart_Manufacturing/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Smart_Manufacturing/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.597725+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Smart_Manufacturing/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Smart_Manufacturing/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.651890+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Smart_Manufacturing/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Smart_Manufacturing/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.666059+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Smart_Manufacturing/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/Smart_Manufacturing/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.703573+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation Smart_Manufacturing/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/Smart_Manufacturing/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.716637+00:00
+[2026-09-27 14:20:15 UTC] prepare_test Smart_Manufacturing/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/MetroPT-3/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.740327+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation MetroPT-3/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/MetroPT-3/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.752963+00:00
+[2026-09-27 14:20:15 UTC] prepare_test MetroPT-3/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/MetroPT-3/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.774570+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation MetroPT-3/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/MetroPT-3/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.786432+00:00
+[2026-09-27 14:20:15 UTC] prepare_test MetroPT-3/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/validation/shared/MetroPT-3/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.807109+00:00
+[2026-09-27 14:20:15 UTC] prepare_validation MetroPT-3/5T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/data/test/shared/MetroPT-3/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:15.819179+00:00
+[2026-09-27 14:20:15 UTC] prepare_test MetroPT-3/5T/long
+[2026-09-27 14:20:31 UTC] Slurm=3584838 launch=selena_3584838 stage=extract_validation prediction_group=all
+[2026-09-27 14:20:32 UTC] dataset_config=/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml applied_keys=datasets,selectime_tasks tasks=90
+[2026-09-27 14:20:32 UTC] resources selected_device {"component": "selectime", "device": "cpu", "stage": "extract_validation"}
+[2026-09-27 14:20:32 UTC] stage=extract_validation tasks=90 seed=0 Slurm=3584838
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Water_Quality_Darwin/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:20:32.259235+00:00
+[2026-09-27 14:20:32 UTC] extract_validation kind=covariate Water_Quality_Darwin/15T/short
+[2026-09-27 16:20:32,609][datasets][INFO] - PyTorch version 2.9.1 available.
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Water_Quality_Darwin/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:21:00.972647+00:00
+[2026-09-27 14:21:00 UTC] extract_validation kind=covariate Water_Quality_Darwin/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Water_Quality_Darwin/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:21:02.709003+00:00
+[2026-09-27 14:21:02 UTC] extract_validation kind=covariate Water_Quality_Darwin/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:21:03.951237+00:00
+[2026-09-27 14:21:03 UTC] extract_validation kind=covariate current_velocity/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:21:04.398622+00:00
+[2026-09-27 14:21:04 UTC] extract_validation kind=covariate current_velocity/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:21:04.486458+00:00
+[2026-09-27 14:21:04 UTC] extract_validation kind=covariate current_velocity/5T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/10T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:21:04.560492+00:00
+[2026-09-27 14:21:04 UTC] extract_validation kind=covariate current_velocity/10T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/10T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:03.650694+00:00
+[2026-09-27 14:23:03 UTC] extract_validation kind=covariate current_velocity/10T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/10T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:07.916075+00:00
+[2026-09-27 14:23:07 UTC] extract_validation kind=covariate current_velocity/10T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:10.717833+00:00
+[2026-09-27 14:23:10 UTC] extract_validation kind=covariate current_velocity/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:18.990369+00:00
+[2026-09-27 14:23:18 UTC] extract_validation kind=covariate current_velocity/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:19.367309+00:00
+[2026-09-27 14:23:19 UTC] extract_validation kind=covariate current_velocity/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:19.634719+00:00
+[2026-09-27 14:23:19 UTC] extract_validation kind=covariate current_velocity/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:28.536547+00:00
+[2026-09-27 14:23:28 UTC] extract_validation kind=covariate current_velocity/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/current_velocity/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:30.590875+00:00
+[2026-09-27 14:23:30 UTC] extract_validation kind=covariate current_velocity/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/CPHL/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.339489+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate CPHL/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/CPHL/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.461797+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate CPHL/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/CPHL/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.507350+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate CPHL/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/CPHL/30T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.548071+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate CPHL/30T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/CPHL/30T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.699216+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate CPHL/30T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/CPHL/30T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.753008+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate CPHL/30T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/CPHL/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.803411+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate CPHL/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/CPHL/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.870305+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate CPHL/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/CPHL/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.927381+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate CPHL/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Coastal_T_S/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:32.989552+00:00
+[2026-09-27 14:23:32 UTC] extract_validation kind=covariate Coastal_T_S/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Coastal_T_S/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:36.497445+00:00
+[2026-09-27 14:23:36 UTC] extract_validation kind=covariate Coastal_T_S/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Coastal_T_S/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:36.760462+00:00
+[2026-09-27 14:23:36 UTC] extract_validation kind=covariate Coastal_T_S/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Coastal_T_S/20T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:36.976495+00:00
+[2026-09-27 14:23:36 UTC] extract_validation kind=covariate Coastal_T_S/20T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Coastal_T_S/20T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:37.095088+00:00
+[2026-09-27 14:23:37 UTC] extract_validation kind=covariate Coastal_T_S/20T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Coastal_T_S/20T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:37.135935+00:00
+[2026-09-27 14:23:37 UTC] extract_validation kind=covariate Coastal_T_S/20T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Coastal_T_S/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:37.175948+00:00
+[2026-09-27 14:23:37 UTC] extract_validation kind=covariate Coastal_T_S/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Coastal_T_S/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:40.867033+00:00
+[2026-09-27 14:23:40 UTC] extract_validation kind=covariate Coastal_T_S/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Coastal_T_S/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:41.975437+00:00
+[2026-09-27 14:23:41 UTC] extract_validation kind=covariate Coastal_T_S/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/SG_Weather/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:43.153223+00:00
+[2026-09-27 14:23:43 UTC] extract_validation kind=covariate SG_Weather/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/SG_Weather/D/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:46.761207+00:00
+[2026-09-27 14:23:46 UTC] extract_validation kind=covariate SG_Weather/D/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/SG_Weather/D/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:48.423144+00:00
+[2026-09-27 14:23:48 UTC] extract_validation kind=covariate SG_Weather/D/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/SG_PM25/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:49.361173+00:00
+[2026-09-27 14:23:49 UTC] extract_validation kind=covariate SG_PM25/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/SG_PM25/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:49.572921+00:00
+[2026-09-27 14:23:49 UTC] extract_validation kind=covariate SG_PM25/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/SG_PM25/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:49.716643+00:00
+[2026-09-27 14:23:49 UTC] extract_validation kind=covariate SG_PM25/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/NE_China_Wind/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:49.841226+00:00
+[2026-09-27 14:23:49 UTC] extract_validation kind=covariate NE_China_Wind/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/NE_China_Wind/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:49.896412+00:00
+[2026-09-27 14:23:49 UTC] extract_validation kind=covariate NE_China_Wind/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/NE_China_Wind/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:49.944423+00:00
+[2026-09-27 14:23:49 UTC] extract_validation kind=covariate NE_China_Wind/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Australia_Solar/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:49.991372+00:00
+[2026-09-27 14:23:49 UTC] extract_validation kind=covariate Australia_Solar/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Australia_Solar/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:50.104317+00:00
+[2026-09-27 14:23:50 UTC] extract_validation kind=covariate Australia_Solar/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Australia_Solar/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:50.190654+00:00
+[2026-09-27 14:23:50 UTC] extract_validation kind=covariate Australia_Solar/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/epf_electricity_price/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:50.269946+00:00
+[2026-09-27 14:23:50 UTC] extract_validation kind=covariate epf_electricity_price/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/epf_electricity_price/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:50.551348+00:00
+[2026-09-27 14:23:50 UTC] extract_validation kind=covariate epf_electricity_price/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/epf_electricity_price/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:50.744049+00:00
+[2026-09-27 14:23:50 UTC] extract_validation kind=covariate epf_electricity_price/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/OpenElectricity_NEM/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:50.859287+00:00
+[2026-09-27 14:23:50 UTC] extract_validation kind=covariate OpenElectricity_NEM/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/OpenElectricity_NEM/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:53.214734+00:00
+[2026-09-27 14:23:53 UTC] extract_validation kind=covariate OpenElectricity_NEM/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/OpenElectricity_NEM/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:53.627925+00:00
+[2026-09-27 14:23:53 UTC] extract_validation kind=covariate OpenElectricity_NEM/5T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/EWELD_Load/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:53.808786+00:00
+[2026-09-27 14:23:53 UTC] extract_validation kind=covariate EWELD_Load/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/EWELD_Load/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:54.170182+00:00
+[2026-09-27 14:23:54 UTC] extract_validation kind=covariate EWELD_Load/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/EWELD_Load/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:54.287383+00:00
+[2026-09-27 14:23:54 UTC] extract_validation kind=covariate EWELD_Load/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/SG_Carpark/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:23:54.359933+00:00
+[2026-09-27 14:23:54 UTC] extract_validation kind=covariate SG_Carpark/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/SG_Carpark/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:16.431225+00:00
+[2026-09-27 14:26:16 UTC] extract_validation kind=covariate SG_Carpark/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/SG_Carpark/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:22.080081+00:00
+[2026-09-27 14:26:22 UTC] extract_validation kind=covariate SG_Carpark/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Finland_Traffic/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:23.155898+00:00
+[2026-09-27 14:26:23 UTC] extract_validation kind=covariate Finland_Traffic/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Finland_Traffic/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:23.264275+00:00
+[2026-09-27 14:26:23 UTC] extract_validation kind=covariate Finland_Traffic/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Finland_Traffic/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:23.311090+00:00
+[2026-09-27 14:26:23 UTC] extract_validation kind=covariate Finland_Traffic/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Port_Activity/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:23.360223+00:00
+[2026-09-27 14:26:23 UTC] extract_validation kind=covariate Port_Activity/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Port_Activity/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:35.930451+00:00
+[2026-09-27 14:26:35 UTC] extract_validation kind=covariate Port_Activity/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/ECDC_COVID/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:36.808739+00:00
+[2026-09-27 14:26:36 UTC] extract_validation kind=covariate ECDC_COVID/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/ECDC_COVID/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:36.894626+00:00
+[2026-09-27 14:26:36 UTC] extract_validation kind=covariate ECDC_COVID/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Global_Influenza/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:36.937164+00:00
+[2026-09-27 14:26:36 UTC] extract_validation kind=covariate Global_Influenza/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Crypto/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:37.027421+00:00
+[2026-09-27 14:26:37 UTC] extract_validation kind=covariate Crypto/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/US_Term_Structure/B/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:37.112798+00:00
+[2026-09-27 14:26:37 UTC] extract_validation kind=covariate US_Term_Structure/B/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Oil_Price/B/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:46.578592+00:00
+[2026-09-27 14:26:46 UTC] extract_validation kind=covariate Oil_Price/B/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Job_Claims/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.153128+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Job_Claims/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Uncertainty_1M/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.187128+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Uncertainty_1M/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Housing_Inventory/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.222105+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Housing_Inventory/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/JOLTS/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.254034+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate JOLTS/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/US_Labor/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.286538+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate US_Labor/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Vehicle_Supply/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.324335+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Vehicle_Supply/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Auto_Production_SF/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.358815+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Auto_Production_SF/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Commodity_Production/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.392064+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Commodity_Production/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Commodity_Import/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.466029+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Commodity_Import/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/WUI_Global/Q/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.512935+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate WUI_Global/Q/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Global_Price/Q/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.552705+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Global_Price/Q/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Vehicle_Sales/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.613548+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Vehicle_Sales/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Online_Retail_2_UCI/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.651481+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Online_Retail_2_UCI/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Supply_Chain_Customer/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:47.684076+00:00
+[2026-09-27 14:26:47 UTC] extract_validation kind=covariate Supply_Chain_Customer/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Supply_Chain_Location/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:48.261795+00:00
+[2026-09-27 14:26:48 UTC] extract_validation kind=covariate Supply_Chain_Location/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/azure2019_U/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:49.286127+00:00
+[2026-09-27 14:26:49 UTC] extract_validation kind=covariate azure2019_U/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Smart_Manufacturing/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:49.446342+00:00
+[2026-09-27 14:26:49 UTC] extract_validation kind=covariate Smart_Manufacturing/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Smart_Manufacturing/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:51.230009+00:00
+[2026-09-27 14:26:51 UTC] extract_validation kind=covariate Smart_Manufacturing/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/Smart_Manufacturing/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:51.389884+00:00
+[2026-09-27 14:26:51 UTC] extract_validation kind=covariate Smart_Manufacturing/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/MetroPT-3/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:51.513904+00:00
+[2026-09-27 14:26:51 UTC] extract_validation kind=covariate MetroPT-3/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/MetroPT-3/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:51.707703+00:00
+[2026-09-27 14:26:51 UTC] extract_validation kind=covariate MetroPT-3/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/retrieval/validation/covariate/MetroPT-3/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:26:51.843428+00:00
+[2026-09-27 14:26:51 UTC] extract_validation kind=covariate MetroPT-3/5T/long
+[2026-09-27 14:27:07 UTC] Slurm=3584838 launch=selena_3584838 stage=predict_validation prediction_group=vanilla
+[2026-09-27 14:27:10 UTC] dataset_config=/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml applied_keys=datasets,selectime_tasks tasks=90
+[2026-09-27 14:27:10 UTC] resources selected_device {"component": "selectime", "device": "cuda", "stage": "predict_validation"}
+[2026-09-27 14:27:10 UTC] stage=predict_validation tasks=90 seed=0 Slurm=3584838
+[2026-09-27 16:27:10,807][datasets][INFO] - PyTorch version 2.9.1 available.
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Water_Quality_Darwin/15T/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:27:11.539084+00:00
+[2026-09-27 14:27:11 UTC] predict_validation method=vanilla_univariate Water_Quality_Darwin/15T/short
+[2026-09-27 14:27:16 UTC] resources selected_device {"device": "cuda", "model": "ts_icl", "stage": "forecast"}
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Water_Quality_Darwin/15T/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:28:48.858927+00:00
+[2026-09-27 14:28:48 UTC] predict_validation method=vanilla_univariate Water_Quality_Darwin/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Water_Quality_Darwin/15T/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:29:04.409505+00:00
+[2026-09-27 14:29:04 UTC] predict_validation method=vanilla_univariate Water_Quality_Darwin/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/5T/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:29:09.853101+00:00
+[2026-09-27 14:29:09 UTC] predict_validation method=vanilla_univariate current_velocity/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/5T/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:29:27.291781+00:00
+[2026-09-27 14:29:27 UTC] predict_validation method=vanilla_univariate current_velocity/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/5T/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:29:29.642049+00:00
+[2026-09-27 14:29:29 UTC] predict_validation method=vanilla_univariate current_velocity/5T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/10T/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:29:31.507917+00:00
+[2026-09-27 14:29:31 UTC] predict_validation method=vanilla_univariate current_velocity/10T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/10T/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:32:31.129271+00:00
+[2026-09-27 14:32:31 UTC] predict_validation method=vanilla_univariate current_velocity/10T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/10T/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:32:54.005067+00:00
+[2026-09-27 14:32:54 UTC] predict_validation method=vanilla_univariate current_velocity/10T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/15T/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:33:02.070578+00:00
+[2026-09-27 14:33:02 UTC] predict_validation method=vanilla_univariate current_velocity/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/15T/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:34:32.073716+00:00
+[2026-09-27 14:34:32 UTC] predict_validation method=vanilla_univariate current_velocity/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/15T/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:34:41.780964+00:00
+[2026-09-27 14:34:41 UTC] predict_validation method=vanilla_univariate current_velocity/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/H/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:34:44.825266+00:00
+[2026-09-27 14:34:44 UTC] predict_validation method=vanilla_univariate current_velocity/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/H/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:01.979069+00:00
+[2026-09-27 14:36:01 UTC] predict_validation method=vanilla_univariate current_velocity/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/current_velocity/H/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:09.181954+00:00
+[2026-09-27 14:36:09 UTC] predict_validation method=vanilla_univariate current_velocity/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/CPHL/15T/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:12.758892+00:00
+[2026-09-27 14:36:12 UTC] predict_validation method=vanilla_univariate CPHL/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/CPHL/15T/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:18.628679+00:00
+[2026-09-27 14:36:18 UTC] predict_validation method=vanilla_univariate CPHL/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/CPHL/15T/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:19.401245+00:00
+[2026-09-27 14:36:19 UTC] predict_validation method=vanilla_univariate CPHL/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/CPHL/30T/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:19.711809+00:00
+[2026-09-27 14:36:19 UTC] predict_validation method=vanilla_univariate CPHL/30T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/CPHL/30T/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:25.381895+00:00
+[2026-09-27 14:36:25 UTC] predict_validation method=vanilla_univariate CPHL/30T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/CPHL/30T/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:26.860834+00:00
+[2026-09-27 14:36:26 UTC] predict_validation method=vanilla_univariate CPHL/30T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/CPHL/H/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:27.396338+00:00
+[2026-09-27 14:36:27 UTC] predict_validation method=vanilla_univariate CPHL/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/CPHL/H/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:29.808478+00:00
+[2026-09-27 14:36:29 UTC] predict_validation method=vanilla_univariate CPHL/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/CPHL/H/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:30.196526+00:00
+[2026-09-27 14:36:30 UTC] predict_validation method=vanilla_univariate CPHL/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Coastal_T_S/15T/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:36:30.492013+00:00
+[2026-09-27 14:36:30 UTC] predict_validation method=vanilla_univariate Coastal_T_S/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Coastal_T_S/15T/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:37:13.993493+00:00
+[2026-09-27 14:37:13 UTC] predict_validation method=vanilla_univariate Coastal_T_S/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Coastal_T_S/15T/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:37:19.590400+00:00
+[2026-09-27 14:37:19 UTC] predict_validation method=vanilla_univariate Coastal_T_S/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Coastal_T_S/20T/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:37:21.567094+00:00
+[2026-09-27 14:37:21 UTC] predict_validation method=vanilla_univariate Coastal_T_S/20T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Coastal_T_S/20T/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:37:30.273989+00:00
+[2026-09-27 14:37:30 UTC] predict_validation method=vanilla_univariate Coastal_T_S/20T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Coastal_T_S/20T/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:37:31.407688+00:00
+[2026-09-27 14:37:31 UTC] predict_validation method=vanilla_univariate Coastal_T_S/20T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Coastal_T_S/H/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:37:31.904087+00:00
+[2026-09-27 14:37:31 UTC] predict_validation method=vanilla_univariate Coastal_T_S/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Coastal_T_S/H/medium/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:38:24.537431+00:00
+[2026-09-27 14:38:24 UTC] predict_validation method=vanilla_univariate Coastal_T_S/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Coastal_T_S/H/long/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:38:31.423010+00:00
+[2026-09-27 14:38:31 UTC] predict_validation method=vanilla_univariate Coastal_T_S/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/SG_Weather/D/short/run_1 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:38:34.870254+00:00
+[2026-09-27 14:38:34 UTC] predict_validation method=vanilla_univariate SG_Weather/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/SG_Weather/D/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:39:42.027175+00:00
+[2026-09-27 14:39:42 UTC] predict_validation method=vanilla_univariate SG_Weather/D/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/SG_Weather/D/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:10.565874+00:00
+[2026-09-27 14:40:10 UTC] predict_validation method=vanilla_univariate SG_Weather/D/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/SG_PM25/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:23.381524+00:00
+[2026-09-27 14:40:23 UTC] predict_validation method=vanilla_univariate SG_PM25/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/SG_PM25/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:34.609563+00:00
+[2026-09-27 14:40:34 UTC] predict_validation method=vanilla_univariate SG_PM25/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/SG_PM25/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:38.368389+00:00
+[2026-09-27 14:40:38 UTC] predict_validation method=vanilla_univariate SG_PM25/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/NE_China_Wind/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:40.053386+00:00
+[2026-09-27 14:40:40 UTC] predict_validation method=vanilla_univariate NE_China_Wind/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/NE_China_Wind/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:42.984870+00:00
+[2026-09-27 14:40:42 UTC] predict_validation method=vanilla_univariate NE_China_Wind/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/NE_China_Wind/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:43.995298+00:00
+[2026-09-27 14:40:43 UTC] predict_validation method=vanilla_univariate NE_China_Wind/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Australia_Solar/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:44.441901+00:00
+[2026-09-27 14:40:44 UTC] predict_validation method=vanilla_univariate Australia_Solar/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Australia_Solar/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:50.540628+00:00
+[2026-09-27 14:40:50 UTC] predict_validation method=vanilla_univariate Australia_Solar/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Australia_Solar/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:52.848033+00:00
+[2026-09-27 14:40:52 UTC] predict_validation method=vanilla_univariate Australia_Solar/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/epf_electricity_price/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:40:53.969988+00:00
+[2026-09-27 14:40:53 UTC] predict_validation method=vanilla_univariate epf_electricity_price/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/epf_electricity_price/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:41:06.717520+00:00
+[2026-09-27 14:41:06 UTC] predict_validation method=vanilla_univariate epf_electricity_price/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/epf_electricity_price/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:41:11.072751+00:00
+[2026-09-27 14:41:11 UTC] predict_validation method=vanilla_univariate epf_electricity_price/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/OpenElectricity_NEM/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:41:13.065213+00:00
+[2026-09-27 14:41:13 UTC] predict_validation method=vanilla_univariate OpenElectricity_NEM/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/OpenElectricity_NEM/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:41:53.643657+00:00
+[2026-09-27 14:41:53 UTC] predict_validation method=vanilla_univariate OpenElectricity_NEM/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/OpenElectricity_NEM/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:42:04.013048+00:00
+[2026-09-27 14:42:04 UTC] predict_validation method=vanilla_univariate OpenElectricity_NEM/5T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/EWELD_Load/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:42:07.661264+00:00
+[2026-09-27 14:42:07 UTC] predict_validation method=vanilla_univariate EWELD_Load/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/EWELD_Load/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:42:21.260253+00:00
+[2026-09-27 14:42:21 UTC] predict_validation method=vanilla_univariate EWELD_Load/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/EWELD_Load/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:42:24.746821+00:00
+[2026-09-27 14:42:24 UTC] predict_validation method=vanilla_univariate EWELD_Load/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/SG_Carpark/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:42:26.311817+00:00
+[2026-09-27 14:42:26 UTC] predict_validation method=vanilla_univariate SG_Carpark/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/SG_Carpark/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:48:30.805925+00:00
+[2026-09-27 14:48:30 UTC] predict_validation method=vanilla_univariate SG_Carpark/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/SG_Carpark/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:49:33.089792+00:00
+[2026-09-27 14:49:33 UTC] predict_validation method=vanilla_univariate SG_Carpark/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Finland_Traffic/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:49:43.203711+00:00
+[2026-09-27 14:49:43 UTC] predict_validation method=vanilla_univariate Finland_Traffic/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Finland_Traffic/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:49:47.723678+00:00
+[2026-09-27 14:49:47 UTC] predict_validation method=vanilla_univariate Finland_Traffic/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Finland_Traffic/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:49:48.504963+00:00
+[2026-09-27 14:49:48 UTC] predict_validation method=vanilla_univariate Finland_Traffic/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Port_Activity/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:49:48.766338+00:00
+[2026-09-27 14:49:48 UTC] predict_validation method=vanilla_univariate Port_Activity/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Port_Activity/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:50:12.513150+00:00
+[2026-09-27 14:50:12 UTC] predict_validation method=vanilla_univariate Port_Activity/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/ECDC_COVID/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:50:14.148308+00:00
+[2026-09-27 14:50:14 UTC] predict_validation method=vanilla_univariate ECDC_COVID/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/ECDC_COVID/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:50:14.836419+00:00
+[2026-09-27 14:50:14 UTC] predict_validation method=vanilla_univariate ECDC_COVID/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Global_Influenza/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:50:15.571650+00:00
+[2026-09-27 14:50:15 UTC] predict_validation method=vanilla_univariate Global_Influenza/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Crypto/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:50:16.339880+00:00
+[2026-09-27 14:50:16 UTC] predict_validation method=vanilla_univariate Crypto/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/US_Term_Structure/B/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:50:16.978740+00:00
+[2026-09-27 14:50:16 UTC] predict_validation method=vanilla_univariate US_Term_Structure/B/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Oil_Price/B/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:50:49.407768+00:00
+[2026-09-27 14:50:49 UTC] predict_validation method=vanilla_univariate Oil_Price/B/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Job_Claims/W/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:02.532319+00:00
+[2026-09-27 14:51:02 UTC] predict_validation method=vanilla_univariate Job_Claims/W/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Uncertainty_1M/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:02.625757+00:00
+[2026-09-27 14:51:02 UTC] predict_validation method=vanilla_univariate Uncertainty_1M/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Housing_Inventory/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:02.784335+00:00
+[2026-09-27 14:51:02 UTC] predict_validation method=vanilla_univariate Housing_Inventory/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/JOLTS/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:02.862295+00:00
+[2026-09-27 14:51:02 UTC] predict_validation method=vanilla_univariate JOLTS/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/US_Labor/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:02.974361+00:00
+[2026-09-27 14:51:02 UTC] predict_validation method=vanilla_univariate US_Labor/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Vehicle_Supply/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:03.234230+00:00
+[2026-09-27 14:51:03 UTC] predict_validation method=vanilla_univariate Vehicle_Supply/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Auto_Production_SF/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:03.346154+00:00
+[2026-09-27 14:51:03 UTC] predict_validation method=vanilla_univariate Auto_Production_SF/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Commodity_Production/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:03.451588+00:00
+[2026-09-27 14:51:03 UTC] predict_validation method=vanilla_univariate Commodity_Production/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Commodity_Import/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:05.482893+00:00
+[2026-09-27 14:51:05 UTC] predict_validation method=vanilla_univariate Commodity_Import/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/WUI_Global/Q/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:06.009099+00:00
+[2026-09-27 14:51:06 UTC] predict_validation method=vanilla_univariate WUI_Global/Q/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Global_Price/Q/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:06.312550+00:00
+[2026-09-27 14:51:06 UTC] predict_validation method=vanilla_univariate Global_Price/Q/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Vehicle_Sales/M/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:07.091337+00:00
+[2026-09-27 14:51:07 UTC] predict_validation method=vanilla_univariate Vehicle_Sales/M/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Online_Retail_2_UCI/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:07.302123+00:00
+[2026-09-27 14:51:07 UTC] predict_validation method=vanilla_univariate Online_Retail_2_UCI/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Supply_Chain_Customer/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:07.431306+00:00
+[2026-09-27 14:51:07 UTC] predict_validation method=vanilla_univariate Supply_Chain_Customer/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Supply_Chain_Location/D/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:11.563661+00:00
+[2026-09-27 14:51:11 UTC] predict_validation method=vanilla_univariate Supply_Chain_Location/D/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/azure2019_U/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:17.345773+00:00
+[2026-09-27 14:51:17 UTC] predict_validation method=vanilla_univariate azure2019_U/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Smart_Manufacturing/H/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:29.215203+00:00
+[2026-09-27 14:51:29 UTC] predict_validation method=vanilla_univariate Smart_Manufacturing/H/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Smart_Manufacturing/H/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:49.001096+00:00
+[2026-09-27 14:51:49 UTC] predict_validation method=vanilla_univariate Smart_Manufacturing/H/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/Smart_Manufacturing/H/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:50.729090+00:00
+[2026-09-27 14:51:50 UTC] predict_validation method=vanilla_univariate Smart_Manufacturing/H/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/MetroPT-3/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:51.569981+00:00
+[2026-09-27 14:51:51 UTC] predict_validation method=vanilla_univariate MetroPT-3/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/MetroPT-3/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:55.634939+00:00
+[2026-09-27 14:51:55 UTC] predict_validation method=vanilla_univariate MetroPT-3/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/vanilla_univariate/MetroPT-3/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:51:56.497684+00:00
+[2026-09-27 14:51:56 UTC] predict_validation method=vanilla_univariate MetroPT-3/5T/long
+[2026-09-27 14:52:14 UTC] Slurm=3584838 launch=selena_3584838 stage=predict_validation prediction_group=remaining
+[2026-09-27 14:52:17 UTC] dataset_config=/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml applied_keys=datasets,selectime_tasks tasks=90
+[2026-09-27 14:52:17 UTC] resources selected_device {"component": "selectime", "device": "cuda", "stage": "predict_validation"}
+[2026-09-27 14:52:17 UTC] stage=predict_validation tasks=90 seed=0 Slurm=3584838
+[2026-09-27 16:52:18,035][datasets][INFO] - PyTorch version 2.9.1 available.
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_1/Water_Quality_Darwin/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:52:18.783692+00:00
+[2026-09-27 14:52:18 UTC] predict_validation method=top_k_1 Water_Quality_Darwin/15T/short
+[2026-09-27 14:52:23 UTC] resources selected_device {"device": "cuda", "model": "ts_icl", "stage": "forecast"}
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_5/Water_Quality_Darwin/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:53:59.192340+00:00
+[2026-09-27 14:53:59 UTC] predict_validation method=top_k_5 Water_Quality_Darwin/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_10/Water_Quality_Darwin/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:55:54.914663+00:00
+[2026-09-27 14:55:54 UTC] predict_validation method=top_k_10 Water_Quality_Darwin/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_15/Water_Quality_Darwin/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T14:58:22.717960+00:00
+[2026-09-27 14:58:22 UTC] predict_validation method=top_k_15 Water_Quality_Darwin/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_20/Water_Quality_Darwin/15T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:01:23.136256+00:00
+[2026-09-27 15:01:23 UTC] predict_validation method=top_k_20 Water_Quality_Darwin/15T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_1/Water_Quality_Darwin/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:04:59.087510+00:00
+[2026-09-27 15:04:59 UTC] predict_validation method=top_k_1 Water_Quality_Darwin/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_5/Water_Quality_Darwin/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:05:15.394852+00:00
+[2026-09-27 15:05:15 UTC] predict_validation method=top_k_5 Water_Quality_Darwin/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_10/Water_Quality_Darwin/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:05:35.265619+00:00
+[2026-09-27 15:05:35 UTC] predict_validation method=top_k_10 Water_Quality_Darwin/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_15/Water_Quality_Darwin/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:06:00.356080+00:00
+[2026-09-27 15:06:00 UTC] predict_validation method=top_k_15 Water_Quality_Darwin/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_20/Water_Quality_Darwin/15T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:06:31.165094+00:00
+[2026-09-27 15:06:31 UTC] predict_validation method=top_k_20 Water_Quality_Darwin/15T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_1/Water_Quality_Darwin/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:07:07.765918+00:00
+[2026-09-27 15:07:07 UTC] predict_validation method=top_k_1 Water_Quality_Darwin/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_5/Water_Quality_Darwin/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:07:13.518441+00:00
+[2026-09-27 15:07:13 UTC] predict_validation method=top_k_5 Water_Quality_Darwin/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_10/Water_Quality_Darwin/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:07:20.574577+00:00
+[2026-09-27 15:07:20 UTC] predict_validation method=top_k_10 Water_Quality_Darwin/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_15/Water_Quality_Darwin/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:07:29.547271+00:00
+[2026-09-27 15:07:29 UTC] predict_validation method=top_k_15 Water_Quality_Darwin/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_20/Water_Quality_Darwin/15T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:07:40.373330+00:00
+[2026-09-27 15:07:40 UTC] predict_validation method=top_k_20 Water_Quality_Darwin/15T/long
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_1/current_velocity/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:07:53.231454+00:00
+[2026-09-27 15:07:53 UTC] predict_validation method=top_k_1 current_velocity/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_5/current_velocity/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:08:10.981981+00:00
+[2026-09-27 15:08:10 UTC] predict_validation method=top_k_5 current_velocity/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_10/current_velocity/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:08:30.212035+00:00
+[2026-09-27 15:08:30 UTC] predict_validation method=top_k_10 current_velocity/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_15/current_velocity/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:08:51.265246+00:00
+[2026-09-27 15:08:51 UTC] predict_validation method=top_k_15 current_velocity/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_20/current_velocity/5T/short/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:09:14.083031+00:00
+[2026-09-27 15:09:14 UTC] predict_validation method=top_k_20 current_velocity/5T/short
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_1/current_velocity/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:09:38.865696+00:00
+[2026-09-27 15:09:38 UTC] predict_validation method=top_k_1 current_velocity/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_5/current_velocity/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:09:41.273358+00:00
+[2026-09-27 15:09:41 UTC] predict_validation method=top_k_5 current_velocity/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_10/current_velocity/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:09:43.856281+00:00
+[2026-09-27 15:09:43 UTC] predict_validation method=top_k_10 current_velocity/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_15/current_velocity/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:09:46.677459+00:00
+[2026-09-27 15:09:46 UTC] predict_validation method=top_k_15 current_velocity/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_20/current_velocity/5T/medium/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:09:49.727819+00:00
+[2026-09-27 15:09:49 UTC] predict_validation method=top_k_20 current_velocity/5T/medium
+TIME run allocation action=new run=/fslarge/scratch/users/h61084/codes/selectime/outputs/selectime/ts_icl/predictions/validation/top_k_1/current_velocity/5T/long/run_0 launch_id=selena_3584838 slurm_job_id=3584838 launched_at=2026-09-27T15:09:53.059882+00:00
+[2026-09-27 15:09:53 UTC] predict_validation method=top_k_1 current_velocity/5T/long

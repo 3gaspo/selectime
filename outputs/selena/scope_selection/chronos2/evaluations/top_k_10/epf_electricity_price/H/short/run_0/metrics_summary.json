@@ -1,0 +1,86 @@
+{
+  "aggregation": "mean over the shared Seasonal Naive MASE evaluation grid",
+  "dataset_config": "epf_electricity_price/H/short",
+  "evaluation_grid": {
+    "definition": "finite_ground_truth_and_seasonal_naive_mase",
+    "source": "/fslarge/scratch/users/h61084/codes/seasonal/outputs/seasonal_naive/evaluations/univariate/epf_electricity_price/H/short/run_0/evaluation_grid.npz",
+    "total_values": 525,
+    "valid_values": 525
+  },
+  "inference_seconds": 31.578430933877826,
+  "metrics": {
+    "CRPS": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 525,
+      "finite_values": 525,
+      "mean": 0.16243514698941258,
+      "std": 0.27276052853497434,
+      "total_values": 525,
+      "variance": 0.07439830592667857
+    },
+    "MAE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 525,
+      "finite_values": 525,
+      "mean": 6.12990820620416,
+      "std": 6.442278946423678,
+      "total_values": 525,
+      "variance": 41.50295802353377
+    },
+    "MAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 525,
+      "finite_values": 525,
+      "mean": 1.3049356021120173,
+      "std": 14.430219475346307,
+      "total_values": 525,
+      "variance": 208.23123410666383
+    },
+    "MASE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 525,
+      "finite_values": 525,
+      "mean": 0.961627228538358,
+      "std": 0.8994794015706572,
+      "total_values": 525,
+      "variance": 0.8090631938499077
+    },
+    "MSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 525,
+      "finite_values": 525,
+      "mean": 130.04886016570933,
+      "std": 423.5850404067063,
+      "total_values": 525,
+      "variance": 179424.28645635102
+    },
+    "ND": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 525,
+      "finite_values": 525,
+      "mean": 0.16243514698941258,
+      "std": 0.27276052853497434,
+      "total_values": 525,
+      "variance": 0.07439830592667857
+    },
+    "RMSE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 525,
+      "finite_values": 525,
+      "mean": 7.698262523093188,
+      "std": 8.413418704144485,
+      "total_values": 525,
+      "variance": 70.78561429124825
+    },
+    "sMAPE": {
+      "dispersion_ddof": 0,
+      "evaluation_values": 525,
+      "finite_values": 525,
+      "mean": 0.15778441416811997,
+      "std": 0.2044398797366867,
+      "total_values": 525,
+      "variance": 0.04179566442675092
+    }
+  },
+  "model": "chronos2"
+}

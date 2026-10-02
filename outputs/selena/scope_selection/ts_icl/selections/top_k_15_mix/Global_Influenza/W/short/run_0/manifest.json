@@ -1,0 +1,129 @@
+{
+  "completed_at": "2026-09-29T12:01:28.339545+00:00",
+  "computed_at": "2026-09-29T12:01:09.857082+00:00",
+  "experiment": "scope_selection",
+  "experiment_config": {
+    "seed": 0
+  },
+  "identity": {
+    "dataset": "Global_Influenza",
+    "frequency": "W",
+    "method": "top_k_15_mix",
+    "model": "ts_icl",
+    "target_mode": "univariate",
+    "term": "short"
+  },
+  "launch": {
+    "action": "new",
+    "attempts": [
+      {
+        "action": "new",
+        "launch_id": "selena_3606203",
+        "launched_at": "2026-09-29T12:01:09.843659+00:00",
+        "slurm_array_task_id": null,
+        "slurm_job_id": "3606203"
+      }
+    ],
+    "launch_id": "selena_3606203",
+    "launched_at": "2026-09-29T12:01:09.843659+00:00",
+    "slurm_job_id": "3606203"
+  },
+  "model_config": {
+    "component": "selections",
+    "method": "top_k_15_mix"
+  },
+  "pipeline_config": {
+    "dependencies": {
+      "alternative": {
+        "completed_at": "2026-09-29T12:00:28.166344+00:00",
+        "identity": {
+          "dataset": "Global_Influenza",
+          "frequency": "W",
+          "method": "top_k_15",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_0"
+      },
+      "data": {
+        "completed_at": "2026-09-28T23:22:05.866343+00:00",
+        "identity": {
+          "dataset": "Global_Influenza",
+          "frequency": "W",
+          "method": "shared",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      },
+      "vanilla": {
+        "completed_at": "2026-09-28T23:29:43.739875+00:00",
+        "identity": {
+          "dataset": "Global_Influenza",
+          "frequency": "W",
+          "method": "vanilla_univariate",
+          "model": "ts_icl",
+          "target_mode": "univariate",
+          "term": "short"
+        },
+        "run": "run_1"
+      }
+    },
+    "granularity": "task",
+    "method": "top_k_15_mix",
+    "no_validation_fallback": "univariate",
+    "phase": "selections",
+    "selection_rule": "beta_1_1_validation_window_msse_win_frequency_half_ties",
+    "task": {
+      "dataset": "Global_Influenza/W",
+      "prediction_length": 13,
+      "seasonality": 1,
+      "term": "short",
+      "test_length": 52
+    },
+    "validation_support": "finite_context_and_future"
+  },
+  "project": "selectime",
+  "provenance": {
+    "dataset_config_path": "/fssmall/home/h61084/codes/selectime/src/timebench/config/datasets.yaml",
+    "dataset_path": "/fslarge/scratch/users/h61084/datasets/hf_dataset/Global_Influenza/W",
+    "source_revisions": {
+      "adaptime": "33e75400d8c64414e4e13567c4e899803908bc44",
+      "improved_time": "541a2802cd2a35d39156aef4c37de6964d112786"
+    },
+    "task_config": {
+      "alignment_period": 1,
+      "dataset": "Global_Influenza/W",
+      "datastore_scope": "all",
+      "datastore_stride": 1,
+      "max_datastore_windows": null,
+      "prediction_length": 13,
+      "retrieval_context_length": 13,
+      "seasonality": 1,
+      "term": "short",
+      "test_length": 52,
+      "validation_length": 52,
+      "validation_stride": 13
+    },
+    "upstream_manifests": {
+      "alternative": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/predictions/validation/top_k_15/Global_Influenza/W/short/run_0/manifest.json",
+      "data": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/data/validation/shared/Global_Influenza/W/short/run_1/manifest.json",
+      "vanilla": "/fslarge/scratch/users/h61084/codes/selectime/outputs/scope_selection/ts_icl/predictions/validation/vanilla_univariate/Global_Influenza/W/short/run_1/manifest.json"
+    }
+  },
+  "required_artifacts": [
+    "selection.json"
+  ],
+  "runtime_config": {
+    "batch_size": 32,
+    "datastore_block_size": 4096,
+    "device": "cuda",
+    "query_block_size": 256
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-29T12:01:09.843659+00:00",
+  "status": "completed",
+  "updated_at": "2026-09-29T12:01:28.339545+00:00"
+}

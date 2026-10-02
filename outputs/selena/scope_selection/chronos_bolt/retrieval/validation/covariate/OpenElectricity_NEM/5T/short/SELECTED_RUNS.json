@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {},
+        "model_config": {
+          "component": "retrieval/validation",
+          "method": "covariate"
+        },
+        "pipeline_config": {
+          "alignment_period": 2016,
+          "datastore_scope": "all",
+          "datastore_stride": 2016,
+          "dependencies": {
+            "data": {
+              "completed_at": "2026-09-27T14:35:07.326709+00:00",
+              "identity": {
+                "dataset": "OpenElectricity_NEM",
+                "frequency": "5T",
+                "method": "shared",
+                "model": "chronos_bolt",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            }
+          },
+          "distance": "euclidean",
+          "method": "covariate",
+          "minimum_overlap_fraction": 0.8,
+          "neighbor_count": 1,
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "phase": "retrieval/validation",
+          "representation": "instance_normalized_lookback",
+          "retrieval_context_length": 2016,
+          "split": "validation",
+          "task": {
+            "dataset": "OpenElectricity_NEM/5T",
+            "prediction_length": 24,
+            "seasonality": 288,
+            "term": "short",
+            "test_length": 4032
+          }
+        }
+      }
+    }
+  ]
+}

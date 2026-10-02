@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "selections": [
+    {
+      "mode": "auto",
+      "run": "run_0",
+      "scientific_config": {
+        "experiment_config": {
+          "seed": 0
+        },
+        "model_config": {
+          "backbone": "ts_icl",
+          "checkpoint": "tsicl/tsicl-v1.ckpt",
+          "context_length": 4096,
+          "cross_learning": false,
+          "method": "top_k_20_mix",
+          "point_forecast": "median"
+        },
+        "pipeline_config": {
+          "dependencies": {
+            "alternative": {
+              "completed_at": "2026-09-29T14:47:09.882245+00:00",
+              "identity": {
+                "dataset": "Global_Price",
+                "frequency": "Q",
+                "method": "top_k_20",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "calibration": {
+              "completed_at": "2026-09-29T12:01:26.430170+00:00",
+              "identity": {
+                "dataset": "Global_Price",
+                "frequency": "Q",
+                "method": "top_k_20_mix",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            },
+            "data": {
+              "completed_at": "2026-09-28T23:22:06.758555+00:00",
+              "identity": {
+                "dataset": "Global_Price",
+                "frequency": "Q",
+                "method": "shared",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_1"
+            },
+            "vanilla": {
+              "completed_at": "2026-09-29T12:09:36.835274+00:00",
+              "identity": {
+                "dataset": "Global_Price",
+                "frequency": "Q",
+                "method": "vanilla_univariate",
+                "model": "ts_icl",
+                "target_mode": "univariate",
+                "term": "short"
+              },
+              "run": "run_0"
+            }
+          },
+          "k": 20,
+          "method": "top_k_20_mix",
+          "neighbor_scaling": "lookback_statistics_to_query_lookback_scale",
+          "phase": "predictions/test",
+          "prediction_artifact_contract": "vanilla_reuse_nan_counts_retrieval_provenance",
+          "split": "test",
+          "task": {
+            "dataset": "Global_Price/Q",
+            "prediction_length": 4,
+            "seasonality": 4,
+            "term": "short",
+            "test_length": 20
+          },
+          "validation_support": null
+        }
+      }
+    }
+  ]
+}
