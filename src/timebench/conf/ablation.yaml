@@ -1,0 +1,7 @@
+defaults:
+  - experiment
+  - _self_
+# One submitted variant, with every other setting taken from experiment.yaml.
+variant: same_user  # same_user | full_datastore | raw_distance | no_query_scaling
+ablation_method: top_k_5_mix
+# Keep the default maximum-K support rule, even though only K=5 is reported.

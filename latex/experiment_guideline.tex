@@ -42,6 +42,12 @@ using lookback-only statistics. All-series scope is the default; same-series
 scope remains an explicit ablation. Datastore caps are optional and disabled
 by default.
 
+The focused retrieval ablation changes one axis at a time: same-user scope,
+the full datastore, raw distance, or disabled query scaling. A separate oracle
+diagnostic refits implemented combinations on official test labels after the
+matching default evaluations complete. It is an upper bound and is never
+reported as a deployable selection rule.
+
 \section{Hard scope selection}
 The hard selectors compare univariate and multivariate validation forecasts by
 per-date MSSE. Task selection averages variates within each date; per-variate
@@ -61,8 +67,11 @@ freeze
 p=\frac{1+w}{2+n},\qquad
 \widehat y=(1-p)\widehat y_{\rm uni}+p\widehat y_{\rm alt}.
 \]
-No usable row gives $p=0$. Scope weights are fitted once per task or per
-item/variate; each top-$K$ weight is fitted once per task.
+No usable row gives $p=0$. Otherwise, the mixture remains pure univariate
+unless there are at least 10 validation trials, validation support exceeds
+10\% of matching test rows, and the empirical alternative win rate exceeds
+10\%. Scope weights are fitted once per task or per item/variate; each
+top-$K$ weight is fitted once per task.
 
 For task-level scope ridge, let
 $d=\widehat y_{\rm multi}-\widehat y_{\rm uni}$ and

@@ -33,6 +33,19 @@ The retained retrieval ablation is `datastore_scope=same_series`; the default
 An optional datastore cap is explicit and disabled by default. K prefixes share
 complete maximum-K support, so changing K does not change retrieval eligibility.
 
+Three focused study launchers complement the default experiment:
+
+- `scripts/submit_oracles.sh` refits the implemented combinations on official
+  test labels. This is a diagnostic upper bound, not a deployable method, and
+  runs only after the matching current-contract default evaluations exist.
+- `scripts/submit_ablation.sh` changes one retrieval axis at a time:
+  `same_user`, `full_datastore`, `raw_distance`, and `no_query_scaling`.
+- `scripts/submit_timing.sh` measures the candidate and selection stages with
+  the same task and backbone contracts as the default workflow.
+
+The study artifacts live in separate roots and never replace the default
+comparison. Oracle reports identify their use of test labels explicitly.
+
 The first K<=15 Chronos-2 comparison is analyzed in the results recap.
 The revised K=20 mixtures, scope controls and other backbones remain
 unevaluated until complete current-contract artifacts are analyzed. Prior Adaptime outputs are not

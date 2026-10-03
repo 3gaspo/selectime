@@ -103,30 +103,44 @@ class RetrievalTests(unittest.TestCase):
 
 class SelectionTests(unittest.TestCase):
     def test_beta_mixture_wins_ties_exclusions_and_empty_support(self):
-        labels = np.zeros((4, 2))
-        predictions = {UNIVARIATE: np.ones((4, 2)), 'top_k_5': np.array([[0, 0], [1, 1], [2, 2], [0, 0]])}
-        fitted = win_frequency_mixture(predictions, labels, np.ones(4), eligible=[True, True, True, False])
-        self.assertEqual(fitted['trials'], 3)
-        self.assertEqual(fitted['wins_including_half_ties'], 1.5)
+        labels = np.zeros((12, 2))
+        alternative = np.repeat([0, 1, 2], 4)[:, None] * np.ones((1, 2))
+        predictions = {UNIVARIATE: np.ones((12, 2)), 'top_k_5': alternative}
+        fitted = win_frequency_mixture(predictions, labels, np.ones(12), test_rows=12)
+        self.assertEqual(fitted['trials'], 12)
+        self.assertEqual(fitted['wins_including_half_ties'], 6)
         self.assertEqual(fitted['alternative_weight'], 0.5)
-        np.testing.assert_allclose(blend(predictions[UNIVARIATE], predictions['top_k_5'], 0.5),
-                                   [[0.5, 0.5], [1, 1], [1.5, 1.5], [0.5, 0.5]])
-        empty = win_frequency_mixture(predictions, labels, np.ones(4), eligible=np.zeros(4, dtype=bool))
+        limited = win_frequency_mixture(
+            {name: values[:4] for name, values in predictions.items()},
+            labels[:4], np.ones(4), test_rows=12,
+        )
+        self.assertEqual(limited['alternative_weight'], 0)
+        self.assertEqual(limited['fallback_reason'], 'insufficient_validation_support')
+        empty = win_frequency_mixture(
+            predictions, labels, np.ones(12), eligible=np.zeros(12, dtype=bool), test_rows=12,
+        )
         self.assertEqual(empty['alternative_weight'], 0)
         np.testing.assert_array_equal(blend(np.ones((1, 2)), np.full((1, 2), np.nan), 0), [[1, 1]])
+        never_wins = win_frequency_mixture(
+            {UNIVARIATE: np.zeros((12, 2)), 'top_k_5': np.ones((12, 2))},
+            labels, np.ones(12), test_rows=12,
+        )
+        self.assertEqual(never_wins['validation_win_rate'], 0)
+        self.assertEqual(never_wins['alternative_weight'], 0)
+        self.assertEqual(never_wins['fallback_reason'], 'alternative_win_rate_not_above_minimum')
 
     def test_per_variate_mixture_and_closed_form_scope_ridge(self):
-        refs = np.array([[0, channel, date] for channel in range(2) for date in range(2)])
-        labels = np.zeros((4, 1))
-        predictions = {UNIVARIATE: np.ones((4, 1)),
-                       MULTIVARIATE: np.array([[0], [0], [2], [2]])}
-        fitted = win_frequency_mixtures(predictions, labels, np.ones(4), refs,
-                                        granularity='per_variate')
+        refs = np.array([[0, channel, date] for channel in range(2) for date in range(12)])
+        labels = np.zeros((24, 1))
+        predictions = {UNIVARIATE: np.ones((24, 1)),
+                       MULTIVARIATE: np.r_[np.zeros((12, 1)), 2 * np.ones((12, 1))]}
+        fitted = win_frequency_mixtures(predictions, labels, np.ones(24), refs,
+                                        test_references=refs, granularity='per_variate')
         self.assertEqual([entry['alternative_weight'] for entry in fitted['selections']],
-                         [0.75, 0.25])
-        ridge = scope_ridge(predictions, labels, np.ones(4), alpha=1.0)
+                         [13 / 14, 0.0])
+        ridge = scope_ridge(predictions, labels, np.ones(24), alpha=1.0)
         self.assertAlmostEqual(ridge['selections'][0]['alternative_weight'], 0.0)
-        empty = scope_ridge(predictions, np.full((4, 1), np.nan), np.ones(4), alpha=1.0)
+        empty = scope_ridge(predictions, np.full((24, 1), np.nan), np.ones(24), alpha=1.0)
         self.assertEqual(empty['selections'][0]['alternative_weight'], 0.0)
         self.assertEqual(empty['selections'][0]['fallback_reason'], 'no_usable_training_rows')
 
@@ -435,8 +449,12 @@ class ReportingContracts(unittest.TestCase):
                     paths.append(run.run_dir)
             with self.assertRaises(ManifestError):
                 select_completed_runs(root, config_policy='error')
-            self.assertEqual(len(select_completed_runs(root, config_policy='distinct', repeat_policy='average')), 3)
-            self.assertEqual(len(select_completed_runs(root, config_policy='latest', repeat_policy='latest')), 1)
+            self.assertEqual(len(select_completed_runs(
+                root, config_policy='distinct', repeat_policy='average',
+                config_axis_fields=['pipeline_config.stride'])), 3)
+            with self.assertRaises(ManifestError):
+                select_completed_runs(
+                    root, config_policy='latest', repeat_policy='latest')
             set_selected_run(paths[0])
             selected = select_completed_runs(root, config_filters={'pipeline_config.stride': 1}, repeat_policy='selected')
             self.assertEqual(selected[0][0], paths[0])

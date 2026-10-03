@@ -1,0 +1,8 @@
+defaults:
+  - experiment
+  - _self_
+models: [chronos2, ts_icl, chronos_bolt]
+stage: pipeline
+timing_methods: null  # null measures every reported method supported by the backbone
+timing_repetitions: 1  # every repetition launches a fresh Python process
+# One batch of up to batch_size official test rows per method and TIME task.

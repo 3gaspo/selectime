@@ -36,6 +36,13 @@ or the fixed-alpha closed-form scope-ridge coefficient. All current paths includ
 under `<O>/scope_selection/<backbone>/`, preventing cross-backbone report or
 manifest selection. Prior flat-layout results remain historical evidence.
 
+`pipeline/studies.py` owns the oracle and one-axis-ablation grids, while
+`pipeline/timing.py` owns accelerator timing records. Their entry points reuse
+the standard prepared indices, candidate forecasts, evaluation contract and
+transactional reporting path. Oracle assembly is deliberately downstream of a
+complete default evaluation because it refits combinations on official test
+labels solely as a diagnostic upper bound.
+
 The shared `runs.py` lifecycle retains exact plain-configuration reuse,
 task-boundary recovery, manifest histories and explicit conflict controls.
 Scheduler stages finalize ready artifacts only after their owning `srun`

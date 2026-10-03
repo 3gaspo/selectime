@@ -94,7 +94,9 @@ future-included top-K covariate forecast.
 
 Heuristic mixtures freeze weights from paired eligible validation-window MSSE
 wins. With `w` wins (ties count one half) and `n` trials, the alternative weight
-is `(1+w)/(2+n)`. No usable trials gives pure univariate vanilla. The task-level
+is `(1+w)/(2+n)` only when `n >= 10`, validation support exceeds 10% of the
+matching test rows, and the empirical alternative win rate exceeds 10%.
+Otherwise the mixture uses pure univariate vanilla. The task-level
 `scope_ridge` instead fits
 `univariate + p*(multivariate-univariate)` by an MSSE-weighted closed form with
 `scope_ridge_alpha=1.0`; `p` is not clipped. With no usable fitting row it
@@ -124,6 +126,23 @@ bash scripts/submit_chronos_bolt.sh dgx
 Use `selena` instead of `dgx` for the matching scheduler front. TS-ICL uses
 `tsicl==0.2.1` in the execution-host environment; the maintainer prepares it
 there before submission. The new launchers compose the same sequential stages.
+
+Three study launchers reuse completed default candidates. The oracle refits
+every supported selector, mixture, and ridge rule on the official test labels
+as a diagnostic upper bound; it is not a deployable selection method. The four
+one-axis retrieval ablations change same-user scope, calendar density, distance
+normalization, or query scaling independently. The timing study measures the
+already implemented candidate paths without changing their predictions:
+
+```bash
+bash scripts/submit_oracles.sh selena
+bash scripts/submit_ablation.sh selena
+bash scripts/submit_timing.sh selena
+```
+
+Run the oracle only after the matching validation-fitted default evaluations
+are current, because its report compares the test-refitted diagnostic with
+those default results.
 
 A narrow remote smoke run uses `SG_Weather/D`, short:
 

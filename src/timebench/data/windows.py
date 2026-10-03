@@ -37,8 +37,8 @@ class Task:
             raise ValueError('datastore_stride must be a multiple of alignment_period')
         if self.validation_stride != self.prediction_length:
             raise ValueError('validation_stride must equal the official test stride H')
-        if self.datastore_scope not in ('all', 'same_series'):
-            raise ValueError('datastore_scope must be all or same_series')
+        if self.datastore_scope not in ('all', 'same_user', 'same_series'):
+            raise ValueError('datastore_scope must be all, same_user or same_series')
         if self.max_datastore_windows is not None and self.max_datastore_windows < 1:
             raise ValueError('max_datastore_windows must be positive or null')
 
@@ -182,14 +182,41 @@ class Windows:
                 candidates.append((item, channel, origins))
         cap = self.task.max_datastore_windows
         if cap is not None:
-            per_variate = cap // len(candidates) if self.task.datastore_scope == 'all' else cap
+            per_variate = (cap // len(candidates) if self.task.datastore_scope == 'all'
+                           else cap // self.shapes[0][0] if self.task.datastore_scope == 'same_user'
+                           else cap)
             candidates = [(item, channel, origins[-per_variate:] if per_variate else origins[:0])
                           for item, channel, origins in candidates]
-        rows = [(item, channel, int(origin)) for item, channel, origins in candidates for origin in origins]
-        refs = np.asarray(rows, dtype=np.int64).reshape(-1, 3)
+        refs = np.empty((sum(len(origins) for _, _, origins in candidates), 3), dtype=np.int64)
+        offset = 0
+        for item, channel, origins in candidates:
+            stop = offset + len(origins)
+            refs[offset:stop, 0] = item
+            refs[offset:stop, 1] = channel
+            refs[offset:stop, 2] = origins
+            offset = stop
         end_ticks = self.start_ticks + np.asarray([self.boundary(item, split) - self.task.prediction_length
                                                   for item in range(len(self.shapes))])
         return refs, end_ticks
+
+    def datastore_size(self, split, references):
+        """Count aligned and unrestricted rows without constructing either store."""
+        period, stride = self.task.alignment_period, self.task.datastore_stride
+        residues = np.unique(self.ticks(references) % period)
+        aligned, full = 0, 0
+        for item, (channels, _) in enumerate(self.shapes):
+            latest = self.start_ticks[item] + self.boundary(item, split) - self.task.prediction_length
+            for residue in residues:
+                last = latest - (latest - residue) % period - self.start_ticks[item]
+                aligned += channels * max(0, (last - self.task.retrieval_context_length) // stride + 1)
+            if len(residues):
+                full += channels * max(0, self.boundary(item, split)
+                                       - self.task.prediction_length - self.task.retrieval_context_length + 1)
+        return {'aligned_rows_before_cap': int(aligned), 'full_stride_1_rows_before_cap': int(full),
+                'expansion_factor': float(full / aligned) if aligned else None,
+                'query_phase_count': int(len(residues)), 'alignment_period': period,
+                'datastore_stride': stride,
+                'asymptotic_expansion_factor': float(stride / len(residues)) if len(residues) else None}
 
 
 def write_prepared(windows, destination, split):

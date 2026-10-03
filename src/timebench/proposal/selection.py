@@ -3,6 +3,12 @@ import numpy as np
 from timebench.proposal.candidates import UNIVARIATE, selection_rank
 
 
+MIN_ALTERNATIVE_WIN_RATE = 0.10
+MIN_VALIDATION_TRIALS = 10
+MIN_VALIDATION_TO_TEST_RATIO = 0.10
+WIN_FREQUENCY_RULE = 'beta_1_1_validation_window_msse_win_frequency_half_ties_with_support_gates'
+
+
 def row_msse(predictions, labels, scales):
     """All candidates use identical finite target steps and seasonal scales."""
     labels = np.asarray(labels, dtype=np.float64)
@@ -33,8 +39,8 @@ def date_losses(losses, ticks, positions):
                    for method, values in losses.items()}
 
 
-def win_frequency_mixture(predictions, labels, scales, eligible=None):
-    """Adaptime's Beta(1,1) paired window-MSSE wins, fitted on validation only."""
+def win_frequency_mixture(predictions, labels, scales, eligible=None, *, test_rows):
+    """Beta-smoothed validation wins, gated by the empirical alternative win rate."""
     losses = row_msse(predictions, labels, scales)
     alternative = next(method for method in predictions if method != UNIVARIATE)
     vanilla, candidate = losses[UNIVARIATE], losses[alternative]
@@ -44,19 +50,36 @@ def win_frequency_mixture(predictions, labels, scales, eligible=None):
     trials = int(valid.sum())
     wins = float((candidate[valid] < vanilla[valid]).sum())
     wins += 0.5 * float((candidate[valid] == vanilla[valid]).sum())
+    win_rate = wins / trials if trials else None
+    support_ratio = trials / test_rows if test_rows else None
+    enough_support = (trials >= MIN_VALIDATION_TRIALS
+                      and support_ratio is not None
+                      and support_ratio > MIN_VALIDATION_TO_TEST_RATIO)
+    passes_gate = win_rate is not None and win_rate > MIN_ALTERNATIVE_WIN_RATE
     return {'schema_version': 1, 'alternative': alternative,
-            'rule': 'beta_1_1_validation_window_msse_win_frequency_half_ties',
+            'rule': WIN_FREQUENCY_RULE,
             'trials': trials, 'wins_including_half_ties': wins,
-            'alternative_weight': (1 + wins) / (2 + trials) if trials else 0.0,
-            'fallback_reason': None if trials else 'no_usable_validation_rows'}
+            'validation_win_rate': win_rate,
+            'minimum_alternative_win_rate': MIN_ALTERNATIVE_WIN_RATE,
+            'test_rows': int(test_rows),
+            'validation_to_test_ratio': support_ratio,
+            'minimum_validation_trials': MIN_VALIDATION_TRIALS,
+            'minimum_validation_to_test_ratio': MIN_VALIDATION_TO_TEST_RATIO,
+            'alternative_weight': ((1 + wins) / (2 + trials)
+                                   if enough_support and passes_gate else 0.0),
+            'fallback_reason': (None if enough_support and passes_gate else
+                                'no_usable_validation_rows' if not trials else
+                                'insufficient_validation_support' if not enough_support else
+                                'alternative_win_rate_not_above_minimum')}
 
 
-def win_frequency_mixtures(predictions, labels, scales, references, *, granularity,
-                           eligible=None):
+def win_frequency_mixtures(predictions, labels, scales, references, *, test_references,
+                           granularity, eligible=None):
     """Fit one win-frequency weight for a task or independently per variate."""
     if granularity not in ('task', 'per_variate'):
         raise ValueError('granularity must be task or per_variate')
     references = np.asarray(references)
+    test_references = np.asarray(test_references)
     keys = np.unique(references[:, :2], axis=0) if granularity == 'per_variate' else [None]
     selections = []
     for key in keys:
@@ -66,6 +89,8 @@ def win_frequency_mixtures(predictions, labels, scales, references, *, granulari
             {name: np.asarray(values)[positions] for name, values in predictions.items()},
             np.asarray(labels)[positions], np.asarray(scales)[positions],
             eligible=(np.asarray(eligible)[positions] if eligible is not None else None),
+            test_rows=(len(test_references) if key is None else
+                       int(((test_references[:, :2] == key).all(axis=1)).sum())),
         )
         if key is not None:
             fitted.update(item=int(key[0]), channel=int(key[1]))

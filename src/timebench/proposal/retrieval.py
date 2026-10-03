@@ -52,11 +52,13 @@ def summarize_retrieval_provenance(rows):
     }
 
 
-def context_representation(context):
+def context_representation(context, *, normalize=True):
     """Normalize each lookback independently, retaining missing positions."""
     values = np.asarray(context, dtype=np.float32)
     if np.isinf(values).any():
         raise ValueError('Retrieval contexts must not contain infinities')
+    if not normalize:
+        return np.ascontiguousarray(values)
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', RuntimeWarning)
         mean = np.nanmean(values, axis=-1, keepdims=True)
@@ -70,10 +72,12 @@ def eligible(query_refs, datastore_refs, query_ticks, datastore_ticks, ends, *, 
     last = last - (last - query_ticks[:, None]) % period
     origins = datastore_ticks[None, :]
     allowed = (origins <= last) & ((last - origins) % stride == 0)
-    if scope == 'same_series':
+    if scope == 'same_user':
+        allowed &= query_refs[:, None, 0] == datastore_refs[None, :, 0]
+    elif scope == 'same_series':
         allowed &= ((query_refs[:, None, :2] == datastore_refs[None, :, :2]).all(axis=-1))
     elif scope != 'all':
-        raise ValueError('scope must be all or same_series')
+        raise ValueError('scope must be all, same_user or same_series')
     return allowed
 
 

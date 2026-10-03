@@ -13,6 +13,9 @@ context_length: null  # backbone maximum: Chronos-2 8192; Bolt 2048; TS-ICL 4096
 batch_size: 32
 k_values: [1, 5, 10, 15, 20]
 datastore_scope: all
+alignment_period: null  # null retains the frequency-specific protocol
+retrieval_instance_normalization: true
+query_scaling: true
 max_datastore_windows: null
 # Only validation_length=0 disables selection.
 datastore_stride: null
@@ -28,7 +31,8 @@ scope_ridge_alpha: 1.0
 # Producer dependencies remain exact; these controls apply only to reports.
 report_current_config: true
 report_config_filters: {}
-report_config_policy: latest
+report_config_policy: error
+report_config_axes: []
 report_repeat_policy: latest
 hydra:
   run:

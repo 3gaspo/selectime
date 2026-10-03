@@ -6,6 +6,7 @@ import json
 import numpy as np
 from timebench.proposal.candidates import UNIVARIATE, MULTIVARIATE
 from timebench.results.performance import write_performance_report
+from timebench.pipeline.runs import manifest_reference
 
 
 def write_csv(path, rows, fieldnames=None):
@@ -39,7 +40,7 @@ def aggregate_rows(rows):
             for configurations in by_display.values()]
 
 
-def build_report(inputs, destination, config):
+def build_report(inputs, destination, config, *, experiment='scope_selection'):
     from timebench.pipeline.workflow import write_json, log
     from timebench.pipeline.evaluation_grid import resolve_shared_evaluation_grid
     rows, sources, selection_rows = [], [], []
@@ -88,9 +89,10 @@ def build_report(inputs, destination, config):
                    MASE_variance_ratio_to_seasonal=mase['variance'] / variance if variance and mase['variance'] is not None else None)
         rows.append((row, selection['scientific_config']))
         sources.append({'dataset': task.dataset, 'term': task.term, 'method': method,
-                        'evaluation_manifest': str(evaluation / 'manifest.json'),
-                        'prediction_manifest': str(prediction / 'manifest.json'),
-                        'seasonal_manifest': str(seasonal_root / 'manifest.json'), 'selection': selection})
+                        'evaluation_dependency': manifest_reference(evaluation),
+                        'prediction_dependency': manifest_reference(prediction),
+                        'seasonal_dependency': manifest_reference(seasonal_root),
+                        'selection': selection})
         if method.startswith('scope_selector'):
             selection = json.loads((prediction / 'selection.json').read_text())
             for entry in selection['selections']:
@@ -161,11 +163,12 @@ def build_report(inputs, destination, config):
         reference=next(iter(reference_labels)) if len(reference_labels) == 1 else None,
         scaled_aggregation='arithmetic', inputs=sources)
     performance_files = [path.relative_to(destination).as_posix() for path in performance_artifacts]
-    write_json(destination / 'report_manifest.json', {'schema_version': 1, 'experiment': 'selectime',
+    write_json(destination / 'report_manifest.json', {'schema_version': 1, 'experiment': experiment,
         'performance_artifacts': performance_files,
         'requested_config': config, 'inputs': sources,
         'selection': {key: config[key] for key in
-            ('report_current_config', 'report_config_filters', 'report_config_policy', 'report_repeat_policy')},
+            ('report_current_config', 'report_config_filters', 'report_config_policy',
+             'report_config_axes', 'report_repeat_policy')},
         'aggregation': 'average_exact_repeat_statistics_then_average_configuration_statistics',
         'selection_frequencies': 'observed_choices_in_selected_input_manifests',
         'retrieval_provenance': {
@@ -177,3 +180,78 @@ def build_report(inputs, destination, config):
         'selected_method_timing': 'unmeasured_not_sum_of_all_candidate_search_costs'})
     return ['comparison.csv', 'selections.csv', 'selection_summary.csv', 'comparison_summary.json',
             'report_manifest.json', *performance_files]
+
+
+def build_oracle_report(inputs, destination, source):
+    """Pair test-refitted controls with exact completed validation-fitted results."""
+    from timebench.pipeline.workflow import write_json
+    rows, dependencies = [], {}
+    for task, method, evaluation, *_ in inputs:
+        reference = source.evaluation(task, method)
+        honest = json.loads((reference / 'metrics_summary.json').read_text())
+        oracle = json.loads((evaluation / 'metrics_summary.json').read_text())
+        honest_score = honest['metrics']['MASE']['mean']
+        oracle_score = oracle['metrics']['MASE']['mean']
+        rows.append({'dataset': task.dataset, 'term': task.term, 'method': method,
+                     'has_fitted_control': method in source.controls,
+                     'validation_fitted_MASE': honest_score, 'test_refitted_MASE': oracle_score,
+                     'improvement_percent': (100 * (1 - oracle_score / honest_score)
+                                             if honest_score and oracle_score is not None else None)})
+        dependencies[f'{task.dataset}/{task.term}/{method}'] = manifest_reference(reference)
+    write_csv(destination / 'oracle_comparison.csv', rows)
+    summaries = []
+    for method in source.methods():
+        paired = [row for row in rows if row['method'] == method
+                  and row['validation_fitted_MASE'] is not None and row['test_refitted_MASE'] is not None]
+        honest = float(np.mean([row['validation_fitted_MASE'] for row in paired])) if paired else None
+        oracle = float(np.mean([row['test_refitted_MASE'] for row in paired])) if paired else None
+        wins = sum(row['test_refitted_MASE'] < row['validation_fitted_MASE'] for row in paired)
+        summaries.append({'method': method, 'tasks': len(paired), 'has_fitted_control': method in source.controls,
+                          'validation_fitted_MASE': honest, 'test_refitted_MASE': oracle,
+                          'improvement_percent': 100 * (1 - oracle / honest) if honest else None,
+                          'wins': wins, 'win_rate': wins / len(paired) if paired else None})
+    write_csv(destination / 'oracle_summary.csv', summaries)
+    write_json(destination / 'oracle_manifest.json', {
+        'schema_version': 1, 'test_labels_used': True,
+        'fitting_split': 'test', 'evaluated_split': 'test',
+        'rules': 'same_bootstrap_beta_support_gates_and_fixed_alpha_ridge_as_default',
+        'interpretation': 'test_refitting_diagnostic; heuristic_mix_and_bootstrap_are_not_exact_MASE_optima',
+        'default_dependencies': dependencies,
+    })
+    return ['oracle_comparison.csv', 'oracle_summary.csv', 'oracle_manifest.json']
+
+
+def build_ablation_report(inputs, destination, workflow):
+    """Compare one retrieval change against the unchanged default top-K mixture."""
+    from timebench.pipeline.workflow import write_json
+    rows, dependencies = [], {}
+    for task, method, evaluation, *_ in inputs:
+        if method not in workflow.controls:
+            continue
+        reference = workflow.source.evaluation(workflow.source_task(task), method)
+        default = json.loads((reference / 'metrics_summary.json').read_text())['metrics']['MASE']['mean']
+        ablated = json.loads((evaluation / 'metrics_summary.json').read_text())['metrics']['MASE']['mean']
+        rows.append({'dataset': task.dataset, 'term': task.term, 'method': method,
+                     'variant': workflow.variant, 'default_MASE': default, 'ablation_MASE': ablated,
+                     'improvement_percent': (100 * (1 - ablated / default)
+                                             if default and ablated is not None else None)})
+        dependencies[f'{task.dataset}/{task.term}/{method}'] = manifest_reference(reference)
+    write_csv(destination / 'ablation_comparison.csv', rows)
+    paired = [row for row in rows if row['default_MASE'] is not None and row['ablation_MASE'] is not None]
+    default = float(np.mean([row['default_MASE'] for row in paired])) if paired else None
+    ablated = float(np.mean([row['ablation_MASE'] for row in paired])) if paired else None
+    wins = sum(row['ablation_MASE'] < row['default_MASE'] for row in paired)
+    write_csv(destination / 'ablation_summary.csv', [{
+        'variant': workflow.variant, 'method': next(iter(workflow.controls)), 'tasks': len(paired),
+        'default_MASE': default, 'ablation_MASE': ablated,
+        'improvement_percent': 100 * (1 - ablated / default) if default else None,
+        'wins': wins, 'win_rate': wins / len(paired) if paired else None,
+    }])
+    write_json(destination / 'ablation_manifest.json', {
+        'schema_version': 1, 'variant': workflow.variant,
+        'method': next(iter(workflow.controls)), 'changes': workflow.changes,
+        'design': 'one_factor_at_a_time; independent_variant; unchanged_official_forecast_dates',
+        'maximum_k_support': max(workflow.k_values), 'default_dependencies': dependencies,
+        'win_rate_denominator': 'all_paired_tasks_including_univariate_fallback',
+    })
+    return ['ablation_comparison.csv', 'ablation_summary.csv', 'ablation_manifest.json']

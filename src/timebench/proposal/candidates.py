@@ -57,3 +57,10 @@ def align_covariates(sequences, context_length, horizon):
     if past.shape[-1] < context_length:
         past = np.pad(past, ((0, 0), (context_length - past.shape[-1], 0)), constant_values=np.nan)
     return past[:, -context_length:], future
+
+
+def retrieval_covariates(history, neighbors, lookback, horizon, *, query_scaling=True):
+    """Build the same covariate channels for ordinary and cold inference."""
+    values = (query_scaled_sequences(history[-lookback:], neighbors, horizon)
+              if query_scaling else np.asarray(neighbors, dtype=np.float32))
+    return align_covariates(values, len(history), horizon)

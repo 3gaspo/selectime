@@ -1,0 +1,7 @@
+defaults:
+  - experiment
+  - _self_
+models: [chronos2, ts_icl, chronos_bolt]
+stage: pipeline
+# Refit each existing selector/mixture/ridge rule on its own official test rows.
+# The raw candidates and the validation-fitted comparison remain read-only inputs.
